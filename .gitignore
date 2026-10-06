@@ -1,4 +1,4 @@
-/sdk/*
+/sdk/vendor*/
 !/sdk/vendor_mainline/
 /sdk/vendor_mainline/*
 !/sdk/vendor_mainline/buildroot-2025.02/

@@ -1,19 +1,19 @@
 # ea-emb-linux
 
-面向嵌入式 Linux 板卡的主线适配工程，目标是基于 Linux LTS 内核、U-Boot 和 Buildroot，建立可维护、可复现的启动、系统构建与板级支持流程。
+面向嵌入式 Linux 板卡的主线适配工程，目标是基于 Linux LTS 内核、U-Boot 和 Buildroot，建立可维护、可复现的启动、系统构建与板级支持流程，并维护基于buildroot rtfs 的嵌入式linux用户空间开发设计。
 
-项目优先推进主线支持，并以 LTS 内核作为长期维护目标。目前处于仓库初始化阶段，纳入的源码版本是适配起点；具体 LTS 基线与支持范围将在板卡验证后确定。
-
-## 计划适配板卡
+## 适配板卡
 
 | 板卡 | SoC | 状态 |
 | --- | --- | --- |
-| `100ask_imx6ull_pro` | NXP i.MX6ULL | 计划适配 |
+| `100ask_imx6ull_pro` | NXP i.MX6ULL | 适配中 |
 | `tspi_rk3566` | Rockchip RK3566 | 计划适配 |
 
 适配工作包括引导链、设备树、内核配置、根文件系统构建，以及板卡外设验证。当前尚未完成板卡启动与功能验证。
 
-## 源码组织
+i.MX6ULL 的最小交叉工具链配置与构建见 [交叉编译环境](sdk/bsp_imx/br_prebuilt/README.md)。
+
+## vendor_mainline
 
 三个主线源码仓库以 Git submodule 管理，父仓库记录各自的确切提交：
 

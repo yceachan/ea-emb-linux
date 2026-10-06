@@ -1,0 +1,24 @@
+uuu_version 1.2.39
+
+# Run the new image in RAM. Enter "fastboot usb 0" on its serial console.
+SDP: dcd -f u-boot-dtb.imx
+SDP: write -f u-boot-dtb.imx -ivt 0
+SDP: jump -f u-boot-dtb.imx -ivt 0
+
+# Keep the existing boot selection. These partconf arguments only read it.
+FB: ucmd mmc dev 1 0
+FB: ucmd mmc partconf 1 emmc_bootpart
+FB: ucmd if test ${emmc_bootpart} = 7; then setenv emmc_bootpart 0; else true; fi
+FB: ucmd if test ${emmc_bootpart} = 0 || test ${emmc_bootpart} = 1 || test ${emmc_bootpart} = 2; then echo Writing hardware partition ${emmc_bootpart}; else false; fi
+# 512-byte sectors: start at 1024 bytes, reserve up to the 1 MiB boundary.
+FB: ucmd setenv fastboot_raw_partition_bootloader 0x2 0x7fe mmcpart ${emmc_bootpart}
+FB: flash bootloader u-boot-dtb.imx
+
+# Compare the full image with the readback, then return to the user area.
+FB: ucmd setexpr flash_blocks ${filesize} + 0x1ff
+FB: ucmd setexpr flash_blocks ${flash_blocks} / 0x200
+FB: ucmd mmc dev 1 ${emmc_bootpart}
+FB: ucmd mmc read 0x83000000 0x2 ${flash_blocks}
+FB: ucmd cmp.b 0x82000000 0x83000000 ${filesize}
+FB: ucmd mmc dev 1 0
+FB: Done

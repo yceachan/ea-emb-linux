@@ -1,12 +1,12 @@
 [submodule "sdk/vendor_mainline/buildroot-2025.02"]
 	path = sdk/vendor_mainline/buildroot-2025.02
-	url = https://github.com/yceachan/buildroot-2025.02.git
+	url = git@github.com:yceachan/buildroot-2025.02.git
 	branch = main
 [submodule "sdk/vendor_mainline/linux-7.2.9"]
 	path = sdk/vendor_mainline/linux-7.2.9
-	url = https://github.com/yceachan/linux-7.2.9.git
+	url = git@github.com:yceachan/linux-7.2.9.git
 	branch = main
 [submodule "sdk/vendor_mainline/uboot-2026.07"]
 	path = sdk/vendor_mainline/uboot-2026.07
-	url = https://github.com/yceachan/uboot-2026.07.git
+	url = git@github.com:yceachan/uboot-2026.07.git
 	branch = main

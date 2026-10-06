@@ -1,0 +1,8 @@
+uuu_version 1.0.1
+
+# i.MX6ULL ROM: initialize DDR, copy the image to RAM, execute it.
+# This script contains no eMMC or environment writes.
+SDP: dcd -f u-boot-dtb.imx
+SDP: write -f u-boot-dtb.imx -ivt 0
+SDP: jump -f u-boot-dtb.imx -ivt 0
+SDP: done
