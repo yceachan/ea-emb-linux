@@ -81,13 +81,19 @@ raw partition 的 `0x2 0x7fe mmcpart 1` 使用 512 字节扇区。写入范围�
 
 修改 BSP 后，按 [RAM_BOOT.md](RAM_BOOT.md#构建)生成新的源码快照。完整构建由开发者执行。内置脚本使用带 ROM 头的 `u-boot-dtb.imx`，无需为它添加 1024 字节前导填充。raw partition 映射负责物理偏移。
 
-适配镜像构建完成后，在主机产物目录先运行预检。确认默认环境包含上述三项，再执行实际烧录。实际命令会写入 boot0 并设置启动配置：
+适配镜像构建完成后，在主机产物目录先单独运行以下预检命令：
 
 ```sh
 cd /home/pi/ea-emb-linux/sdk/bsp_imx/02-uboot-porting/artifacts
 sha256sum -c SHA256SUMS
 uuu -bshow emmc
 uuu -dry -b emmc u-boot-dtb.imx
+```
+
+检查文件校验和 UUU 预检输出，确认没有 Error、Fail，并确认默认环境包含上述三项。失败时修正问题后重新预检；全部通过后，再准备 ROM USB 下载模式的板卡，使用同一镜像执行以下正式烧录命令。此命令会实际写入 boot0 并设置启动配置：
+
+```sh
+cd /home/pi/ea-emb-linux/sdk/bsp_imx/02-uboot-porting/artifacts
 sudo /var/lib/snapd/snap/bin/uuu -v -b emmc u-boot-dtb.imx
 ```
 

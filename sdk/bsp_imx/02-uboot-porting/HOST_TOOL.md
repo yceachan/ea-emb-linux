@@ -6,13 +6,29 @@
 
 主机需要 Python 3、pyserial、UUU 和 `sha256sum`。当前主机已安装这些依赖，并具备串口和 USB 访问权限。脚本不自动提权。关闭 minicom 等其他串口程序，避免同时读写同一个设备。
 
-`ram` 和 `emmc` 模式要求板卡已进入 ROM USB 下载模式，OTG1 和串口都已连接。先断电，记录原 eMMC 启动拨码，再按板卡说明切换下载模式并上电。脚本要求主机恰好识别一个 `15a2:0080` 下载设备，并用 UUU 的 `-m` 参数固定该设备的 USB 路径。
+`ram` 和 `emmc` 的正式运行要求板卡已进入 ROM USB 下载模式，OTG1 和串口都已连接。预检通过后，先断电，记录原 eMMC 启动拨码，再按板卡说明切换下载模式并上电。脚本要求主机恰好识别一个 `15a2:0080` 下载设备，并用 UUU 的 `-m` 参数固定该设备的 USB 路径。
 
 默认串口为 `/dev/ttyACM0`，使用 1500000 baud、8N1，无硬件或软件流控。默认产物目录为脚本旁的 `artifacts/`。构建步骤见 [RAM_BOOT.md](RAM_BOOT.md#构建)。
 
+## 正式运行前的预检
+
+每次 RAM 下载或 eMMC 烧录前，先单独执行对应模式的 `--dry-run`，检查结果通过后，再准备板卡并执行正式命令。预检只校验产物和 UUU 脚本，不连接串口，不下载或写入板卡，无需连接板卡。
+
+在仓库根目录执行所需模式的预检：
+
+```sh
+cd /home/pi/ea-emb-linux
+sdk/bsp_imx/02-uboot-porting/uboot.py ram --dry-run
+sdk/bsp_imx/02-uboot-porting/uboot.py emmc --dry-run
+```
+
+确认脚本输出“产物校验与 UUU 预检通过”，且退出码为 0，再进入下面对应的正式流程。失败时查看打印的日志目录，修正问题后重新预检。预检与正式运行必须使用相同的模式和产物目录；使用 `--artifacts` 时，两次传入同一路径，期间更换产物或脚本后须重新预检。
+
+不带 `--dry-run` 的命令会在内部校验和预检通过后直接操作板卡，没有二次确认。正式运行中的自动预检不代替上述单独预检与结果检查。`--no-console` 只取消后续交互，仍会执行下载或烧录。
+
 ## RAM 调试
 
-在仓库根目录执行以下命令。脚本核对产物校验清单，执行 UUU 预检，再下载镜像。收到本轮 U-Boot 板名和提示符后，脚本进入交互控制台，不发送 fastboot 命令：
+完成[正式运行前的预检](#正式运行前的预检)并准备板卡后，在仓库根目录执行以下命令。脚本核对产物校验清单，执行 UUU 预检，再下载镜像。收到本轮 U-Boot 板名和提示符后，脚本进入交互控制台，不发送 fastboot 命令：
 
 ```sh
 cd /home/pi/ea-emb-linux
@@ -29,7 +45,7 @@ sdk/bsp_imx/02-uboot-porting/uboot.py console
 
 `emmc` 模式会写入 eMMC。它沿用[现有烧录脚本](emmc-flash.uuu)的区域选择与全量读回比较，不备份镜像，不修改启动选择。操作范围见 [EMMC_FLASH.md](EMMC_FLASH.md)。
 
-板卡处于 ROM USB 下载模式时，在主机执行以下命令。脚本下载 U-Boot，等待本轮启动提示符，再自动发送 fastboot 命令。UUU 随后完成写入和读回比较：
+先完成[正式运行前的 eMMC 预检](#正式运行前的预检)，确认通过后再将板卡切到 ROM USB 下载模式，并在主机执行以下正式烧录命令。此命令会实际写入 eMMC：脚本下载 U-Boot，等待本轮启动提示符，再自动发送 fastboot 命令。UUU 随后完成写入和读回比较：
 
 ```sh
 sdk/bsp_imx/02-uboot-porting/uboot.py emmc
@@ -39,14 +55,7 @@ sdk/bsp_imx/02-uboot-porting/uboot.py emmc
 
 完成后退出脚本，将板卡断电，恢复 eMMC 启动拨码，再上电。按 [vendor Linux 启动步骤](RAM_BOOT.md#手工启动-vendor-linux)验收持久启动。写入期间若中断，先检查日志与 eMMC 内容，再决定后续操作。
 
-## 预检、参数与日志
-
-只核对文件和 UUU 脚本时，使用 `--dry-run`。此模式不连接串口，不下载或写入板卡。RAM 和 eMMC 两种预检命令如下：
-
-```sh
-sdk/bsp_imx/02-uboot-porting/uboot.py ram --dry-run
-sdk/bsp_imx/02-uboot-porting/uboot.py emmc --dry-run
-```
+## 参数与日志
 
 默认情况下，下载或烧录的总时限为 60 秒。使用 `--timeout` 调整时限。自动运行时使用 `--no-console`，完成后退出脚本。它仍采集串口，并在烧录成功后确认退出 fastboot：
 

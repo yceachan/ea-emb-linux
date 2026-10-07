@@ -14,16 +14,14 @@ sdk/bsp_imx/02-uboot-porting/build.sh build "$PWD/sdk/bsp_imx/build/100ask-imx6u
 
 完整构建由开发者执行。修改 `overlay/`、注册补丁或脚本后，重新生成源码快照。对旧目录执行 `build` 不会自动同步 BSP 修改。构建失败时，读该目录的 `build.log`，不要用旧产物代替本轮结果。
 
-构建成功后，`artifacts/` 保存镜像、配置、源码记录、UUU 脚本和校验清单。下载镜像为带 i.MX ROM 头的 `u-boot-dtb.imx`。在主机核对产物：
+构建成功后，`artifacts/` 保存镜像、配置、源码记录、UUU 脚本和校验清单。下载镜像为带 i.MX ROM 头的 `u-boot-dtb.imx`。在主机查看镜像信息：
 
 ```sh
 cd /home/pi/ea-emb-linux/sdk/bsp_imx/02-uboot-porting/artifacts
-sha256sum -c SHA256SUMS
 cat image-info.txt
-uuu -dry ram-boot.uuu
 ```
 
-`ram-boot.uuu` 只执行 DCD、RAM 写入、跳转和完成操作，不写 eMMC。DCD 是 ROM 初始化 DDR 的配置。确认预检没有 Error 后再操作板卡。当前 Snap 启动器会掩盖部分失败退出码，必须查看实际输出。
+`ram-boot.uuu` 只执行 DCD、RAM 写入、跳转和完成操作，不写 eMMC。DCD 是 ROM 初始化 DDR 的配置。下载前先按 [HOST_TOOL.md 的正式运行前预检](HOST_TOOL.md#正式运行前的预检)校验产物和 UUU 脚本，检查通过后再操作板卡。
 
 ## 串口与 ROM 下载
 
@@ -50,7 +48,7 @@ setenv bootargs console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw
 setenv baudrate 115200
 ```
 
-U-Boot 切换速率后，按 [HOST_TOOL.md](HOST_TOOL.md#预检参数与日志)重新连接 115200 baud 控制台。保持 8N1 和无流控。按 Enter 恢复 `=>`，再执行：
+U-Boot 切换速率后，按 [HOST_TOOL.md](HOST_TOOL.md#参数与日志)重新连接 115200 baud 控制台。保持 8N1 和无流控。按 Enter 恢复 `=>`，再执行：
 
 ```text
 bootz 0x82000000 - 0x83000000

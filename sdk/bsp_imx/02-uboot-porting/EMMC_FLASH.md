@@ -6,7 +6,7 @@
 
 构建步骤见 [RAM_BOOT.md](RAM_BOOT.md#构建)。修改 BSP 后，必须使用新构建目录重新生成源码快照。最近一次产物在 `artifacts/`，烧录脚本与镜像必须来自同一次交付。
 
-使用 [HOST_TOOL.md 的 eMMC 模式](HOST_TOOL.md#emmc-烧录)准备板卡和启动统一脚本。主机自动完成 ROM 下载、等待新 U-Boot 提示符、进入 fastboot 和烧录，不需要另一终端手工发送命令。当前验收状态由 STATUS.md 维护。
+先按 [HOST_TOOL.md 的正式运行前预检](HOST_TOOL.md#正式运行前的预检)单独执行 eMMC dry-run，检查通过后再按其 [eMMC 模式](HOST_TOOL.md#emmc-烧录)准备板卡并启动正式烧录。主机自动完成 ROM 下载、等待新 U-Boot 提示符、进入 fastboot 和烧录，不需要另一终端手工发送命令。当前验收状态由 STATUS.md 维护。
 
 USB fastboot 接口使用 `0525:a4a5`。烧录脚本指定 MMC 设备 1。BOOT_PARTITION_ENABLE 为 1 时写 boot0，为 2 时写 boot1，为 0 或 7 时写 user area。硬件分区编号与 DOS 分区编号不同。
 
