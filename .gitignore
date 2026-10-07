@@ -4,3 +4,4 @@
 !/sdk/vendor_mainline/buildroot-2025.02/
 !/sdk/vendor_mainline/linux-7.2.9/
 !/sdk/vendor_mainline/uboot-2026.07/
+!/sdk/vendor_mainline/busybox-1.36.1/

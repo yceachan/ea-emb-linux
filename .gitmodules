@@ -13,3 +13,7 @@
 	url = git@github.com:yceachan/uboot-2026.07.git
 	branch = yceachan/2026.07-dev
 	shallow = true
+[submodule "sdk/vendor_mainline/busybox-1.36.1"]
+	path = sdk/vendor_mainline/busybox-1.36.1
+	url = git@github.com:yceachan/busybox.git
+	branch = yceachan/1.36.1-dev
