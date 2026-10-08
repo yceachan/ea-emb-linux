@@ -1,0 +1,4 @@
+::sysinit:/etc/init.d/rcS
+ttymxc0::respawn:-/sbin/console-shell
+::ctrlaltdel:/sbin/reboot
+::shutdown:/etc/init.d/rcK

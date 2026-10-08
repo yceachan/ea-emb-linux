@@ -1,0 +1,20 @@
+--- a/arch/arm/boot/dts/nxp/imx/Makefile
++++ b/arch/arm/boot/dts/nxp/imx/Makefile
+@@ -378,6 +378,7 @@
+ 	imx6ul-var-som-concerto.dtb \
+ 	imx6ul-var-som-concerto-full.dtb \
+ 	imx6ull-14x14-evk.dtb \
++	imx6ull-100ask-pro.dtb \
+ 	imx6ull-colibri-aster.dtb \
+ 	imx6ull-colibri-emmc-aster.dtb \
+ 	imx6ull-colibri-emmc-eval-v3.dtb \
+--- a/Documentation/devicetree/bindings/arm/fsl.yaml
++++ b/Documentation/devicetree/bindings/arm/fsl.yaml
+@@ -732,6 +732,7 @@
+       - description: i.MX6ULL based Boards
+         items:
+           - enum:
++              - 100ask,imx6ull-pro        # 100ask i.MX6ULL Pro
+               - fsl,imx6ull-14x14-evk     # i.MX6 UltraLiteLite 14x14 EVK Board
+               - joz,jozacp                # JOZ Access Point
+               - kontron,sl-imx6ull        # Kontron SL i.MX6ULL SoM

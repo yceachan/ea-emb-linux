@@ -1,0 +1,9 @@
+uuu_version 1.4.149
+
+# Enter "fastboot usb 0" in the already installed 02 U-Boot first.
+# eMMC user-area p2: LBA 1028098, 2097152 sectors (1 GiB).
+# rootfs.ext4 contains /boot/zImage, DTB and the BusyBox rootfs.
+FB: ucmd mmc dev 1 0
+FB: ucmd setenv fastboot_raw_partition_bsp_rootfs 0xfb002 0x200000 mmcpart 0
+FB: flash -raw2sparse bsp_rootfs rootfs.ext4
+FB: Done

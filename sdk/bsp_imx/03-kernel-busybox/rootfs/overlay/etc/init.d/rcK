@@ -1,0 +1,3 @@
+#!/bin/sh
+sync || exit 1
+umount -a -r

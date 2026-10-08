@@ -1,0 +1,20 @@
+#!/bin/sh
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+failed() {
+    echo "[BOOT FAILED] $*; 停在维护 shell，退出 shell 不会继续启动。" >&2
+    while :; do
+        /bin/sh -i </dev/ttymxc0 >/dev/ttymxc0 2>&1
+        echo '[BOOT FAILED] 初始化仍未完成，请诊断后重启。' >&2
+        sleep 1
+    done
+}
+
+mount -t proc proc /proc || failed '挂载 /proc'
+mount -t sysfs sysfs /sys || failed '挂载 /sys'
+mount -t tmpfs -o mode=0755 tmpfs /run || failed '挂载 /run'
+mount -t tmpfs -o mode=1777 tmpfs /tmp || failed '挂载 /tmp'
+hostname "$(cat /etc/hostname)" || failed '设置 hostname'
+stty -F /dev/ttymxc0 1500000 cs8 -parenb -cstopb -crtscts -ixon -ixoff ||
+    failed '设置 UART1'
+echo "[BOOT READY] $(hostname); PID 1 = BusyBox init"
