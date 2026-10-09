@@ -1,0 +1,32 @@
+name:      universal-update-utility
+summary:   Freescale/NXP I.MX Chip image deploy tools
+publisher: frank li (nxpfrank)
+store-url: https://snapcraft.io/universal-update-utility
+contact:   https://github.com/nxp-imx/mfgtools/issues
+license:   BSD-3-Clause
+description: |
+  **Key features**
+  
+  - The real cross platform. Linux, Windows, MacOS(not test yet)
+  - Multi devices program support
+  - Daemon mode support
+  - Few depedencies (only libusb, zlibc, libbz2)
+  - Firmware (uboot/kernel) uses WCID to auto load the winusb driver
+    on the Windows side. Windows7 users need to install the winusb driver
+    from [https://zadig.akeo.ie/](https://zadig.akeo.ie/) Windows10 will
+    install the driver automatically.
+  
+  **Search keywords**
+  
+  mfgtools, uuu, nxp, nxpmicro
+commands:
+  - universal-update-utility
+snap-id:      SM5HuWZEyI1mHKoE9VCCt08w8SuypKaT
+tracking:     latest/stable
+refresh-date: 5 days ago, at 19:17 +08
+channels:
+  latest/stable:    1.5.21  2023-03-06 (500) 307kB -
+  latest/candidate: ^                              
+  latest/beta:      1.4.127 2021-03-31 (101) 274kB -
+  latest/edge:      1.5.141 2024-01-24 (696) 307kB -
+installed:          1.5.21             (500) 307kB -

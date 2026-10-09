@@ -108,12 +108,12 @@ baudrate = (UART 输入时钟 / 2 / 16) × (UBIR + 1) / (UBMR + 1)
 | `clks` | 声明 PLL3 PFD2 的目标频率为 320 MHz | 提供本板的时钟配置请求 |
 | `usdhc1` | 禁用 | 只启用本板连接的 eMMC 控制器 |
 | `usdhc2` | NAND 引脚组复用，8 位，最高 52 MHz，不可移除 | 描述 eMMC 连接与高速模式 |
-| `usbotg1` | `dr_mode="peripheral"`，禁用过流检测 | 为 USB fastboot 提供设备模式接口 |
+| `usbotg1` | `dr_mode="peripheral"`，禁用过流检测 | USB 设备模式接口 |
 | `wdog1` | 启用节点 | 保留该设备的硬件描述，实际驱动行为仍由生成配置决定 |
 
 USDHC2 保留 SoC 的 `mmc1` 别名。当前 MMC 驱动通过设备序号选择时钟，序号 1 对应 USDHC2。不能为了让唯一设备显示为 MMC 0，就直接重命名这个别名。相关实现见 [fsl_esdhc_imx.c](../../vendor_mainline/uboot-2026.07/drivers/mmc/fsl_esdhc_imx.c)。
 
-eMMC 描述包含 `no-1-8-v`，不请求 1.8 V 切换。USB OTG1 使用外部主机供电的设备模式，没有配置本板向外提供 VBUS。设备树中的模式与 fastboot gadget 驱动配置共同决定 USB 行为。
+eMMC 描述包含 `no-1-8-v`，不请求 1.8 V 切换。USB OTG1 使用外部主机供电的设备模式，没有配置本板向外提供 VBUS。
 
 [U-Boot 专用 DTSI](overlay/arch/arm/dts/imx6ull-100ask-pro-u-boot.dtsi)继承上游早期节点定义，并为 UART1 和它的引脚节点添加 `bootph-all`。该属性让节点在 U-Boot 各启动阶段可用，以支持早期控制台。
 
@@ -125,11 +125,9 @@ eMMC 描述包含 `no-1-8-v`，不请求 1.8 V 切换。USB OTG1 使用外部主
 
 诊断功能包含设备模型查看、内存测试和 CRC32。内存测试的配置范围为 `0x90000000` 到 `0x91000000`。网络、烧写 fuse 和环境保存命令未启用，当前工作流集中在串口、eMMC 和 USB。
 
-USB 配置启用 ChipIdea 设备控制器、fastboot gadget 和主线 MMC flash。`CONFIG_FASTBOOT_UUU_SUPPORT` 提供 UUU 执行控制台命令所需的 UCmd 支持。实际 fastboot 写入设备由 `CONFIG_FASTBOOT_FLASH_MMC_DEV=1` 固定。
+默认环境由[配置头文件](overlay/include/configs/100ask_imx6ull.h)维护。`mmcdev=1` 指向本板 eMMC，`mmcpart=2` 指向 user area 内的 DOS 第 2 分区。
 
-默认环境由[配置头文件](overlay/include/configs/100ask_imx6ull.h)维护。`mmcdev=1` 指向本板 eMMC，`mmcpart=2` 指向 user area 内的 DOS 第 2 分区。这里的 `mmcpart` 环境变量与 raw partition 描述中的硬件分区编号不是同一个含义。
-
-`CONFIG_ENV_IS_NOWHERE=y` 使环境仅在 RAM 中生效。`bootdelay=-1` 且没有默认 `bootcmd`，因此 RAM 下载和正常 eMMC 启动都停在控制台。当前代码没有根据 USB 启动来源自动进入 fastboot 的板级入口。
+`CONFIG_ENV_IS_NOWHERE=y` 使环境仅在 RAM 中生效。`bootdelay=-1` 且没有默认 `bootcmd`，因此 RAM 下载和正常 eMMC 启动都停在控制台。
 
 ## RAM 地址与流程边界
 
@@ -140,14 +138,9 @@ USB 配置启用 ChipIdea 设备控制器、fastboot gadget 和主线 MMC flash�
 | `0x80000000`，512 MiB | ROM、U-Boot、Linux | DDR 地址空间 |
 | `0x80000100` | `board_init()` | ARM 启动参数地址，不是手工加载 DTB 的缓冲区 |
 | `0x87800000` | ROM 镜像和链接配置 | U-Boot 入口及链接地址，运行后由通用代码重定位 |
-| `0x82000000`，16 MiB | fastboot | 镜像下载缓冲区，手工启动时也可用于 zImage |
-| `0x83000000` | 烧录脚本、Linux 启动命令 | 分别用于写后读回和加载 vendor DTB |
+| `0x83000000` | Linux 启动命令 | 加载 vendor DTB |
 
-烧录结束后若要启动 Linux，按启动文档重新加载 zImage 和 DTB，镜像大小的构建检查与烧录 raw partition 的保留范围一致，具体写入区域由 04 号文档维护。
-
-板端提供 fastboot 能力，主机决定何时启用它。`uboot.py ram` 下载后保留控制台，`uboot.py emmc` 下载后通过串口发送 fastboot 命令。这种分工保留 RAM 调试入口，也不需要板端猜测 USB 下载的操作意图。
-
-`bootloader` 的地址映射在烧录脚本运行时设置，不是当前默认环境的一部分。官方内置脚本所需的环境适配与其他路线由 [05 · UUU 行为与适配](UUU_COMPAT.md)维护。
+[UUU 用法与主机烧录方案](../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md)
 
 ## 构建快照与维护入口
 

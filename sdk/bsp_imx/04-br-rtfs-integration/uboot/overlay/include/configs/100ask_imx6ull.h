@@ -1,0 +1,29 @@
+/* SPDX-License-Identifier: GPL-2.0+ */
+#ifndef __100ASK_IMX6ULL_CONFIG_H
+#define __100ASK_IMX6ULL_CONFIG_H
+
+#include "mx6_common.h"
+
+#define PHYS_SDRAM		MMDC0_ARB_BASE_ADDR
+#define PHYS_SDRAM_SIZE		SZ_512M
+#define CFG_SYS_SDRAM_BASE	PHYS_SDRAM
+#define CFG_SYS_INIT_RAM_ADDR	IRAM_BASE_ADDR
+#define CFG_SYS_INIT_RAM_SIZE	IRAM_SIZE
+#define CFG_MXC_UART_BASE	UART1_BASE
+#define CFG_SYS_BAUDRATE_TABLE	{ 115200, 1500000 }
+#define CFG_SYS_FSL_ESDHC_ADDR	USDHC2_BASE_ADDR
+#define CFG_SYS_FSL_USDHC_NUM	1
+
+/* Immutable defaults; no persistent environment can redirect flashing. */
+#define CFG_EXTRA_ENV_SETTINGS \
+	"console=ttymxc0\0" \
+	"mmcdev=1\0" \
+	"mmcpart=1\0" \
+	"kernel_addr_r=0x82000000\0" \
+	"fdt_addr_r=0x83000000\0" \
+	"pxefile_addr_r=0x84000000\0" \
+	"fastboot_raw_partition_bootloader=0x2 0x7fe mmcpart 1\0" \
+	"fastboot_partition_alias_rootfs=1.0:2\0" \
+	"fastboot_partition_alias_all=1.0:0\0"
+
+#endif

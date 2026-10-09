@@ -1,6 +1,6 @@
 # 03 · 构建、ROM 下载与系统启动
 
-本文件维护本板构建、RAM 下载和手工启动 vendor Linux 的命令。当前验收状态见 [06 · 验收状态](STATUS.md)。只写 eMMC U-Boot 时，使用 [EMMC_FLASH.md](EMMC_FLASH.md)的流程。
+本文件维护本板构建和手工启动 vendor Linux 的命令。当前验收状态见 [06 · 验收状态](STATUS.md)。
 
 ## 构建
 
@@ -14,20 +14,14 @@ sdk/bsp_imx/02-uboot-porting/build.sh build "$PWD/sdk/bsp_imx/build/100ask-imx6u
 
 完整构建由开发者执行。修改 `overlay/`、注册补丁或脚本后，重新生成源码快照。对旧目录执行 `build` 不会自动同步 BSP 修改。构建失败时，读该目录的 `build.log`，不要用旧产物代替本轮结果。
 
-构建成功后，`artifacts/` 保存镜像、配置、源码记录、UUU 脚本和校验清单。下载镜像为带 i.MX ROM 头的 `u-boot-dtb.imx`。在主机查看镜像信息：
+构建成功后，`artifacts/` 保存本轮产物、配置、源码记录和校验清单。在主机查看镜像信息：
 
 ```sh
 cd /home/pi/ea-emb-linux/sdk/bsp_imx/02-uboot-porting/artifacts
 cat image-info.txt
 ```
 
-`ram-boot.uuu` 只执行 DCD、RAM 写入、跳转和完成操作，不写 eMMC。DCD 是 ROM 初始化 DDR 的配置。下载前先按 [HOST_TOOL.md 的正式运行前预检](HOST_TOOL.md#正式运行前的预检)校验产物和 UUU 脚本，检查通过后再操作板卡。
-
-## 串口与 ROM 下载
-
-RAM 下载和控制台统一由 [uboot.py](uboot.py)管理。板卡准备、命令和控制台退出方法见 [HOST_TOOL.md](HOST_TOOL.md#ram-调试)。脚本在 RAM 模式中不进入 fastboot，不写 eMMC。
-
-新 U-Boot 使用 1500000 baud、8N1。串口必须出现本轮版本、`Board: 100ask i.MX6ULL Pro (UART1 / eMMC)` 和 `=>`。当前 `bootdelay=-1` 保留调试控制台。
+[UUU 用法与主机烧录方案](../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md)
 
 ## 手工启动 vendor Linux
 
@@ -48,7 +42,7 @@ setenv bootargs console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw
 setenv baudrate 115200
 ```
 
-U-Boot 切换速率后，按 [HOST_TOOL.md](HOST_TOOL.md#参数与日志)重新连接 115200 baud 控制台。保持 8N1 和无流控。按 Enter 恢复 `=>`，再执行：
+U-Boot 切换速率后，以 115200 baud、8N1、无流控重新连接串口。按 Enter 恢复 `=>`，再执行：
 
 ```text
 bootz 0x82000000 - 0x83000000

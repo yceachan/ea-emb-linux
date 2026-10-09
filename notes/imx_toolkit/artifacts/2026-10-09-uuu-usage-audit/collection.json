@@ -1,0 +1,149 @@
+{
+  "date": "2026-10-09",
+  "scope": "Documentation consolidation; no USB or serial access, hardware writes, tool installation, or SDK build",
+  "commands": [
+    {
+      "file": "snap-info.txt",
+      "argv": [
+        "snap",
+        "info",
+        "universal-update-utility"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "uuu-help.txt",
+      "argv": [
+        "uuu",
+        "-h"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "uuu-command-help.txt",
+      "argv": [
+        "uuu",
+        "-H"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "uuu-emmc.txt",
+      "argv": [
+        "uuu",
+        "-bshow",
+        "emmc"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "uuu-emmc-all.txt",
+      "argv": [
+        "uuu",
+        "-bshow",
+        "emmc_all"
+      ],
+      "returncode": 0
+    }
+  ],
+  "sources": [
+    {
+      "file": "fastboot-1.5.21.cpp",
+      "url": "https://raw.githubusercontent.com/nxp-imx/mfgtools/uuu_1.5.21/libuuu/fastboot.cpp",
+      "sha256": "0330f51a7a50ef023a92376bb43ae73353f9bd54745f2d1ac807b52a1eaf8ae9"
+    },
+    {
+      "file": "sparse-1.5.21.cpp",
+      "url": "https://raw.githubusercontent.com/nxp-imx/mfgtools/uuu_1.5.21/libuuu/sparse.cpp",
+      "sha256": "4cf6f43d370d71b08b7364343e47a67ba746637d3bc389f7be5d39f714718c0f"
+    },
+    {
+      "file": "fastboot-1.5.243.cpp",
+      "url": "https://raw.githubusercontent.com/nxp-imx/mfgtools/uuu_1.5.243/libuuu/fastboot.cpp",
+      "sha256": "dfdbab939ff60145c7c7c5b5e0fca3948638b10658d6b053828411a7f1689f2b"
+    }
+  ],
+  "local_inputs": [
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/uboot.py",
+      "sha256": "b02481e05d2433cae0690e8037d6dd05bf24235c235b5293914ad708143231b2"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/emmc-flash.uuu",
+      "sha256": "4ef9d0e4b82dfbbc377b2bab3a1de20826afdb4f0bc79271438bc309830dbca2"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/ram-boot.uuu",
+      "sha256": "619f77637289fc5cf7f0863fd6be9846fbc953aaf8dab8d261ebb3538316a865"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/overlay/include/configs/100ask_imx6ull.h",
+      "sha256": "c87f2bffd8720488f58a3217fa5566ee5cd70571dcb4495c37804c3166f6af91"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/overlay/configs/100ask_imx6ull_ram_defconfig",
+      "sha256": "ee6fc98a60d43edd3cae81156abaf5eb40dd1f019524ff2b8890e7ae5e3994c9"
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/deploy.sh",
+      "sha256": "68c2eaab4c9361973970bb8213c81441eb60211c9fa101221e1fda6c8bc651a6"
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/emmc-rootfs.uuu",
+      "sha256": "6d5bf8b31a7af81d37774927c0260311d98b3395f036a66edf8261d3522a845b"
+    }
+  ],
+  "historical_evidence": [
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/evidence/2026-10-06-emmc/collection.json",
+      "present_in_checkout": false
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/evidence/2026-10-06-uuu-audit/collection.json",
+      "present_in_checkout": false
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/artifacts/2026-10-07-direct-deploy-review/collection.json",
+      "present_in_checkout": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/artifacts/2026-10-09-r0-audit/collection.json",
+      "present_in_checkout": true
+    }
+  ],
+  "migration": "migration.json",
+  "validation": {
+    "files": 20,
+    "canonical_pointer_lines": 19,
+    "relative_links_checked": 81,
+    "errors": [],
+    "standalone_pointer_files": 5,
+    "code_and_script_inputs_unchanged": true,
+    "hardware_access": false
+  },
+  "document_revision": {
+    "date": "2026-10-09",
+    "scope": "Confirmed custom host route, U-Boot ownership in milestone 04 and FAT32 boot/ext4 rootfs layout; independent kernel/DTB/rootfs updates",
+    "sha256": "861e08b9d0e0c8577e744578c21ffa7a5ab9b6a8a6ed497c11478a1614a8367a",
+    "top_level_sections": 6,
+    "relative_links_checked": 78,
+    "relative_links_fences_numbering": "pass",
+    "existing_single_line_references_unchanged": 19,
+    "standalone_pointer_files": 5,
+    "implementation_status": "Design/specification only; firmware, host scripts and hardware validation pending",
+    "fixed_uboot_source_checked": "a7a5989d4250fc080d5cb9777cd9323d8705786f: fastboot download filesize, UCmd error propagation and partition alias resolution"
+  },
+  "post_archive_validation": {
+    "date": "2026-10-09",
+    "files": 20,
+    "relative_links_checked": 86,
+    "canonical_pointer_lines": 19,
+    "archived_reference_paths": {
+      "sdk/bsp_imx/03-kernel-busybox/.issues/open/01-feat-kernel-busybox/adr.md": "sdk/bsp_imx/03-kernel-busybox/.issues/closed/01-feat-kernel-busybox/adr.md",
+      "sdk/bsp_imx/03-kernel-busybox/.issues/open/01-feat-kernel-busybox/route.md": "sdk/bsp_imx/03-kernel-busybox/.issues/closed/01-feat-kernel-busybox/route.md",
+      "sdk/bsp_imx/03-kernel-busybox/.issues/open/01-feat-kernel-busybox/progress.md": "sdk/bsp_imx/03-kernel-busybox/.issues/closed/01-feat-kernel-busybox/progress.md"
+    },
+    "errors": []
+  },
+  "host_tool_audit_reference": "sdk/bsp_imx/04-br-rtfs-integration/artifacts/2026-10-09-host-toolchain-audit/collection.json"
+}

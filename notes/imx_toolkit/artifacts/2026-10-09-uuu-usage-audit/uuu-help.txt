@@ -1,0 +1,74 @@
+uuu (Universal Update Utility) for nxp imx chips -- libuuu_1.5.21-0-g1f42172
+
+uuu [-d -m -v -V] <bootloader|cmdlists|cmd>
+
+    bootloader  download bootloader to board by usb
+    cmdlist     run all commands in cmdlist file
+                If it is path, search uuu.auto in dir
+                If it is zip, search uuu.auto in zip
+    cmd         Run one command, use -H see detail
+                example: SDPS: boot -f flash.bin
+    -d          Daemon mode, wait for forever.
+    -v -V       verbose mode, -V enable libusb error\warning info
+    -dry        Dry run mode, check if script or cmd correct 
+    -m          USBPATH Only monitor these paths.
+                    -m 1:2 -m 1:3
+
+    -t          Timeout second for wait known usb device appeared
+    -T          Timeout second for wait next known usb device appeared at stage switch
+    -e          set environment variable key=value
+    -pp         usb polling period in milliseconds
+    -dm         disable small memory
+uuu -s          Enter shell mode. uuu.inputlog record all input commands
+                you can use "uuu uuu.inputlog" next time to run all commands
+
+uuu -udev       linux: show udev rule to avoid sudo each time 
+uuu -lsusb      List connected know devices
+uuu -IgSerNum   Set windows registry to ignore USB serial number for known uuu devices
+uuu -h          show general help
+uuu -H          show general help and detailed help for commands
+
+uuu [-d -m -v] -b[run] <emmc|emmc_all|fat_write|nand|nvme_all|qspi|sd|sd_all|spl> arg...
+	Run Built-in scripts
+	[97memmc[0m	burn boot loader to eMMC boot partition
+		arg0: _flash.bin  bootloader
+		arg1: _image[97m[Optional][0m  image burn to emmc, default is the same as bootloader
+	[97memmc_all[0m	burn whole image to eMMC
+		arg0: _flash.bin  bootloader, which can extract from wic image
+		arg1: _image[97m[Optional][0m  wic image burn to emmc.
+	[97mfat_write[0m	update one file in fat partition, require uboot fastboot running in board
+		arg0: _image  image, which cp to fat partition
+		arg1: _device  storage device, mmc\sata
+		arg2: _partition  fat partition number, like 1:1
+		arg3: _filename[97m[Optional][0m  file name in target fat partition, only support rootdir now
+	[97mnand[0m	burn boot loader to NAND flash
+		arg0: _flash.bin  bootloader
+		arg1: _image[97m[Optional][0m  image burn to nand, default is the same as bootloader
+	[97mnvme_all[0m	burn whole image io nvme storage
+		arg0: _flash.bin  bootloader, which can extract from wic image
+		arg1: _image[97m[Optional][0m  wic image burn to emmc.
+	[97mqspi[0m	burn boot loader to qspi nor flash
+		arg0: _flexspi.bin  bootloader
+		arg1: _image[97m[Optional][0m  image burn to flexspi, default is the same as bootloader
+	[97msd[0m	burn boot loader to sd card
+		arg0: _flash.bin  bootloader
+		arg1: _image[97m[Optional][0m  image burn to emmc, default is the same as bootloader
+	[97msd_all[0m	burn whole image to sd card
+		arg0: _flash.bin  bootloader, which can extract from wic image
+		arg1: _image[97m[Optional][0m  wic image burn to emmc.
+	[97mspl[0m	boot spl and uboot
+		arg0: _flash.bin 
+
+uuu -bshow <emmc|emmc_all|fat_write|nand|nvme_all|qspi|sd|sd_all|spl>
+	Show built-in script
+
+Enjoy auto [tab] command complete by put below script into /etc/bash_completion.d/uuu
+[36m  _uuu_autocomplete()
+  {
+       COMPREPLY=($(/bin/uuu $1 $2 $3))
+  }
+  complete -o nospace -F _uuu_autocomplete  uuu[0m
+
+[?25h
+
+

@@ -1,0 +1,2 @@
+lo               UNKNOWN        00:00:00:00:00:00 <LOOPBACK,UP,LOWER_UP> 
+wlp2s0           UP             0e:1a:5b:fb:3b:b1 <BROADCAST,MULTICAST,UP,LOWER_UP> 

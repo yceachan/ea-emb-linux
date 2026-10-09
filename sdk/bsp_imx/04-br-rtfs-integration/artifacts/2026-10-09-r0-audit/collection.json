@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-09",
+  "stage": "R0 read-only host/source audit",
+  "hardware_access": false,
+  "sdk_build": false,
+  "host_network_modified": false,
+  "commands": [
+    {
+      "file": "snap-info.txt",
+      "argv": [
+        "snap",
+        "info",
+        "universal-update-utility"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "uuu-emmc-all.txt",
+      "argv": [
+        "/var/lib/snapd/snap/bin/uuu",
+        "-bshow",
+        "emmc_all"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "host-link.txt",
+      "argv": [
+        "ip",
+        "-brief",
+        "link"
+      ],
+      "returncode": 0
+    },
+    {
+      "file": "host-route.txt",
+      "argv": [
+        "ip",
+        "-4",
+        "route"
+      ],
+      "returncode": 0
+    }
+  ],
+  "inputs": [
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/base-revision",
+      "sha256": "07896d51f1685b3482fa817ea6ca54b7d7264991dcb984ff47cb40c16b818753"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/overlay/include/configs/100ask_imx6ull.h",
+      "sha256": "c87f2bffd8720488f58a3217fa5566ee5cd70571dcb4495c37804c3166f6af91"
+    },
+    {
+      "path": "sdk/bsp_imx/02-uboot-porting/overlay/configs/100ask_imx6ull_ram_defconfig",
+      "sha256": "ee6fc98a60d43edd3cae81156abaf5eb40dd1f019524ff2b8890e7ae5e3994c9"
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/kernel/base-revision",
+      "sha256": "8e8ddc8334130a7830e7154a2098ad05b1d7d2a03192651ca7aa7e383ce20f58"
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/kernel/board.config",
+      "sha256": "4b5e9de2afc8e7e482b76f430dd14b9e2a5a7dba3ab463a270f8baab21841c03"
+    },
+    {
+      "path": "sdk/bsp_imx/03-kernel-busybox/kernel/overlay/arch/arm/boot/dts/nxp/imx/imx6ull-100ask-pro.dts",
+      "sha256": "926025cff8284399ff99ee05935c9c909f85f4f02c827bbd226ba56164ba55fa"
+    },
+    {
+      "path": "sdk/vendor_mainline/buildroot-2025.02/Makefile",
+      "sha256": "d09be84b25bd5190a88c81dac55f879995dceec2c797f6a10e9beceb10565cfc"
+    },
+    {
+      "path": "sdk/vendor_mainline/buildroot-2025.02/package/qt6/qt6.mk",
+      "sha256": "f2fcd9df97f4b10dbe206d6995add0dcce8d8f7788709dd49601376c9f6b35f6"
+    },
+    {
+      "path": "sdk/vendor_mainline/buildroot-2025.02/package/qt6/qt6wayland/Config.in",
+      "sha256": "bc2d7a1d2284eb3aeb5fb129fb4912c8727f2d5bd7510c1d61aa42aae77cd948"
+    },
+    {
+      "path": "sdk/vendor_mainline/buildroot-2025.02/package/rust-bin/rust-bin.mk",
+      "sha256": "f236d4df595bf584970a9bb193ecf659dc2cab6cba25cb8dab56e4250f58fc17"
+    }
+  ],
+  "buildroot_revision": "393f0196a3d356dad8e736e7db09cf066fb044e9",
+  "uuu_candidate": {
+    "version": "1.5.243",
+    "asset": "uuu Linux x86_64",
+    "sha256": "7ed83eba9dce63cd4edc3a28bcc0cf4341de046d6316bde4885018773087ea24",
+    "installed_by_agent": false
+  },
+  "limitations": [
+    "No hardware validation",
+    "No BR configuration or application build",
+    "Image transport route awaits user selection",
+    "Qt6.8 IVI plugin and Weston14 controller ABI require implementation-stage validation"
+  ]
+}

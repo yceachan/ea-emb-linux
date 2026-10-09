@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "board": "100ask-imx6ull-pro",
+  "sector_size": 512,
+  "sparse_block_size": 4096,
+  "p1": {
+    "start": 2048,
+    "sectors": 262144,
+    "type": 12
+  },
+  "p2": {
+    "start": 264192,
+    "sectors": 4194304,
+    "type": 131
+  }
+}
