@@ -1,0 +1,44 @@
+{
+  "head": "93ff552",
+  "hardware_access": false,
+  "artifact_hashes": {
+    "uboot_imx": {
+      "recorded_sha256": "18338647a8096cc4bd4c09b853c34189d2acaca4df27fc93904b154b571b9551",
+      "matches": true
+    },
+    "kernel_zimage": {
+      "recorded_sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513",
+      "matches": true
+    },
+    "board_dtb": {
+      "recorded_sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987",
+      "matches": true
+    },
+    "busybox_rootfs_tar": {
+      "recorded_sha256": "f448ee3f68f990f9f405e5aa0d7a0a5c12ecb5a1b21fbecf3208ce1ffcb9c99b",
+      "matches": true
+    },
+    "busybox_rtfs_ext4": {
+      "recorded_sha256": "8c32aff4db6d742d36714fa60ae00c714c7028cbcf01de2f4f7403368054e7c0",
+      "matches": true
+    },
+    "profile": {
+      "recorded_sha256": "727c5bb4afe0ba444596174beaa06fb69548da2c8296451c5715607c8a3cbd93",
+      "matches": true
+    },
+    "uuf_archive": {
+      "recorded_sha256": "5a84063bdfdd9d74eec82c1b9489631d256c6ebc3bacd60a14885eb4fc464db1",
+      "matches": true
+    },
+    "gui_elf": {
+      "recorded_sha256": "882865faf8d01dd512b5495e7555c9c40eb7ea750667453193f247842fdd65c8",
+      "matches": true
+    }
+  },
+  "firmware_receipt_verified": 6,
+  "bundle_verified_files": 13,
+  "unpacked_verified_files": 13,
+  "gui_backend_matches_source": true,
+  "host_tests_from_final_log": 26,
+  "native_record": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/native-final/collection.json"
+}

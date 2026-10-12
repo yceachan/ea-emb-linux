@@ -1,0 +1,4 @@
+driver_exit=-2
+fake_uuu_alive_after_second_sigint=True
+fake_uuu_pid=1962849
+hardware_access=false

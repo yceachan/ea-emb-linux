@@ -14,19 +14,19 @@
 | 图形包 | 官方 tag 配方：Qt `6.11.1`、Weston `15.0.1` |
 | Rust 工具链 | 官方 tag rust-bin 配方：Rust/Cargo `1.97.1`，同版本 host/target rust-std |
 
-04 建立 BR2_EXTERNAL，管理板级 defconfig、rootfs overlay、服务、镜像生成和 external packages。用户已确认将基础 U-Boot 迁入 04 维护：实施时在 `04-br-rtfs-integration/uboot/` 接管固定 revision、板级 overlay、patch 和构建入口，此后新基线只在这里修改。02 保留既有里程碑及迁移起点，04 构建使用迁入的固定输入。kernel 配置与 DT 继续由 03 维护，04 引用并集成。BR 源码和包更新采用固定快照及 patch，不在共享上游源码树直接修改。
+04 建立 BR2_EXTERNAL，管理板级 defconfig、rootfs overlay、服务、镜像生成和 external packages。用户已确认将基础 U-Boot 迁入 04 维护：实施时在 `04-br-rtfs-integration/uuf/` 接管固定 revision、板级 overlay、patch 和构建入口，此后新基线只在这里修改。02 保留既有里程碑及迁移起点，04 构建使用迁入的固定输入。kernel 配置与 DT 继续由 03 维护，04 引用并集成。BR 源码和包更新采用固定快照及 patch，不在共享上游源码树直接修改。
 
 建议 BR 自建 ARM Cortex-A7 hard-float/glibc/C++ 动态工具链，导出同一次系统构建的 SDK。glibc 是本地 systemd 包的约束；Qt6 需要 C++、线程、wchar 和动态库。迁入的 U-Boot 先沿用其已固定的 prebuilt 构建工具链，04 用户空间使用 BR SDK，不复用来源不明的 vendor sysroot。内核构建与 rootfs 的 ABI 边界按实际产物检查。
 
 complex feat 的代码实施在 `~/worktrees/ea-emb-linux/<agent>/<branch>` 隔离 worktree 中进行；当前只在用户指定工作区建立对齐文档。
 
-本 BR 项目的构建根仍约定放在 04 工作区的 `build/` 下，源码快照与输出分开；完整构建由开发者执行，默认 `-j12`。用户最新确认的通用 U-Boot 基础层不把这个项目约定作为接口硬条件：其 source/toolchain/work/input/output/log 路径由调用参数或环境提供，不依赖固定仓库路径或 CWD。04/build/uboot/ 仅可作为本仓库的示例或便利配置。详见 [02 专章](../02-feat-uboot-foundation/issue.md)。
+本 BR 项目的构建根仍约定放在 04 工作区的 `build/` 下，源码快照与输出分开；完整构建由开发者执行，默认 `-j12`。通用 uuf/U-Boot 基础层不把这个项目约定作为接口硬条件：其 source/toolchain/work/input/output/log 路径由调用参数或环境提供，不依赖固定仓库路径或 CWD。详见 [02 专章](../02-feat-uboot-foundation/issue.md)。
 
 ## ADR-02 · 固件启动与整机、组件更新
 
-2026-10-10 用户确认：仅当前 i.MX6ULL 板卡，MBR＋ext4，单份整盘 Sparse 配合外部描述；整盘部署包含产品 U-Boot 更新，但本轮 target hash 一致时跳过产品镜像擦写。基础层与 BR/BusyBox 解耦，独立板卡组件更新和已有 Sparse 局部替换均不以完整项目包为前提。旧 FAT32、固定容量及固定路径方案不再是实施前提。
+2026-10-12 用户确认的布局、分立镜像一键部署、归档、组件独立更新及分区表修改规则，由 [02 issue.md](../02-feat-uboot-foundation/issue.md) 与 [02 adr.md](../02-feat-uboot-foundation/adr.md) 维护。BR 提供外部载荷并消费该能力，技术字段不在本章重复冻结。
 
-需求和细化讨论分别由 [02 issue.md](../02-feat-uboot-foundation/issue.md) 与 [discussion.md](../02-feat-uboot-foundation/discussion.md) 维护，未决字段和接口不在此重复冻结。[UUU 笔记](../../../../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md) 保留协议与历史审查信息，不作为新布局和接口的唯一来源。
+[UUU 笔记](../../../../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md) 保留协议与历史审查信息，不作为当前布局和接口的来源。
 
 ## ADR-03 · USB ECM、host DHCP 与 SSH
 

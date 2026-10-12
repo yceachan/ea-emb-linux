@@ -1,6 +1,6 @@
 # 01 · 移植完整 Buildroot 开发板系统
 
-建立日期：2026-10-09。状态：issue 保持 open。BR 系统需求沿用已确认基线；R2 的通用 U-Boot 基础层已按用户最新确认独立开章，采用 MBR/ext4、外部描述与产品 U-Boot target hash 门控，尚待细化和实现。既有原型及证据边界见 [progress.md](progress.md)。软件渲染、SSH 认证、PTY 语义、BR 官方依赖基线、IVI 分屏及自制主机烧录路线沿用已确认需求。
+建立日期：2026-10-09。状态：issue 保持 open。BR 系统需求沿用已确认基线；R2 的 uuf/U-Boot 基础层按 2026-10-12 对齐维护，需求与部署形态已确认，待实现和实板验收。既有原型及证据边界见 [progress.md](progress.md)。软件渲染、SSH 认证、PTY 语义、BR 官方依赖基线、IVI 分屏及自制主机烧录路线沿用已确认需求。
 
 工作区：`/home/pi/ea-emb-linux/sdk/bsp_imx/04-br-rtfs-integration/`。本文件是 BR 系统需求与验收的来源；U-Boot 基础层的详细需求与验收由 [02 专章](../02-feat-uboot-foundation/issue.md) 单独维护，本系统作为其消费者。技术选择见 [adr.md](adr.md)，实施顺序见 [route.md](route.md)。
 
@@ -18,7 +18,7 @@
 
 [UUU 用法与主机烧录方案](../../../../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md)
 
-本次修订：用户选择自制主机集成脚本，将基础 U-Boot 迁入 04 维护，并增加 kernel、DTB、rtfs 的独立替换能力。此要求更新下列 S1、S2 及对应验收条件；其他系统与应用目标沿用已确认路线。
+本次修订：用户确认由 `04/uuf/` 维护主机 CLI、Tauri/React GUI 和基础 U-Boot，采用分立镜像的一键部署及组件独立替换。此要求更新下列 S1、S2 及对应验收条件；详细选择仅在 02 专章维护。
 
 ## 目标 spec
 
@@ -26,8 +26,8 @@
 
 | 编号 | 目标行为 |
 |---|---|
-| S1 | 消费独立通用 UUU/U-Boot 基础层，支持 USB 下载和 eMMC 正常启动。开发者设置 USB 下载模式后，一个主机入口完成 RAM loader、自动下载服务、整盘系统部署、产品 U-Boot 更新及必要启动设置；产品 target hash 一致时跳过镜像擦写。eMMC 冷启动自动引导本产品。仅适配当前板卡，基础层不内嵌 BR/BusyBox 项目约束；详细规则见 02 专章。 |
-| S2 | 本项目提供 MBR/ext4 布局及外部启动描述，由通用工具合成含 kernel、DTB、rtfs 的单份整盘 Sparse。基础层同时支持不依赖完整项目包的独立板卡组件更新，以及对已有 Sparse 局部替换组件并输出新镜像；保留未选内容和稀疏写入语义。文件路径、分区几何及操作接口不得按本项目固化；详细规则见 02 专章。 |
+| S1 | 消费独立 uuf/UUU/U-Boot 基础层，支持 USB 下载和 eMMC 正常启动。开发者设置 USB 下载模式后，一个主机入口完成 RAM loader、自动下载服务、全系统部署、产品 U-Boot 更新及必要启动设置；产品 target hash 一致时跳过固件擦写。eMMC 冷启动自动引导本产品。仅适配当前板卡，基础层不内嵌 BR/BusyBox 项目约束；详细规则见 02 专章。 |
+| S2 | 本项目提供布局、外部启动描述及 kernel/DTB/rtfs 载荷，消费 02 的归档与分立镜像一键部署能力，并验证不依赖完整项目包的板卡组件独立更新。文件路径、分区几何及操作接口不得按本项目固化；镜像形态、分区表更新约束及保留规则见 02 专章。 |
 | S3 | Linux 使用 ROM USB 下载所在物理端口提供 CDC ECM；host 为 DHCP server，以固定 MAC 保留租约给板端固定 IPv4 地址，并提供网关、DNS 和经主机 WLAN 的 NAT。板端由 DHCP 获得这些参数，USB 重连后仍获得同一地址。 |
 | S4 | target hostname 为 `imx`；启用 OpenSSH sshd。用户确认 root 空密码，客户端不需登录密钥或输入密码。服务端 SSH host key 首次启动生成并持久化。host 提供 `imx` 名称解析，使 `ssh root@imx` 可用。 |
 | S5 | systemd 为 PID 1，systemd-udevd 管理设备，systemd 管理 ECM、网络、sshd、Weston、wt 和触摸日志服务的生命周期；图形和输入不依赖固定 `/dev/input/eventN` 编号。 |
@@ -44,8 +44,8 @@
 | 编号 | 完成判据 |
 |---|---|
 | A1 构建与启动 | BR external tree、固定版本与 hash、配置、overlay、patch、镜像布局和 SDK 入口可重建；构建路径遵循 ADR-01 的工作区内目录约定。耗时构建交由开发者执行，默认 `-j12`。eMMC 冷启动无需手输引导命令，进入本轮 kernel/DTB/rootfs，PID 1 为 systemd。 |
-| A2 下载入口 | 板卡处于 USB 下载模式时，一个主机入口完成 loader、整盘部署、产品 U-Boot 的 hash 门控更新与启动设置，无需手动输入下载服务命令。dry-run、正式预检、目标确认及读回通过，产品镜像一致时证明没有重复擦写；完成独立 eMMC 冷启动。基础层细项按 02 专章验收，本系统另验证 BR 正常启动。 |
-| A3 整盘与组件更新 | 整盘 Sparse 的有效块、跳过范围、实际传输量和耗时可核验。分别以独立输入更新板卡 kernel/DTB/rtfs，并对已有 Sparse 局部替换三类组件，验证指定内容、未选内容、必要 ext4 元数据和实际写入范围；原镜像不覆盖。独立板卡更新保留 MBR、bootloader 和启动配置，各自能启动预期系统。详细保留与验证规则由 02 专章维护。 |
+| A2 下载入口 | 板卡处于 USB 下载模式时，一个主机入口完成 loader、全系统部署、产品 U-Boot 的 hash 门控更新与启动设置，无需手动输入下载服务命令。dry-run、正式预检、目标确认及读回通过，产品镜像一致时证明没有重复擦写；完成独立 eMMC 冷启动。基础层细项按 02 专章验收，本系统另验证 BR 正常启动。 |
+| A3 全系统与组件更新 | 分区 Sparse 的有效块、跳过范围、实际传输量和耗时可核验。分别以独立输入更新板卡 kernel/DTB/rtfs，验证指定内容、未选内容、必要 ext4 元数据和实际写入范围，各自能启动预期系统。详细保留与验证规则由 02 专章维护；本系统不再验收任意已有整盘 Sparse 的离线组件修改。 |
 | A4 ECM 网络 | 同一 USB 下载口在 Linux 下枚举 ECM；固定地址、host 名称解析、路由和 DNS 均可用。板端访问一个 HTTPS 外网站点，USB 拔插后恢复，主机 WLAN 联网保持正常；未配置板端无线固件。 |
 | A5 SSH/服务 | `ssh root@imx` 无客户端密钥及密码输入，能执行命令并申请交互 PTY；host key 重启后不变化。udevd 和必要 systemd unit 状态正常，服务失败可定位。 |
 | A6 图形 | DRM connector/mode、背光、Weston DRM/Pixman 和 Qt Wayland/software 实际运行身份明确。LCD 上文字、颜色与更新可见；软件 GLES 示例通过。两个 GUI 进程在左右半屏稳定展示，单个进程重启不改变另一个位置。 |

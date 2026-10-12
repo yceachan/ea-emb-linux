@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-13",
+  "outcome": "failed; user cancelled product implementation",
+  "implementation_snapshot": "93ff5520bafaed078b004d2ae259c673f9c2ba99",
+  "rollback_base": "d61d450dbfe5b51ad645304a01cfb6e56761e440",
+  "removed_from_main": [
+    "1306541",
+    "cbbcee3",
+    "93ff552"
+  ],
+  "original_documents": {
+    "issue.md": {
+      "revision": "d61d450",
+      "sha256": "ecb97e0b124993378c92f8754834009c6944b0d6308a548eab329f594ba55723"
+    },
+    "adr.md": {
+      "revision": "1306541",
+      "sha256": "da999c2f1e6ee7eefbaacef30306ee3e8d3267ac2588c7a4284695495d54eab6"
+    },
+    "route.md": {
+      "revision": "1306541",
+      "sha256": "be904611d032546e341bfc01387b47d4cdec76c6a55d214c62a38b7b9cbaf9b8"
+    }
+  },
+  "preserved_working_documents": [
+    "sdk/bsp_imx/04-br-rtfs-integration/.issues/open/01-feat-br-system/adr.md",
+    "sdk/bsp_imx/04-br-rtfs-integration/.issues/open/01-feat-br-system/issue.md",
+    "sdk/bsp_imx/04-br-rtfs-integration/.issues/open/01-feat-br-system/route.md",
+    "sdk/bsp_imx/04-br-rtfs-integration/README.md"
+  ],
+  "evidence_files_sha256": {
+    "verification.json": "4d24d7fbc1814fa829580bef92f5f4efe3cbd0b03ec3bda64208c7eb8bc06f2e",
+    "reproductions.json": "0e903866bd828815f9a2d2b426c321b8b7257bffa2f9c573f3d2c887afd17975",
+    "double-cancel-result.txt": "33f2fc76b0efb7d92dcc0d0c84fcbc36d36e7060f89cb5b51a8c63aa2468b095",
+    "double-cancel-cleanup.txt": "e1a7aa3a0bf0899da1820933d76890eb0587e253640b31c25ffdccd3c71beeb8"
+  },
+  "hardware_access": false,
+  "working_snapshot_backup": "/tmp/.amh/uuf-failure-20261013/backup",
+  "evidence_scope": "historical host reproductions and build checks; no new product tests or hardware verification",
+  "withdrawn_review_requirement": "maintain/recover an already erased kernel partition",
+  "worktree_policy": "other worktrees retained outside main as rejected snapshots; no resumed workers"
+}

@@ -4,9 +4,9 @@
 
 目标和验收由 [.issues/open/01-feat-br-system/issue.md](.issues/open/01-feat-br-system/issue.md) 维护，技术选择由 [adr.md](.issues/open/01-feat-br-system/adr.md) 维护，实施顺序由 [route.md](.issues/open/01-feat-br-system/route.md) 维护，当前状态见 [progress.md](.issues/open/01-feat-br-system/progress.md)。
 
-U-Boot 基础层现由 [.issues/open/02-feat-uboot-foundation/](.issues/open/02-feat-uboot-foundation/issue.md) 独立维护，细化讨论见 [discussion.md](.issues/open/02-feat-uboot-foundation/discussion.md)。用户已确认仅当前板卡、MBR/ext4、外部描述及产品 target hash 相同免擦写；通用接口、ext4 分区组织与更新能力尚未完成实现。BR/BusyBox 均作为外部消费者，不绑定核心路径、版本或完整包。
+uuf/U-Boot 基础层由 [.issues/open/02-feat-uboot-foundation/](.issues/open/02-feat-uboot-foundation/issue.md) 独立维护，技术选择见 [adr.md](.issues/open/02-feat-uboot-foundation/adr.md)，实施顺序见 [route.md](.issues/open/02-feat-uboot-foundation/route.md)。2026-10-12 对齐作为当前需求来源，源码与 GUI/CLI 产品工作区为 `uuf/`。BR/BusyBox 均作为外部消费者。
 
-本轮实现源码仍组织在 `uboot/`，04 根目录留给 BR/kernel 集成。既有 FAT32/BusyBox 原型、验收镜像及 [历史操作说明](uboot/FLASHING.md) 保留供审查，不代表新确认的基础层已通过。02 保留既往里程碑，kernel 输入仍由 03 维护。BR 集成及实板验收待实施；耗时完整构建由开发者审阅执行，默认 `-j12`。
+当前完成需求与路线对齐，`uuf/` 实现和固件迁移待推进；历史实施轨迹见 issue 01 的 progress.md。02 保留既往里程碑，kernel 输入仍由 03 维护。BR 集成及实板验收待实施；耗时完整构建由开发者审阅执行，默认 `-j12`。
 
 主机检查结果与工具供应方式见 [HOST_TOOLCHAIN.md](HOST_TOOLCHAIN.md)。
 

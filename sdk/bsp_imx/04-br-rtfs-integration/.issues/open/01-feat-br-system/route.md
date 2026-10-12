@@ -18,7 +18,7 @@
 
 ## R2 · 基础固件与整机、组件更新
 
-先按 [U-Boot 专章](../02-feat-uboot-foundation/issue.md) 对齐 MBR/ext4 分区组织、外部描述、启动发现、ext4 更新、Sparse 替换和 target hash 门控，再确定接口与实施计划；本阶段不将旧原型包装成新基础层。基础层验证通过后，本 BR 项目作为外部消费者接入，其冷启动与 systemd 验收独立完成。当前首个讨论项见 [D1](../02-feat-uboot-foundation/discussion.md)。
+按 [uuf/U-Boot 专章](../02-feat-uboot-foundation/issue.md) 和[独立实施路线](../02-feat-uboot-foundation/route.md) 推进固件能力、分立镜像一键部署与组件独立更新。基础层验证通过后，本 BR 项目作为外部消费者接入，其冷启动与 systemd 验收独立完成。
 
 [UUU 用法与历史审查](../../../../../../notes/imx_toolkit/uuu的用法和一些已知限制与host脚本集成方案.md)
 
