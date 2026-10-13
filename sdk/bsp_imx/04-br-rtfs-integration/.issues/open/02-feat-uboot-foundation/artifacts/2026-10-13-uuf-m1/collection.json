@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-13",
+  "milestone": "M1 U-Boot",
+  "worktree": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones",
+  "branch": "codex/uuf-uboot",
+  "requirements_baseline": "f5598ee",
+  "uboot_revision": "a7a5989d4250fc080d5cb9777cd9323d8705786f",
+  "source_tree_manifest_sha256": "169578f35615ee83415a448cac003aabefe427c97741385efc52267574120499",
+  "bsp_input_manifest_sha256": "f3d4764f1e244e8d9d627b6ea5fa0965ca02263a192a0fe37d67acae66fe93c0",
+  "configuration_sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d",
+  "checked_configuration": {
+    "CONFIG_BOOTDELAY": "3",
+    "CONFIG_ENV_IS_NOWHERE": "y",
+    "CONFIG_BOARD_LATE_INIT": "y",
+    "CONFIG_CMD_EXT4_WRITE": "y",
+    "CONFIG_CMD_SYSBOOT": "y",
+    "CONFIG_FASTBOOT_BUF_SIZE": "0x1000000",
+    "CONFIG_SYS_MALLOC_LEN": "0x1000000",
+    "CONFIG_FASTBOOT_FLASH_MMC_DEV": "1"
+  },
+  "cross_compiled_objects": {
+    "board/100ask/imx6ull/imx6ull.o": "38809cfadd37541b911767348a35f54a3401408f593ad9cd739d9b116e6ffa93",
+    "board/100ask/imx6ull/uuf.o": "f0c4bffab914da8fd7a77419afa0b554fbaa8b8153ce2e6a9668624ce434f3c4",
+    "fs/ext4/dev.o": "c1ff72f2062c9e3bd2356514e9944d92bb97dd589db0bfd5d2d230bc04a4d96d",
+    "fs/ext4/ext4_common.o": "6d3f244e647e60fdc1f176f580ab0ce43e4f7e8298aa25670336d15df667c7ac",
+    "fs/ext4/ext4_write.o": "394bd262b61da165795b83234314180ebbcb5bb1b18fdd7e19be2c9e62b8c9f2",
+    "fs/ext4/ext4_journal.o": "9bb8e7f9f63d2bb5593a1a0af27f2e3d33d2f7ad8d51834c8dbb94acca96f91e"
+  },
+  "host_validation": {
+    "board_commands": "passed",
+    "native_ext4": "passed",
+    "journal_superblock_data_read_fault": "covered by injection immediately before the actual data read"
+  },
+  "payloads": {
+    "kernel": {
+      "bytes": 10363128,
+      "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
+    },
+    "dtb": {
+      "bytes": 32636,
+      "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
+    }
+  },
+  "payload_provenance": "Retained real 03 payloads from the failed worktree; not rebuilt in this stage",
+  "complete_sdk_build": false,
+  "hardware_access": false,
+  "pending": [
+    "developer complete firmware link",
+    "ROM USB startup",
+    "eMMC cold boot and 3-second interrupt",
+    "real board file update",
+    "cloud review",
+    "developer manual review"
+  ],
+  "evidence_files_sha256": {
+    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e",
+    "check.log": "a822a542186efb6b9f724731202370863c00d8255b4d63fbc3513b9390a1f1c1",
+    "configure.log": "58c4f6022d6185ef3a4956bf1f30a3e3b0fd541b553371c7dd1f22157584b194",
+    "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63"
+  }
+}

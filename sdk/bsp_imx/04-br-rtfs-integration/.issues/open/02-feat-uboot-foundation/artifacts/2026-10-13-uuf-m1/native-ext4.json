@@ -1,0 +1,119 @@
+{
+  "hardware_access": false,
+  "complete_sdk_build": false,
+  "kernel_bytes": 10363128,
+  "dtb_bytes": 32636,
+  "heap_limit_bytes": 16777216,
+  "selected_mode_uid_gid": "0640 / 70000 / 80000",
+  "unselected_file_data_and_inode_preserved": true,
+  "extlinux_preserved": true,
+  "parent_inline_xattr_preserved": true,
+  "fs_devread_small_short_io_rejected": true,
+  "deinit_faults_preserve_recover": true,
+  "journal_superblock_data_read_fault_covered": true,
+  "e2fsck": "passed",
+  "records": [
+    {
+      "fault": "fs_devread short small-read",
+      "result": "fs_devread=0 reads=1"
+    },
+    {
+      "readonly_rejected": "inline-xattr",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "external-xattr",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "hardlink",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "symlink",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "immutable",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "extent-index",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "unclean-journal",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "missing-journal",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "readonly_rejected": "unsupported-feature",
+      "result": "writable=-1 writes=0 io_error=0"
+    },
+    {
+      "target": "/kernel",
+      "source_sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513",
+      "result": "file found, deleting\nupdate journal finished\nupdate journal finished\nresult=0 written=10363128 peak_heap=72208 writes=45 reads=81 io_error=0 recover=0"
+    },
+    {
+      "target": "/dtb",
+      "source_sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987",
+      "result": "file found, deleting\nupdate journal finished\nupdate journal finished\nresult=0 written=32636 peak_heap=68112 writes=39 reads=73 io_error=0 recover=0"
+    },
+    {
+      "fault": "short-read",
+      "result": "error in File System init\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=6400 writes=0 reads=4 io_error=-5 recover=0"
+    },
+    {
+      "fault": "short-read-4",
+      "result": "Error in getting the block group descriptor table\nerror in File System init\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=18720 writes=0 reads=7 io_error=-5 recover=0"
+    },
+    {
+      "fault": "short-read-20",
+      "result": "** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=35088 writes=2 reads=23 io_error=-5 recover=1"
+    },
+    {
+      "fault": "short-read-60",
+      "result": "file found, deleting\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=20 reads=63 io_error=-5 recover=1"
+    },
+    {
+      "fault": "short-write",
+      "result": "Error in getting the block group descriptor table\nerror in File System init\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=18720 writes=1 reads=12 io_error=-5 recover=0"
+    },
+    {
+      "fault": "short-write-8",
+      "result": "file found, deleting\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=8 reads=42 io_error=-5 recover=1"
+    },
+    {
+      "fault": "short-write-20",
+      "result": "file found, deleting\nupdate journal finished\nError in getting the block group descriptor table\nerror in File System init\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=20 reads=59 io_error=-5 recover=1"
+    },
+    {
+      "fault": "short-write-40",
+      "result": "file found, deleting\nupdate journal finished\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=40 reads=84 io_error=-5 recover=1"
+    },
+    {
+      "fault": "deinit-alloc",
+      "recover_preserved": true,
+      "result": "file found, deleting\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=16 reads=45 io_error=-12 recover=1"
+    },
+    {
+      "fault": "deinit-inode-read",
+      "recover_preserved": true,
+      "result": "file found, deleting\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=16 reads=46 io_error=-5 recover=1"
+    },
+    {
+      "fault": "deinit-jsb-read",
+      "recover_preserved": true,
+      "result": "file found, deleting\nupdate journal finished\nfault=journal-superblock-data-read\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=16 reads=48 io_error=-5 recover=1"
+    },
+    {
+      "fault": "deinit-write",
+      "recover_preserved": true,
+      "result": "file found, deleting\nupdate journal finished\n** Error ext4fs_write() **\nresult=-1 written=0 peak_heap=76304 writes=17 reads=48 io_error=-5 recover=1"
+    }
+  ]
+}

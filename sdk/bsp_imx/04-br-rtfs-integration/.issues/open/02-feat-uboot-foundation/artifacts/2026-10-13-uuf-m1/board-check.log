@@ -1,0 +1,7 @@
+uuf: matchcid failed; stop operation
+uuf: matchcid failed; stop operation
+uuf: firmware identical; no write/erase
+
+uuf: erase range is not erase-group aligned; refusing expansion
+
+board CID match/reject, firmware hash gate, exact range/tail, I/O errors, erase alignment and boot config passed

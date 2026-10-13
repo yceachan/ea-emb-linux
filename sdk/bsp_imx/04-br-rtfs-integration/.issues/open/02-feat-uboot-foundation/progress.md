@@ -1,0 +1,36 @@
+---
+title: uuf · 三阶段开发进度
+tags: [uuf, milestone, review]
+note_types: document
+created: 2026-10-13
+updated: 2026-10-13
+template: doc
+lang: zh
+
+---
+
+# uuf · 三阶段开发进度
+
+本轮使用新 worktree 按 [route.md](route.md) 推进。每阶段完成主机验证、独立 PR 的云端 review 和开发者人工审阅后，才进入下一阶段。实板行为有独立证据门槛。
+
+## 工作区
+
+路径：`/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones`。
+
+需求基线：`codex/uuf-baseline`，提交 `f5598ee`；包含当前 issue 与失败实现参考。该分支承接本地 main 尚未发布的提交，阶段 PR 基于它审阅。
+
+| 阶段 | 分支与 PR | 状态 |
+|---|---|---|
+| M1 U-Boot | `codex/uuf-uboot`，PR 待创建 | 主机验证通过，待云端 review 与人工审阅 |
+| M2 host flasher | 待 M1 人工审阅后创建 | 未开始 |
+| M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
+
+## M1 的实现与验证
+
+迁入固定 U-Boot 板级输入、ROM USB／eMMC 启动分流、extlinux 和 3 秒打断，以及板端文件写入、固件范围保护、hash 门控和启动设置核验。实现说明与操作入口见 [firmware/README.md](../../../uuf/firmware/README.md)。
+
+原生验证直接编译生产板级命令和配置后的 U-Boot ext4 源码，使用内存或普通文件介质。补齐 journal superblock 数据读取的准确故障注入，并将文件系统特性／journal 状态检查前移到写入器初始化之前。拒绝 unlink 写入器无法释放索引块的 extent 树。
+
+完整 SDK 链接命令已交付，由开发者把关执行。ROM USB 自动 fastboot、eMMC 冷启动、3 秒打断及实板文件更新尚待验收。云端 review 与人工审阅的状态在取得结果后更新，不以主机检查替代。
+
+六个板级／ext4 对象交叉编译通过，原生板级命令和 ext4 检查通过；准确 JSB 故障注入已覆盖。运行证据见 `artifacts/2026-10-13-uuf-m1/collection.json`。
