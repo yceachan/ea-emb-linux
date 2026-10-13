@@ -57,7 +57,8 @@
     "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63",
     "configure.log": "8cd3d1c4f90e075667611e1a60b637cc4dea22fa39aea232fd30593dd39b030a",
     "check.log": "98020fa588303da736a6998b31e159dc667f10007c5e9abb74bc0c8c72a6bf78",
-    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e"
+    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e",
+    "cloud-review.json": "9b1040cad04d103b9e84d314f9c684265865dd7538379919c8d7315388081878"
   },
   "native_validated_filesystem_sources": {
     "fs/ext4/ext4fs.c": "4e02488c0bf555aa0944bc6e0d2a13d82b25866b0d7541bfde0bd9199bfb4cfe",
@@ -68,5 +69,15 @@
     "fs/fs_internal.c": "dfa56fc72acd2b7b062abc7d480c722480c2e62fe4d3d3bbb72921726274a466",
     "include/ext4fs.h": "f2d9a7f1242d53f1d8f3297bde408d4a06bc6cf6539dc0e7bd54014a9c531ff0",
     "include/ext_common.h": "27133f5290e115ef58a4a4f998a2a57e3d3eba8102a72c84d0b0e53c5853f679"
-  }
+  },
+  "cloud_review": {
+    "status": "running",
+    "reviewed_implementation_commit": "b229061a2797021920345a067c0a1d2e3b833e61",
+    "pr": "https://github.com/yceachan/ea-emb-linux/pull/1",
+    "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
+    "bot_acknowledged": true,
+    "evidence": "cloud-review.json"
+  },
+  "board_native_executable_sha256": "caadf9cfcaa4d2c468c594d1265d2976340646af52f9614108590429f0d30cbe",
+  "developer_manual_review": "pending"
 }

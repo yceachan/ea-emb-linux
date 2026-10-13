@@ -21,7 +21,7 @@ lang: zh
 
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
-| M1 U-Boot | `codex/uuf-uboot`，PR 待创建 | 主机验证通过，待云端 review 与人工审阅 |
+| M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 主机验证通过，云端 review 运行中，待人工审阅 |
 | M2 host flasher | 待 M1 人工审阅后创建 | 未开始 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
@@ -33,4 +33,14 @@ lang: zh
 
 完整 SDK 链接命令已交付，由开发者把关执行。ROM USB 自动 fastboot、eMMC 冷启动、3 秒打断及实板文件更新尚待验收。云端 review 与人工审阅的状态在取得结果后更新，不以主机检查替代。
 
+当前已配置并完成对象检查的目录可用于完整链接：
+
+```sh
+env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-toolchain-15.3.rel1-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf- \
+  /home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/build.sh build \
+  /home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r3-20261013
+```
+
 六个板级／ext4 对象交叉编译通过，原生板级命令和 ext4 检查通过；准确 JSB 故障注入已覆盖。运行证据见 `artifacts/2026-10-13-uuf-m1/collection.json`。
+
+云端 Codex 已接受 [review 请求](https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674)，审阅实现提交 `b229061`。取得结果并处理反馈后，交由开发者人工审阅 M1，再决定是否进入 M2。

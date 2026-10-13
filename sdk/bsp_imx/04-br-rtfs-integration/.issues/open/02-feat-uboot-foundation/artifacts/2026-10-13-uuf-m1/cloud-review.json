@@ -1,0 +1,47 @@
+{
+  "reviewed_implementation_commit": "b229061a2797021920345a067c0a1d2e3b833e61",
+  "pr": "https://github.com/yceachan/ea-emb-linux/pull/1",
+  "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
+  "issue_comments": [
+    {
+      "id": 6146079674,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
+      "body": "@codex review\n\n请审阅 M1 U-Boot 的当前 HEAD，按本 PR 的阶段范围对照 issue 02 与 ADR。重点检查板端容量和范围、MMC 区域切换、固件 hash 门控与末扇区保留、ext4 错误传播、journal／RECOVER、现有文件和未选内容保留、ROM USB 与 eMMC 启动路径。\n\n源码中的 `uuf/firmware/README.md` 给出接口、支持范围和复现命令，issue 的 `artifacts/2026-10-13-uuf-m1/collection.json` 记录主机验证边界。完整链接和实板验收仍待开发者执行；M2 host flasher 与 M3 GUI 在人工审阅前尚未开始。请不要用主机检查推断实板已通过。\n",
+      "created_at": "2026-10-13T12:58:14Z",
+      "updated_at": "2026-10-13T12:58:14Z",
+      "reactions": {
+        "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6146079674/reactions",
+        "total_count": 1,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 1
+      }
+    },
+    {
+      "id": 6146084886,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146084886",
+      "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | 🔄 **Running** since <relative-time datetime=\"2026-10-13T12:58:29.759432Z\">2026-10-13T12:58:29.759432Z</relative-time> | `b229061` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+      "created_at": "2026-10-13T12:58:32Z",
+      "updated_at": "2026-10-13T12:58:32Z",
+      "reactions": {
+        "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6146084886/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      }
+    }
+  ],
+  "reviews": [],
+  "inline_comments": []
+}
