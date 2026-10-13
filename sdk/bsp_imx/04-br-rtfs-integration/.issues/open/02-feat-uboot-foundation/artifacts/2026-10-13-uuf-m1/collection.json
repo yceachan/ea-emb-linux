@@ -44,15 +44,12 @@
     }
   },
   "payload_provenance": "Retained real 03 payloads from the failed worktree; not rebuilt in this stage",
-  "complete_sdk_build": false,
+  "complete_sdk_build": true,
   "hardware_access": false,
   "pending": [
-    "developer complete firmware link",
     "ROM USB startup",
     "eMMC cold boot and 3-second interrupt",
-    "real board file update",
-    "cloud re-review",
-    "developer manual review"
+    "real board file update"
   ],
   "evidence_files_sha256": {
     "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63",
@@ -60,7 +57,9 @@
     "check.log": "bdbae66010948edc089c0190d32d6201f9a71d6f4a6d9c987cf3c4f821023547",
     "board-check.log": "dd26d9833d984222bd451ea660dc04ecd79a8aea4bf8e97a629dc37eb5c1fbf5",
     "cloud-review.json": "ff57207793d97b30a0a21eb51f9f3e64fde66a088b6ee4bb35b95f9a0f33baf7",
-    "cloud-review-r2.json": "6aaa6fe5a593a817a60e23a75c4fcf8a334a8e4c55659595a22e4b0f157a299b"
+    "cloud-review-r2.json": "01e52aaa6864d81e1ea29c486bd43dd1f46f32469b4deee60bcd4a630d5fa8b3",
+    "build.log": "cc83cbde9fb3ed4a5d3f85b4b8bccf78b4e7e55543059839687851c8c6623f89",
+    "image-info.txt": "d5aad0aea5905183a744bc5a2badf9c07109310bfa925a9c1e0a701cfa4b83e0"
   },
   "native_validated_filesystem_sources": {
     "fs/ext4/ext4fs.c": "4e02488c0bf555aa0944bc6e0d2a13d82b25866b0d7541bfde0bd9199bfb4cfe",
@@ -73,7 +72,7 @@
     "include/ext_common.h": "27133f5290e115ef58a4a4f998a2a57e3d3eba8102a72c84d0b0e53c5853f679"
   },
   "cloud_review": {
-    "status": "first P2 fixed and regression checked; re-review running",
+    "status": "completed; no major issues reported",
     "reviewed_implementation_commit": "b229061a2797021920345a067c0a1d2e3b833e61",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/1",
     "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
@@ -86,5 +85,39 @@
     }
   },
   "board_native_executable_sha256": "368e8f5a97b3f90a9f8af48928fc6d75ca71b68e7b1dba5627738c2d8484eade",
-  "developer_manual_review": "pending"
+  "developer_manual_review": "pending",
+  "release": {
+    "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r4-20261013/release",
+    "files": {
+      "u-boot-dtb.imx": {
+        "bytes": 392192,
+        "sha256": "8cd205525508ed2d7e6a18715cbf4fe0d419d32c900f6d2d6b921b05b725cbc1"
+      },
+      ".config": {
+        "bytes": 35342,
+        "sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d"
+      },
+      "source-revision": {
+        "bytes": 41,
+        "sha256": "07896d51f1685b3482fa817ea6ca54b7d7264991dcb984ff47cb40c16b818753"
+      },
+      "bsp-inputs.sha256": {
+        "bytes": 1177,
+        "sha256": "1f3238bbd20cc762833c67d975c108d116fa6b92e8d76c6aa1833cbf07b74f64"
+      },
+      "source-tree.sha256": {
+        "bytes": 4170773,
+        "sha256": "8c4010ea1b771339074e40a00f5a43e74d28f807948ad570d8b676dbd553fb33"
+      },
+      "image-info.txt": {
+        "bytes": 194,
+        "sha256": "d5aad0aea5905183a744bc5a2badf9c07109310bfa925a9c1e0a701cfa4b83e0"
+      },
+      "SHA256SUMS": {
+        "bytes": 487,
+        "sha256": "3450c4fd9773e615903a6e1a3cc3e596cfe7ab777567da05f879f253a4207dc3"
+      }
+    }
+  },
+  "developer_stage_authorization": "2026-10-13: user explicitly authorized SDK builds, building U-Boot and entering the host flasher CLI stage"
 }
