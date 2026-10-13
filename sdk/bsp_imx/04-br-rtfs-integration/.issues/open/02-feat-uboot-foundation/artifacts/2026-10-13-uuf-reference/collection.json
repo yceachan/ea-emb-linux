@@ -1,0 +1,160 @@
+{
+  "date": "2026-10-13",
+  "purpose": "Read-only implementation reference for the next issue run; no implementation resumed",
+  "source_worktree": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation",
+  "source_branch": "codex/uuf-flash-gui",
+  "source_commit": "93ff5520bafaed078b004d2ae259c673f9c2ba99",
+  "requirements_source": "issue.md",
+  "decisions_source": "adr.md",
+  "reference_source": "实现参考.md",
+  "review_method": "Read source and existing records; verify selected source bytes against the retained Git commit",
+  "source_files": [
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/base-revision",
+      "sha256": "07896d51f1685b3482fa817ea6ca54b7d7264991dcb984ff47cb40c16b818753",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/build.sh",
+      "sha256": "9c95c07f077a88d29c80e07d497252ea3271131edb297dc22a0810d5f4a56abb",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/register-board.patch",
+      "sha256": "6ede4234b87df7b11d3fb7a29e68361fe69ad48faa788f7c781cf1874a165a25",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/ext4-io.patch",
+      "sha256": "a1d980128edf2f3cf51177faacc66267c31c2e596b1b542d031548a21e1fe26c",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/target.json",
+      "sha256": "4ae4fe584be31dc1d94531ba80acc61b38319663a22354f056e9ed24a7c962a3",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/overlay/board/100ask/imx6ull/imx6ull.c",
+      "sha256": "d741919d5ff7fa1929eeffeb6f5ed0d04c7d168e05389ef91083e9a77c7b23a6",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/overlay/board/100ask/imx6ull/uuf.c",
+      "sha256": "0e17a5b27e58f6f89edf1838f816966a09f0f39340074dddb40e2a45cbd083f6",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/overlay/configs/100ask_imx6ull_defconfig",
+      "sha256": "58e1417ebf2a5695e8646f6f5cb8956d95b82f35e19ee831cfc566faafe34283",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/overlay/include/configs/100ask_imx6ull.h",
+      "sha256": "fb93767f4ea228fa5135a8eda20c0f989a74d1fe912a5ffa0e1f07f5ce49196c",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/model.py",
+      "sha256": "f1d380702703469e3539ff72a8e740031ed434f856462817b4508d5013b87a23",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/images.py",
+      "sha256": "42e3fea443846262d2df67e57304dcf7757dda6742ac72fe2b39d3d5cf188b12",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/package.py",
+      "sha256": "849071a9603bac752f9b6a6d748807d3e2ed35a0eddb00f46f9107ffa07f7d8d",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/backend.py",
+      "sha256": "f382d75a22af9399f7ab346f623bf0b6fdd610b335fe7f95c614ba4838303cb2",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/transport.py",
+      "sha256": "512f37f5d86d6debc487c22863ae326d143908a6b9eedebd8852efaa11cd6480",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/cli.py",
+      "sha256": "c6ca5c58b7340ecd6e004e3a8e839cf6d23ee9e7e388ec4c7d4eb305e262d431",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/gui/src/main.tsx",
+      "sha256": "4b98de10b3b55d91fdd38cec1f5451ad22ec695df74a4e17047770d63f65d382",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/gui/src-tauri/src/main.rs",
+      "sha256": "65b67f492256b338202690f115e940a802b41edb1f53bd46cc493edf7fcf7895",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/gui/src-tauri/tauri.conf.json",
+      "sha256": "ffb3b023e3301cda0bde96ad9b17cf8549bae94630a57cb3ec09c4cafc6062f2",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/test_workflow.py",
+      "sha256": "4cae71dd3ea8e457f162ae0a0b57aee07aaa4c68dc36038ae60c4526942c7f10",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/test_cli_rpc.py",
+      "sha256": "1075a5115a8f33b9760535b493cf93db4debc70f93a780c2f5f7fd8facbe005f",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/native/build.py",
+      "sha256": "cd9695006328c528ef8ade1247e2b23b0bbd406e2fd62bbf1005c3fc0d4b5cdb",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/native/harness.c",
+      "sha256": "344df6590a5184fd4d066926eb8d7ee65cb1a3a875806b51e5a0b770487cd3a4",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/native/verify.py",
+      "sha256": "ebf8d18f35952d9e34283622c019c6cb25cc7e9003fd28cf3bfd185e4833198f",
+      "matches_commit": true
+    },
+    {
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/tests/native/board.c",
+      "sha256": "91c39624f46f5431774bbab4bfa2203bea7f1ddc1b5e0ea659ebf60dc950c24f",
+      "matches_commit": true
+    }
+  ],
+  "historical_evidence": [
+    {
+      "path": "/home/pi/ea-emb-linux/sdk/bsp_imx/04-br-rtfs-integration/.issues/open/02-feat-uboot-foundation/artifacts/2026-10-13-uuf-failure/verification.json",
+      "sha256": "4d24d7fbc1814fa829580bef92f5f4efe3cbd0b03ec3bda64208c7eb8bc06f2e",
+      "scope": "Previous build and artifact verification, with product failure preserved"
+    },
+    {
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/evidence/collection.json",
+      "sha256": "20df12a48d8f958e5618c483882de4c4073931ef8941da5ca7d6bc5f38fa5b79",
+      "scope": "Historical builds, packaging, host checks and GUI smoke; no board write or cold boot"
+    },
+    {
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/native-final/collection.json",
+      "sha256": "c33c9483c8d4334a5b550acd3a6c5de6f82f40d991d5e6f3a7854020ff198e0a",
+      "scope": "Historical native ext4 checks; deinit-jsb-read does not prove JSB data read fault coverage"
+    }
+  ],
+  "historical_payload_bytes": {
+    "uboot_imx": 392192,
+    "kernel_zimage": 10363128,
+    "board_dtb": 32636
+  },
+  "new_tests_run": false,
+  "sdk_builds_run": false,
+  "hardware_access": false,
+  "implementation_restored": false,
+  "issue_state": "Awaiting implementation and developer board acceptance"
+}
