@@ -51,7 +51,7 @@ static int device(uint hw, struct blk_desc **desc)
 
 static int range(uint hw, ulong start, ulong bytes, struct blk_desc **desc)
 {
-	ulong sectors = DIV_ROUND_UP(bytes, 512);
+	ulong sectors = bytes / 512 + !!(bytes % 512);
 
 	if (device(hw, desc) || !bytes || start >= (*desc)->lba ||
 	    sectors > (*desc)->lba - start)

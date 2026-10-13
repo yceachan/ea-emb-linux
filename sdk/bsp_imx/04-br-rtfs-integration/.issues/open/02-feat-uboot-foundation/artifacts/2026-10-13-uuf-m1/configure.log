@@ -1,4 +1,4 @@
-make: Entering directory '/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r2-20261013/src'
+make: Entering directory '/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r3-20261013/src'
   HOSTCC  scripts/basic/fixdep
   GEN     Makefile
   HOSTCC  scripts/kconfig/conf.o
@@ -9,4 +9,4 @@ make: Entering directory '/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/s
 #
 # configuration written to .config
 #
-make: Leaving directory '/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r2-20261013/src'
+make: Leaving directory '/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r3-20261013/src'

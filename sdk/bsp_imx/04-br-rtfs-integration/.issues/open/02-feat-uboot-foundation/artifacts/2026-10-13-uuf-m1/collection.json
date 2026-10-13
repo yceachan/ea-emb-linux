@@ -5,8 +5,8 @@
   "branch": "codex/uuf-uboot",
   "requirements_baseline": "f5598ee",
   "uboot_revision": "a7a5989d4250fc080d5cb9777cd9323d8705786f",
-  "source_tree_manifest_sha256": "169578f35615ee83415a448cac003aabefe427c97741385efc52267574120499",
-  "bsp_input_manifest_sha256": "f3d4764f1e244e8d9d627b6ea5fa0965ca02263a192a0fe37d67acae66fe93c0",
+  "source_tree_manifest_sha256": "c1bb05921347ace59da0b2a18af9bcff051dc6354a058ebd298a6ec7fedd5cf0",
+  "bsp_input_manifest_sha256": "e4fa1a2e5043defe394aa29093ed481eae646a85c4e86c3f07ab2cda309e288d",
   "configuration_sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d",
   "checked_configuration": {
     "CONFIG_BOOTDELAY": "3",
@@ -19,17 +19,18 @@
     "CONFIG_FASTBOOT_FLASH_MMC_DEV": "1"
   },
   "cross_compiled_objects": {
-    "board/100ask/imx6ull/imx6ull.o": "38809cfadd37541b911767348a35f54a3401408f593ad9cd739d9b116e6ffa93",
-    "board/100ask/imx6ull/uuf.o": "f0c4bffab914da8fd7a77419afa0b554fbaa8b8153ce2e6a9668624ce434f3c4",
-    "fs/ext4/dev.o": "c1ff72f2062c9e3bd2356514e9944d92bb97dd589db0bfd5d2d230bc04a4d96d",
-    "fs/ext4/ext4_common.o": "6d3f244e647e60fdc1f176f580ab0ce43e4f7e8298aa25670336d15df667c7ac",
-    "fs/ext4/ext4_write.o": "394bd262b61da165795b83234314180ebbcb5bb1b18fdd7e19be2c9e62b8c9f2",
-    "fs/ext4/ext4_journal.o": "9bb8e7f9f63d2bb5593a1a0af27f2e3d33d2f7ad8d51834c8dbb94acca96f91e"
+    "board/100ask/imx6ull/imx6ull.o": "8fc20ba744a0266c212810c30a12a91de60320833bedb698f289094e3a4cef0d",
+    "board/100ask/imx6ull/uuf.o": "2c418a10b5b9b553c73bc984ce0a823b20a12bdbac059506443ab667f3303ff7",
+    "fs/ext4/dev.o": "008321c3cad03d10bd0e980fafa691af995e1ca26591aca2092a9bb4bfda4534",
+    "fs/ext4/ext4_common.o": "be10b4026edf07ad8f1dd5a9d182884429c7092c37f726e94f10cb92a42b2ba1",
+    "fs/ext4/ext4_write.o": "b94fdbb0e7407deb5c5f73915995d324d58dc76e64bfffd4c474c3aa5ef12510",
+    "fs/ext4/ext4_journal.o": "6811fe420f088fe7fc549d81e85fbae5e569fc603b0e358bb0b895752a9e0d8a"
   },
   "host_validation": {
     "board_commands": "passed",
     "native_ext4": "passed",
-    "journal_superblock_data_read_fault": "covered by injection immediately before the actual data read"
+    "journal_superblock_data_read_fault": "covered by injection immediately before the actual data read",
+    "board_range_overflow": "rejected before write; final board native executable passed"
   },
   "payloads": {
     "kernel": {
@@ -53,9 +54,19 @@
     "developer manual review"
   ],
   "evidence_files_sha256": {
-    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e",
-    "check.log": "a822a542186efb6b9f724731202370863c00d8255b4d63fbc3513b9390a1f1c1",
-    "configure.log": "58c4f6022d6185ef3a4956bf1f30a3e3b0fd541b553371c7dd1f22157584b194",
-    "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63"
+    "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63",
+    "configure.log": "8cd3d1c4f90e075667611e1a60b637cc4dea22fa39aea232fd30593dd39b030a",
+    "check.log": "98020fa588303da736a6998b31e159dc667f10007c5e9abb74bc0c8c72a6bf78",
+    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e"
+  },
+  "native_validated_filesystem_sources": {
+    "fs/ext4/ext4fs.c": "4e02488c0bf555aa0944bc6e0d2a13d82b25866b0d7541bfde0bd9199bfb4cfe",
+    "fs/ext4/ext4_common.c": "c857f56ad866f0b33d021cf0c40388da550ae2795e168ea4a0e99da855bc1bc0",
+    "fs/ext4/dev.c": "f13e423c7f223a17df61f4cb3dcd49d9435e6d46964b61d5f6332e043547e6a3",
+    "fs/ext4/ext4_write.c": "65869c114f42b5b6d46955126a057b5b395494a9ef4ecf1295c05e443a076bd3",
+    "fs/ext4/ext4_journal.c": "229d25c60f704508878f11991d4a92c30c371184502f33e5a3a170e7977e24e2",
+    "fs/fs_internal.c": "dfa56fc72acd2b7b062abc7d480c722480c2e62fe4d3d3bbb72921726274a466",
+    "include/ext4fs.h": "f2d9a7f1242d53f1d8f3297bde408d4a06bc6cf6539dc0e7bd54014a9c531ff0",
+    "include/ext_common.h": "27133f5290e115ef58a4a4f998a2a57e3d3eba8102a72c84d0b0e53c5853f679"
   }
 }

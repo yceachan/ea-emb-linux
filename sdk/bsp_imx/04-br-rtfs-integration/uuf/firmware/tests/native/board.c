@@ -9,6 +9,10 @@ int main(void){
     char *mismatch_args[]={"uuf","matchcid","00000001000000020000000300000005"};
     char *invalid_args[]={"uuf","matchcid","1234"};
     int writes_before=writes;
+    struct blk_desc *checked_desc;
+    assert(range(0,0,~0UL,&checked_desc));
+    assert(range(0,0,0,&checked_desc));
+    assert(range(0,mock_mmc.capacity_user/512,1,&checked_desc));
     assert(do_uuf(&cmd,0,3,match_args)==CMD_RET_SUCCESS);
     assert(do_uuf(&cmd,0,3,mismatch_args)==CMD_RET_FAILURE);
     assert(do_uuf(&cmd,0,3,invalid_args)==CMD_RET_FAILURE);
