@@ -38,6 +38,7 @@ static void *fastboot_buf_addr=payload;
 static u32 fastboot_buf_size=16*1024*1024;
 static ulong filesize;
 static int reads,writes,erases,bad_read,bad_write,ext4fs_io_error;
+static int allocations,fail_alloc_on,bad_csd;
 static u8 partconf;
 static char fw_result[16];
 typedef SHA256_CTX sha256_context;
@@ -46,7 +47,7 @@ static void sha256_update(sha256_context*c,const u8*p,uint n){SHA256_Update(c,p,
 static void sha256_finish(sha256_context*c,u8*p){SHA256_Final(p,c);}
 static void sha256_csum_wd(const void*p,uint n,u8*out,uint chunk){SHA256(p,n,out);}
 static int strict_strtoul(const char*s,int base,ulong*out){char*end;*out=strtoul(s,&end,base);return !*s||*end;}
-static void *memalign(size_t a,size_t n){void*p=NULL;return posix_memalign(&p,a,n)?NULL:p;}
+static void *memalign(size_t a,size_t n){void*p=NULL;if(++allocations==fail_alloc_on)return NULL;return posix_memalign(&p,a,n)?NULL:p;}
 static void schedule(void){}
 static int env_set_hex(const char*n,ulong v){return 0;}
 static int env_set(const char*n,const char*v){if(!strcmp(n,"fastboot.uuf-fw-result"))snprintf(fw_result,sizeof(fw_result),"%s",v);return 0;}
@@ -60,7 +61,7 @@ static int blk_get_device_by_str(const char*i,const char*n,struct blk_desc**out)
 static ulong blk_dread(struct blk_desc*d,ulong start,ulong n,void*out){reads++;if(bad_read)return n-1;memcpy(out,(d->hwpart?boot:user)+start*512,n*512);return n;}
 static ulong blk_dwrite(struct blk_desc*d,ulong start,ulong n,const void*in){writes++;if(bad_write)return n-1;memcpy((d->hwpart?boot:user)+start*512,in,n*512);return n;}
 static ulong blk_derase(struct blk_desc*d,ulong start,ulong n){erases++;memset((d->hwpart?boot:user)+start*512,0xff,n*512);return n;}
-static int mmc_send_ext_csd(struct mmc*m,u8*p){memset(p,0,512);p[179]=partconf;p[181]=1;return 0;}
+static int mmc_send_ext_csd(struct mmc*m,u8*p){if(bad_csd)return -1;memset(p,0,512);p[179]=partconf;p[181]=1;return 0;}
 static int mmc_set_part_conf(struct mmc*m,u8 ack,u8 part,u8 access){partconf=ack<<6|part<<3|access;return 0;}
 static void part_init(struct blk_desc*d){}
 static int part_get_info(struct blk_desc*d,uint p,struct disk_partition*out){return -1;}

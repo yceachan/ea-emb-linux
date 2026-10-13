@@ -42,6 +42,119 @@
       }
     }
   ],
-  "reviews": [],
-  "inline_comments": []
+  "reviews": [
+    {
+      "id": 5503953129,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSA-o6Q",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `b229061a27`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/1#pullrequestreview-5503953129",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/1",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/1#pullrequestreview-5503953129"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/1"
+        }
+      },
+      "submitted_at": "2026-10-13T13:05:22Z",
+      "commit_id": "b229061a2797021920345a067c0a1d2e3b833e61"
+    }
+  ],
+  "inline_comments": [
+    {
+      "url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/comments/4258984497",
+      "pull_request_review_id": 5503953129,
+      "id": 4258984497,
+      "node_id": "PRRC_kwDOU7Xf2s792vIx",
+      "diff_hunk": "@@ -0,0 +1,519 @@\n+// SPDX-License-Identifier: GPL-2.0+\n+/* Board-side I/O checks. Hex arguments, byte lengths, 512-byte LBAs. */\n+#include <command.h>\n+#include <env.h>\n+#include <fastboot.h>\n+#include <fastboot-internal.h>\n+#include <fs.h>\n+#include <ext4fs.h>\n+#include <malloc.h>\n+#include <memalign.h>\n+#include <mmc.h>\n+#include <part.h>\n+#include <stdlib.h>\n+#include <vsprintf.h>\n+#include <asm/unaligned.h>\n+#include <u-boot/sha256.h>\n+#include <linux/delay.h>\n+\n+#define WINDOW (1024 * 1024)\n+#define MAX_EXPORT 8192\n+#define MAX_SLOTS 2048\n+#define MAX_PATH 201\n+\n+struct saved {\n+\tbool valid;\n+\tuint hw, part;\n+\tulong start, bytes;\n+\tchar path[MAX_PATH];\n+\tu8 digest[SHA256_SUM_LEN];\n+};\n+static struct saved saved[MAX_SLOTS];\n+\n+static int number(const char *s, ulong *v)\n+{\n+\treturn strict_strtoul(s, 16, v);\n+}\n+\n+static int device(uint hw, struct blk_desc **desc)\n+{\n+\tstruct mmc *m = find_mmc_device(1);\n+\tchar name[8];\n+\n+\tif (hw > 1 || !m || mmc_init(m) || IS_SD(m))\n+\t\treturn -1;\n+\tsnprintf(name, sizeof(name), \"1.%u\", hw);\n+\tif (blk_get_device_by_str(\"mmc\", name, desc) < 0 ||\n+\t    (*desc)->blksz != 512)\n+\t\treturn -1;\n+\treturn 0;\n+}\n+\n+static int range(uint hw, ulong start, ulong bytes, struct blk_desc **desc)\n+{\n+\tulong sectors = bytes / 512 + !!(bytes % 512);\n+\n+\tif (device(hw, desc) || !bytes || start >= (*desc)->lba ||\n+\t    sectors > (*desc)->lba - start)\n+\t\treturn -1;\n+\treturn 0;\n+}\n+\n+static void hex(const u8 *in, uint n, char *out)\n+{\n+\tuint i;\n+\n+\tfor (i = 0; i < n; i++)\n+\t\tsprintf(out + 2 * i, \"%02x\", in[i]);\n+}\n+\n+static int matches(const u8 *digest, const char *expected)\n+{\n+\tchar value[65];\n+\n+\thex(digest, 32, value);\n+\treturn strlen(expected) == 64 && !strcmp(value, expected);\n+}\n+\n+static int export_data(const u8 *data, uint bytes)\n+{\n+\tchar name[32], value[49];\n+\tuint i, n;\n+\n+\tif (bytes > MAX_EXPORT || env_set_hex(\"fastboot.uuf-size\", bytes))\n+\t\treturn -1;\n+\t/* getvar has only 60 response payload bytes; each field holds 24 bytes. */\n+\tfor (i = 0; i < bytes; i += 24) {\n+\t\tn = min(24U, bytes - i);\n+\t\thex(data + i, n, value);\n+\t\tsnprintf(name, sizeof(name), \"fastboot.uuf-data%u\", i / 24);\n+\t\tif (env_set(name, value))\n+\t\t\treturn -1;\n+\t}\n+\treturn 0;\n+}\n+\n+static int hash_range(uint hw, ulong start, ulong bytes, u8 *digest)\n+{\n+\tstruct blk_desc *d;\n+\tsha256_context ctx;\n+\tu8 *buf;\n+\tulong n;\n+\tint ret = -1;\n+\n+\tif (range(hw, start, bytes, &d))\n+\t\treturn -1;\n+\tbuf = memalign(ARCH_DMA_MINALIGN, WINDOW);\n+\tif (!buf)\n+\t\treturn -1;\n+\tsha256_starts(&ctx);\n+\twhile (bytes) {\n+\t\tn = min(bytes, (ulong)WINDOW);\n+\t\tif (blk_dread(d, start, DIV_ROUND_UP(n, 512), buf) !=\n+\t\t    DIV_ROUND_UP(n, 512))\n+\t\t\tgoto out;\n+\t\tsha256_update(&ctx, buf, n);\n+\t\tstart += DIV_ROUND_UP(n, 512);\n+\t\tbytes -= n;\n+\t\tschedule();\n+\t}\n+\tsha256_finish(&ctx, digest);\n+\tret = 0;\n+out:\n+\tfree(buf);\n+\tif (device(0, &d))\n+\t\tret = -1;\n+\treturn ret;\n+}\n+\n+static int open_part(uint part)\n+{\n+\tstruct blk_desc *d;\n+\tchar name[16];\n+\n+\tif (part < 1 || part > 4 || device(0, &d))\n+\t\treturn -1;\n+\tpart_init(d);\n+\tsnprintf(name, sizeof(name), \"1:%u\", part);\n+\treturn fs_set_blk_dev(\"mmc\", name, FS_TYPE_EXT);\n+}\n+\n+static int hash_file(uint part, const char *path, ulong expected, u8 *digest)\n+{\n+\tsha256_context ctx;\n+\tloff_t bytes, got, offset = 0, n;\n+\tu8 *buf;\n+\tint ret = -1;\n+\n+\tif (open_part(part) || fs_size(path, &bytes) || ext4fs_io_error || bytes <= 0 ||\n+\t    (expected && bytes != (loff_t)expected))\n+\t\treturn -1;\n+\tbuf = memalign(ARCH_DMA_MINALIGN, WINDOW);\n+\tif (!buf)\n+\t\treturn -1;\n+\tsha256_starts(&ctx);\n+\twhile (offset < bytes) {\n+\t\tn = min(bytes - offset, (loff_t)WINDOW);\n+\t\tif (open_part(part) || fs_read(path, (ulong)buf, offset, n, &got) || ext4fs_io_error || got != n)\n+\t\t\tgoto out;\n+\t\tsha256_update(&ctx, buf, n);\n+\t\toffset += n;\n+\t\tschedule();\n+\t}\n+\tsha256_finish(&ctx, digest);\n+\tret = 0;\n+out:\n+\tfree(buf);\n+\tfs_close();\n+\treturn ret;\n+}\n+\n+static int info(void)\n+{\n+\tstruct mmc *m;\n+\tstruct blk_desc *d;\n+\tchar cid[33];\n+\tALLOC_CACHE_ALIGN_BUFFER(u8, csd, 512);\n+\n+\tif (device(0, &d))\n+\t\treturn -1;\n+\tm = find_mmc_device(1);\n+\tif (mmc_send_ext_csd(m, csd))\n+\t\treturn -1;\n+\tsnprintf(cid, sizeof(cid), \"%08x%08x%08x%08x\",\n+\t\t m->cid[0], m->cid[1], m->cid[2], m->cid[3]);\n+\tif (env_set(\"fastboot.uuf-abi\", \"1\") ||\n+\t    env_set(\"fastboot.uuf-cid\", cid) ||\n+\t    env_set_hex(\"fastboot.uuf-user\", m->capacity_user / 512) ||\n+\t    env_set_hex(\"fastboot.uuf-boot\", m->capacity_boot / 512) ||\n+\t    env_set_hex(\"fastboot.uuf-erase\", m->erase_grp_size) ||\n+\t    env_set_hex(\"fastboot.uuf-erased\", csd[181] & 1 ? 0xff : 0) ||\n+\t    env_set_hex(\"fastboot.uuf-partconf\", csd[EXT_CSD_PART_CONF] & 0xf8))\n+\t\treturn -1;\n+\treturn 0;\n+}\n+\n+static int match_cid(const char *expected)\n+{\n+\tstruct blk_desc *d;\n+\tstruct mmc *m;\n+\tchar cid[33];\n+\n+\tif (strlen(expected) != 32 || device(0, &d))\n+\t\treturn -1;\n+\tm = find_mmc_device(1);\n+\tsnprintf(cid, sizeof(cid), \"%08x%08x%08x%08x\",\n+\t\t m->cid[0], m->cid[1], m->cid[2], m->cid[3]);\n+\treturn strcmp(cid, expected) ? -1 : 0;\n+}\n+\n+static int export_range(uint hw, ulong start, ulong bytes)\n+{\n+\tstruct blk_desc *d;\n+\tu8 *buf;\n+\tint ret = -1;\n+\n+\tif (bytes > MAX_EXPORT || range(hw, start, bytes, &d))\n+\t\treturn -1;\n+\tbuf = memalign(ARCH_DMA_MINALIGN, DIV_ROUND_UP(bytes, 512) * 512);\n+\tif (!buf)\n+\t\treturn -1;\n+\tif (blk_dread(d, start, DIV_ROUND_UP(bytes, 512), buf) == DIV_ROUND_UP(bytes, 512))\n+\t\tret = export_data(buf, bytes);\n+\tfree(buf);\n+\tif (device(0, &d))\n+\t\tret = -1;\n+\treturn ret;\n+}\n+\n+static int export_file(uint part, const char *path)\n+{\n+\tloff_t bytes, got;\n+\tu8 *buf;\n+\tint ret = -1;\n+\n+\tif (open_part(part) || fs_size(path, &bytes) || ext4fs_io_error || bytes <= 0 || bytes > MAX_EXPORT)\n+\t\treturn -1;\n+\tbuf = memalign(ARCH_DMA_MINALIGN, MAX_EXPORT);\n+\tif (!buf)\n+\t\treturn -1;\n+\tif (!open_part(part) && !fs_read(path, (ulong)buf, 0, bytes, &got) && !ext4fs_io_error && got == bytes)\n+\t\tret = export_data(buf, bytes);\n+\tfree(buf);\n+\tfs_close();\n+\treturn ret;\n+}\n+\n+static int locate(uint explicit_part)\n+{\n+\tstruct blk_desc *d;\n+\tstruct disk_partition p;\n+\tuint i, found = 0;\n+\tbool exists;\n+\n+\tif (device(0, &d))\n+\t\treturn -1;\n+\tpart_init(d);\n+\tfor (i = 1; i <= 4; i++) {\n+\t\tif (explicit_part && explicit_part != i)\n+\t\t\tcontinue;\n+\t\tif (part_get_info(d, i, &p))\n+\t\t\tcontinue; /* absent MBR entry */\n+\t\tif (open_part(i))\n+\t\t\treturn -1;\n+\t\texists = fs_exists(\"/extlinux/extlinux.conf\");\n+\t\tif (ext4fs_io_error)\n+\t\t\treturn -1;\n+\t\tif (!exists)\n+\t\t\tcontinue;\n+\t\tif (found) {\n+\t\t\tputs(\"uuf: multiple extlinux partitions; choose --kernel-part\\n\");\n+\t\t\treturn -1;\n+\t\t}\n+\t\tfound = i;\n+\t}\n+\tif (!found)\n+\t\treturn -1;\n+\treturn env_set_hex(\"fastboot.uuf-kernel-part\", found);\n+}\n+\n+static int firmware(uint hw, ulong start, ulong bytes, const char *expected)\n+{\n+\tstruct blk_desc *d;\n+\tu8 digest[32], sector_digest[32], actual_digest[32], *buf;\n+\tulong offset, n, sectors;\n+\tint ret = -1;\n+\n+\t/* A firmware command cannot modify user area or ROM's leading 1 KiB. */\n+\tif (hw != 1 || start != 2 || bytes > 0xffc00 || !bytes ||\n+\t    env_get_hex(\"filesize\", 0) != bytes || bytes > fastboot_buf_size ||\n+\t    range(hw, start, bytes, &d))\n+\t\treturn -1;\n+\tsha256_csum_wd((void *)fastboot_buf_addr, bytes, digest, WINDOW);\n+\tif (!matches(digest, expected) || hash_range(hw, start, bytes, digest))\n+\t\treturn -1;",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/overlay/board/100ask/imx6ull/uuf.c",
+      "commit_id": "1b93ceb00fec55c093ed7543e1d1378c7bf3b9fb",
+      "original_commit_id": "b229061a2797021920345a067c0a1d2e3b833e61",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  Restore the user area after failed boot0 checks**\n\nWhen the supplied SHA-256 is invalid, the preceding `range(1, ...)` has already selected boot0 through `device()`, but this branch returns without calling `device(0, ...)`. The same state leak occurs on several allocation/alignment error exits in `hash_range()`, `export_range()`, and `erase()`. After any such expected validation failure, the MMC remains on boot0, so a recovery command that uses the current MMC hardware partition (for example a raw `mmc read`/`mmc write`) can unexpectedly access boot0. Route all post-selection exits through cleanup that restores the user area.\n\nUseful? React with 👍 / 👎.",
+      "created_at": "2026-10-13T13:05:22Z",
+      "updated_at": "2026-10-13T13:05:22Z",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/1#discussion_r4258984497",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/1",
+      "_links": {
+        "self": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/comments/4258984497"
+        },
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/1#discussion_r4258984497"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/1"
+        }
+      },
+      "reactions": {
+        "url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/comments/4258984497/reactions",
+        "total_count": 0,
+        "+1": 0,
+        "-1": 0,
+        "laugh": 0,
+        "hooray": 0,
+        "confused": 0,
+        "heart": 0,
+        "rocket": 0,
+        "eyes": 0
+      },
+      "start_line": 293,
+      "original_start_line": 293,
+      "start_side": "RIGHT",
+      "line": 294,
+      "original_line": 294,
+      "side": "RIGHT",
+      "author_association": "NONE",
+      "original_position": 294,
+      "position": 294,
+      "subject_type": "line"
+    }
+  ],
+  "first_review_result": "one P2: post-selection failures can leave MMC on boot0",
+  "fix_validation": "board native regressions passed; updated source objects compiled"
 }

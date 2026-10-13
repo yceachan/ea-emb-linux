@@ -21,7 +21,7 @@ lang: zh
 
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
-| M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 主机验证通过，云端 review 运行中，待人工审阅 |
+| M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 主机验证通过；首轮云端 P2 已修复，待复审与人工审阅 |
 | M2 host flasher | 待 M1 人工审阅后创建 | 未开始 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
@@ -38,9 +38,9 @@ lang: zh
 ```sh
 env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-toolchain-15.3.rel1-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf- \
   /home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/firmware/build.sh build \
-  /home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r3-20261013
+  /home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r4-20261013
 ```
 
 六个板级／ext4 对象交叉编译通过，原生板级命令和 ext4 检查通过；准确 JSB 故障注入已覆盖。运行证据见 `artifacts/2026-10-13-uuf-m1/collection.json`。
 
-云端 Codex 已接受 [review 请求](https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674)，审阅实现提交 `b229061`。取得结果并处理反馈后，交由开发者人工审阅 M1，再决定是否进入 M2。
+首轮云端 review 审阅 `b229061`，指出一项 P2：boot0 校验、分配或对齐失败后未恢复 user area。已统一修正相关退出路径，原生回归验证错误后恢复 user area 且未写入介质。更新提交复审并完成开发者人工审阅后，再决定是否进入 M2。

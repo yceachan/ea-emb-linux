@@ -49,13 +49,20 @@ static int device(uint hw, struct blk_desc **desc)
 	return 0;
 }
 
+static int restore_user(int ret)
+{
+	struct blk_desc *d;
+
+	return device(0, &d) ? -1 : ret;
+}
+
 static int range(uint hw, ulong start, ulong bytes, struct blk_desc **desc)
 {
 	ulong sectors = bytes / 512 + !!(bytes % 512);
 
 	if (device(hw, desc) || !bytes || start >= (*desc)->lba ||
 	    sectors > (*desc)->lba - start)
-		return -1;
+		return restore_user(-1);
 	return 0;
 }
 
@@ -105,7 +112,7 @@ static int hash_range(uint hw, ulong start, ulong bytes, u8 *digest)
 		return -1;
 	buf = memalign(ARCH_DMA_MINALIGN, WINDOW);
 	if (!buf)
-		return -1;
+		return restore_user(-1);
 	sha256_starts(&ctx);
 	while (bytes) {
 		n = min(bytes, (ulong)WINDOW);
@@ -121,9 +128,7 @@ static int hash_range(uint hw, ulong start, ulong bytes, u8 *digest)
 	ret = 0;
 out:
 	free(buf);
-	if (device(0, &d))
-		ret = -1;
-	return ret;
+	return restore_user(ret);
 }
 
 static int open_part(uint part)
@@ -217,13 +222,11 @@ static int export_range(uint hw, ulong start, ulong bytes)
 		return -1;
 	buf = memalign(ARCH_DMA_MINALIGN, DIV_ROUND_UP(bytes, 512) * 512);
 	if (!buf)
-		return -1;
+		return restore_user(-1);
 	if (blk_dread(d, start, DIV_ROUND_UP(bytes, 512), buf) == DIV_ROUND_UP(bytes, 512))
 		ret = export_data(buf, bytes);
 	free(buf);
-	if (device(0, &d))
-		ret = -1;
-	return ret;
+	return restore_user(ret);
 }
 
 static int export_file(uint part, const char *path)
@@ -291,7 +294,7 @@ static int firmware(uint hw, ulong start, ulong bytes, const char *expected)
 		return -1;
 	sha256_csum_wd((void *)fastboot_buf_addr, bytes, digest, WINDOW);
 	if (!matches(digest, expected) || hash_range(hw, start, bytes, digest))
-		return -1;
+		return restore_user(-1);
 	if (matches(digest, expected)) {
 		puts("uuf: firmware identical; no write/erase\n");
 		return env_set("fastboot.uuf-fw-result", "skipped");
@@ -299,7 +302,7 @@ static int firmware(uint hw, ulong start, ulong bytes, const char *expected)
 	buf = memalign(ARCH_DMA_MINALIGN, WINDOW);
 	if (!buf || device(hw, &d)) {
 		free(buf);
-		return -1;
+		return restore_user(-1);
 	}
 	for (offset = 0; offset < bytes; offset += n) {
 		n = min(bytes - offset, (ulong)WINDOW);
@@ -320,9 +323,7 @@ static int firmware(uint hw, ulong start, ulong bytes, const char *expected)
 	ret = env_set("fastboot.uuf-fw-result", "written");
 out:
 	free(buf);
-	if (device(0, &d))
-		ret = -1;
-	return ret;
+	return restore_user(ret);
 }
 
 static int file_target(uint part, const char *path)
@@ -390,14 +391,14 @@ static int erase(uint hw, ulong start, ulong bytes)
 	sectors = bytes / 512;
 	if (!m->erase_grp_size || start % m->erase_grp_size || sectors % m->erase_grp_size) {
 		puts("uuf: erase range is not erase-group aligned; refusing expansion\n");
-		return -1;
+		return restore_user(-1);
 	}
 	if (mmc_send_ext_csd(m, csd))
-		return -1;
+		return restore_user(-1);
 	value = csd[181] & 1 ? 0xff : 0;
 	buf = memalign(ARCH_DMA_MINALIGN, WINDOW);
 	if (!buf)
-		return -1;
+		return restore_user(-1);
 	if (blk_derase(d, start, sectors) != sectors)
 		goto out;
 	for (offset = 0; offset < bytes; offset += n) {
@@ -414,9 +415,7 @@ static int erase(uint hw, ulong start, ulong bytes)
 	ret = 0;
 out:
 	free(buf);
-	if (device(0, &d))
-		ret = -1;
-	return ret;
+	return restore_user(ret);
 }
 
 static int do_uuf(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])

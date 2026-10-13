@@ -5,8 +5,8 @@
   "branch": "codex/uuf-uboot",
   "requirements_baseline": "f5598ee",
   "uboot_revision": "a7a5989d4250fc080d5cb9777cd9323d8705786f",
-  "source_tree_manifest_sha256": "c1bb05921347ace59da0b2a18af9bcff051dc6354a058ebd298a6ec7fedd5cf0",
-  "bsp_input_manifest_sha256": "e4fa1a2e5043defe394aa29093ed481eae646a85c4e86c3f07ab2cda309e288d",
+  "source_tree_manifest_sha256": "8c4010ea1b771339074e40a00f5a43e74d28f807948ad570d8b676dbd553fb33",
+  "bsp_input_manifest_sha256": "1f3238bbd20cc762833c67d975c108d116fa6b92e8d76c6aa1833cbf07b74f64",
   "configuration_sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d",
   "checked_configuration": {
     "CONFIG_BOOTDELAY": "3",
@@ -19,18 +19,19 @@
     "CONFIG_FASTBOOT_FLASH_MMC_DEV": "1"
   },
   "cross_compiled_objects": {
-    "board/100ask/imx6ull/imx6ull.o": "8fc20ba744a0266c212810c30a12a91de60320833bedb698f289094e3a4cef0d",
-    "board/100ask/imx6ull/uuf.o": "2c418a10b5b9b553c73bc984ce0a823b20a12bdbac059506443ab667f3303ff7",
-    "fs/ext4/dev.o": "008321c3cad03d10bd0e980fafa691af995e1ca26591aca2092a9bb4bfda4534",
-    "fs/ext4/ext4_common.o": "be10b4026edf07ad8f1dd5a9d182884429c7092c37f726e94f10cb92a42b2ba1",
-    "fs/ext4/ext4_write.o": "b94fdbb0e7407deb5c5f73915995d324d58dc76e64bfffd4c474c3aa5ef12510",
-    "fs/ext4/ext4_journal.o": "6811fe420f088fe7fc549d81e85fbae5e569fc603b0e358bb0b895752a9e0d8a"
+    "board/100ask/imx6ull/imx6ull.o": "14074133aff0c19c1ad41743811b123b5f3395e2078738d0821853bec033ea57",
+    "board/100ask/imx6ull/uuf.o": "e29ed57c5a262bc63cf3134f0e36967056357e35bda35a1a75ca8a761dceb034",
+    "fs/ext4/dev.o": "3e740dd9276b1ed984f5be3555fc4b6100d7868c71d23ccd061a950869372ef8",
+    "fs/ext4/ext4_common.o": "ab4a2685355a8929faad994ea5bdfde79ea8e51a4386605c0588b0759d3323af",
+    "fs/ext4/ext4_write.o": "d69031512d523bc4b1e28d5103cdc39e5c8ab5c982bb33839427fe0f9b722b4b",
+    "fs/ext4/ext4_journal.o": "3fefa99b0eaff01fac5763ded6321b5ddb6f5fb471cd5323257507bdf89341de"
   },
   "host_validation": {
     "board_commands": "passed",
     "native_ext4": "passed",
     "journal_superblock_data_read_fault": "covered by injection immediately before the actual data read",
-    "board_range_overflow": "rejected before write; final board native executable passed"
+    "board_range_overflow": "rejected before write; final board native executable passed",
+    "boot0_error_cleanup": "passed: invalid SHA, overflow/bounds, allocation failures, EXT_CSD error and erase alignment restore user area without writes"
   },
   "payloads": {
     "kernel": {
@@ -50,15 +51,15 @@
     "ROM USB startup",
     "eMMC cold boot and 3-second interrupt",
     "real board file update",
-    "cloud review",
+    "cloud re-review",
     "developer manual review"
   ],
   "evidence_files_sha256": {
     "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63",
-    "configure.log": "8cd3d1c4f90e075667611e1a60b637cc4dea22fa39aea232fd30593dd39b030a",
-    "check.log": "98020fa588303da736a6998b31e159dc667f10007c5e9abb74bc0c8c72a6bf78",
-    "board-check.log": "5ed4d2f63d6dd26f574ebf564706547e4bf3159b58032c7b1842e0af1a65810e",
-    "cloud-review.json": "9b1040cad04d103b9e84d314f9c684265865dd7538379919c8d7315388081878"
+    "configure.log": "b6ac7bbdfd2f94aedc70727fded1796ca23d34302c06387a1e0a2de3daf3784b",
+    "check.log": "bdbae66010948edc089c0190d32d6201f9a71d6f4a6d9c987cf3c4f821023547",
+    "board-check.log": "dd26d9833d984222bd451ea660dc04ecd79a8aea4bf8e97a629dc37eb5c1fbf5",
+    "cloud-review.json": "ff57207793d97b30a0a21eb51f9f3e64fde66a088b6ee4bb35b95f9a0f33baf7"
   },
   "native_validated_filesystem_sources": {
     "fs/ext4/ext4fs.c": "4e02488c0bf555aa0944bc6e0d2a13d82b25866b0d7541bfde0bd9199bfb4cfe",
@@ -71,13 +72,13 @@
     "include/ext_common.h": "27133f5290e115ef58a4a4f998a2a57e3d3eba8102a72c84d0b0e53c5853f679"
   },
   "cloud_review": {
-    "status": "running",
+    "status": "first review completed; P2 fixed locally; re-review pending",
     "reviewed_implementation_commit": "b229061a2797021920345a067c0a1d2e3b833e61",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/1",
     "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
     "bot_acknowledged": true,
     "evidence": "cloud-review.json"
   },
-  "board_native_executable_sha256": "caadf9cfcaa4d2c468c594d1265d2976340646af52f9614108590429f0d30cbe",
+  "board_native_executable_sha256": "368e8f5a97b3f90a9f8af48928fc6d75ca71b68e7b1dba5627738c2d8484eade",
   "developer_manual_review": "pending"
 }

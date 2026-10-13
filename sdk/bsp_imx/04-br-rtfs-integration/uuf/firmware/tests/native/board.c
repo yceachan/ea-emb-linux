@@ -19,6 +19,22 @@ int main(void){
     assert(writes==writes_before);
     filesize=4097;for(uint i=0;i<filesize;i++)payload[i]=i%251;
     SHA256(payload,filesize,digest);hex(digest,32,expected);
+    char invalid_hash[65];strcpy(invalid_hash,expected);invalid_hash[0]=expected[0]=='0'?'1':'0';
+    assert(firmware(1,2,filesize,invalid_hash));assert(!(partconf&7));
+    assert(range(1,sizeof(boot)/512,1,&checked_desc));assert(!(partconf&7));
+    assert(range(1,0,~0UL,&checked_desc));assert(!(partconf&7));
+    allocations=0;fail_alloc_on=1;
+    assert(hash_range(1,2,filesize,digest));assert(!(partconf&7));
+    allocations=0;
+    assert(export_range(1,2,512));assert(!(partconf&7));
+    allocations=0;
+    assert(erase(1,0,1024*1024));assert(!(partconf&7));
+    allocations=0;fail_alloc_on=2;
+    assert(firmware(1,2,filesize,expected));assert(!(partconf&7));
+    fail_alloc_on=0;bad_csd=1;
+    assert(erase(1,0,1024*1024));assert(!(partconf&7));bad_csd=0;
+    assert(erase(1,2,512));assert(!(partconf&7));
+    assert(writes==writes_before&&erases==0);
     assert(!firmware(1,2,filesize,expected));assert(writes==1&&erases==0&&!strcmp(fw_result,"written"));
     assert(!memcmp(boot+1024,payload,filesize));
     for(uint i=0;i<1024;i++)assert(boot[i]==0x5a);
@@ -38,6 +54,6 @@ int main(void){
     file_enabled=true;assert(!file_target(1,"/kernel"));
     mock_file.inode.nlinks=2;assert(file_target(1,"/kernel"));
     mock_file.inode.nlinks=1;mock_file.inode.acl=7;assert(file_target(1,"/kernel"));
-    puts("board CID match/reject, firmware hash gate, exact range/tail, I/O errors, erase alignment and boot config passed");
+    puts("board CID, range overflow, firmware hash/tail, failure cleanup to user area, I/O errors, erase alignment and boot config passed");
     return 0;
 }
