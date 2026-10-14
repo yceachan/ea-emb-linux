@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-13",
+  "milestone": "M1 U-Boot",
+  "worktree": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones",
+  "branch": "codex/uuf-uboot",
+  "requirements_baseline": "f5598ee",
+  "uboot_revision": "a7a5989d4250fc080d5cb9777cd9323d8705786f",
+  "source_tree_manifest_sha256": "8c4010ea1b771339074e40a00f5a43e74d28f807948ad570d8b676dbd553fb33",
+  "bsp_input_manifest_sha256": "1f3238bbd20cc762833c67d975c108d116fa6b92e8d76c6aa1833cbf07b74f64",
+  "configuration_sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d",
+  "checked_configuration": {
+    "CONFIG_BOOTDELAY": "3",
+    "CONFIG_ENV_IS_NOWHERE": "y",
+    "CONFIG_BOARD_LATE_INIT": "y",
+    "CONFIG_CMD_EXT4_WRITE": "y",
+    "CONFIG_CMD_SYSBOOT": "y",
+    "CONFIG_FASTBOOT_BUF_SIZE": "0x1000000",
+    "CONFIG_SYS_MALLOC_LEN": "0x1000000",
+    "CONFIG_FASTBOOT_FLASH_MMC_DEV": "1"
+  },
+  "cross_compiled_objects": {
+    "board/100ask/imx6ull/imx6ull.o": "14074133aff0c19c1ad41743811b123b5f3395e2078738d0821853bec033ea57",
+    "board/100ask/imx6ull/uuf.o": "e29ed57c5a262bc63cf3134f0e36967056357e35bda35a1a75ca8a761dceb034",
+    "fs/ext4/dev.o": "3e740dd9276b1ed984f5be3555fc4b6100d7868c71d23ccd061a950869372ef8",
+    "fs/ext4/ext4_common.o": "ab4a2685355a8929faad994ea5bdfde79ea8e51a4386605c0588b0759d3323af",
+    "fs/ext4/ext4_write.o": "d69031512d523bc4b1e28d5103cdc39e5c8ab5c982bb33839427fe0f9b722b4b",
+    "fs/ext4/ext4_journal.o": "3fefa99b0eaff01fac5763ded6321b5ddb6f5fb471cd5323257507bdf89341de"
+  },
+  "host_validation": {
+    "board_commands": "passed",
+    "native_ext4": "passed",
+    "journal_superblock_data_read_fault": "covered by injection immediately before the actual data read",
+    "board_range_overflow": "rejected before write; final board native executable passed",
+    "boot0_error_cleanup": "passed: invalid SHA, overflow/bounds, allocation failures, EXT_CSD error and erase alignment restore user area without writes"
+  },
+  "payloads": {
+    "kernel": {
+      "bytes": 10363128,
+      "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
+    },
+    "dtb": {
+      "bytes": 32636,
+      "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
+    }
+  },
+  "payload_provenance": "Retained real 03 payloads from the failed worktree; not rebuilt in this stage",
+  "complete_sdk_build": true,
+  "hardware_access": false,
+  "pending": [
+    "ROM USB startup",
+    "eMMC cold boot and 3-second interrupt",
+    "real board file update"
+  ],
+  "evidence_files_sha256": {
+    "native-ext4.json": "e5d2cd53ea09d329851a084459f4471adeaf33d82e03811450e519c5ce163e63",
+    "configure.log": "b6ac7bbdfd2f94aedc70727fded1796ca23d34302c06387a1e0a2de3daf3784b",
+    "check.log": "bdbae66010948edc089c0190d32d6201f9a71d6f4a6d9c987cf3c4f821023547",
+    "board-check.log": "dd26d9833d984222bd451ea660dc04ecd79a8aea4bf8e97a629dc37eb5c1fbf5",
+    "cloud-review.json": "ff57207793d97b30a0a21eb51f9f3e64fde66a088b6ee4bb35b95f9a0f33baf7",
+    "cloud-review-r2.json": "01e52aaa6864d81e1ea29c486bd43dd1f46f32469b4deee60bcd4a630d5fa8b3",
+    "build.log": "cc83cbde9fb3ed4a5d3f85b4b8bccf78b4e7e55543059839687851c8c6623f89",
+    "image-info.txt": "d5aad0aea5905183a744bc5a2badf9c07109310bfa925a9c1e0a701cfa4b83e0"
+  },
+  "native_validated_filesystem_sources": {
+    "fs/ext4/ext4fs.c": "4e02488c0bf555aa0944bc6e0d2a13d82b25866b0d7541bfde0bd9199bfb4cfe",
+    "fs/ext4/ext4_common.c": "c857f56ad866f0b33d021cf0c40388da550ae2795e168ea4a0e99da855bc1bc0",
+    "fs/ext4/dev.c": "f13e423c7f223a17df61f4cb3dcd49d9435e6d46964b61d5f6332e043547e6a3",
+    "fs/ext4/ext4_write.c": "65869c114f42b5b6d46955126a057b5b395494a9ef4ecf1295c05e443a076bd3",
+    "fs/ext4/ext4_journal.c": "229d25c60f704508878f11991d4a92c30c371184502f33e5a3a170e7977e24e2",
+    "fs/fs_internal.c": "dfa56fc72acd2b7b062abc7d480c722480c2e62fe4d3d3bbb72921726274a466",
+    "include/ext4fs.h": "f2d9a7f1242d53f1d8f3297bde408d4a06bc6cf6539dc0e7bd54014a9c531ff0",
+    "include/ext_common.h": "27133f5290e115ef58a4a4f998a2a57e3d3eba8102a72c84d0b0e53c5853f679"
+  },
+  "cloud_review": {
+    "status": "completed; no major issues reported",
+    "reviewed_implementation_commit": "b229061a2797021920345a067c0a1d2e3b833e61",
+    "pr": "https://github.com/yceachan/ea-emb-linux/pull/1",
+    "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146079674",
+    "bot_acknowledged": true,
+    "evidence": "cloud-review.json",
+    "re_review": {
+      "reviewed_implementation_commit": "52c0197",
+      "request": "https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146372056",
+      "evidence": "cloud-review-r2.json"
+    }
+  },
+  "board_native_executable_sha256": "368e8f5a97b3f90a9f8af48928fc6d75ca71b68e7b1dba5627738c2d8484eade",
+  "developer_manual_review": "pending",
+  "release": {
+    "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r4-20261013/release",
+    "files": {
+      "u-boot-dtb.imx": {
+        "bytes": 392192,
+        "sha256": "8cd205525508ed2d7e6a18715cbf4fe0d419d32c900f6d2d6b921b05b725cbc1"
+      },
+      ".config": {
+        "bytes": 35342,
+        "sha256": "7677ca800f156c3f3bf846045341852da93f74adc4dbadb5da326c2193f7ec5d"
+      },
+      "source-revision": {
+        "bytes": 41,
+        "sha256": "07896d51f1685b3482fa817ea6ca54b7d7264991dcb984ff47cb40c16b818753"
+      },
+      "bsp-inputs.sha256": {
+        "bytes": 1177,
+        "sha256": "1f3238bbd20cc762833c67d975c108d116fa6b92e8d76c6aa1833cbf07b74f64"
+      },
+      "source-tree.sha256": {
+        "bytes": 4170773,
+        "sha256": "8c4010ea1b771339074e40a00f5a43e74d28f807948ad570d8b676dbd553fb33"
+      },
+      "image-info.txt": {
+        "bytes": 194,
+        "sha256": "d5aad0aea5905183a744bc5a2badf9c07109310bfa925a9c1e0a701cfa4b83e0"
+      },
+      "SHA256SUMS": {
+        "bytes": 487,
+        "sha256": "3450c4fd9773e615903a6e1a3cc3e596cfe7ab777567da05f879f253a4207dc3"
+      }
+    }
+  },
+  "developer_stage_authorization": "2026-10-13: user explicitly authorized SDK builds, building U-Boot and entering the host flasher CLI stage"
+}

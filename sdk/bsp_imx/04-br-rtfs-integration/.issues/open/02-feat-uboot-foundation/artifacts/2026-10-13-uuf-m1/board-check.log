@@ -1,0 +1,9 @@
+uuf: matchcid failed; stop operation
+uuf: matchcid failed; stop operation
+uuf: erase range is not erase-group aligned; refusing expansion
+
+uuf: firmware identical; no write/erase
+
+uuf: erase range is not erase-group aligned; refusing expansion
+
+board CID, range overflow, firmware hash/tail, failure cleanup to user area, I/O errors, erase alignment and boot config passed

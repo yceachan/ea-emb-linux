@@ -1,0 +1,441 @@
+--- a/include/ext4fs.h
++++ b/include/ext4fs.h
+@@ -187,7 +187,7 @@
+ extern int gindex;
+ 
+ int ext4fs_init(void);
+-void ext4fs_deinit(void);
++int ext4fs_deinit(void);
+ int ext4fs_filename_unlink(char *filename);
+ int ext4fs_write(const char *fname, const char *buffer,
+ 				 unsigned long sizebytes, int type);
+@@ -196,6 +196,10 @@
+ int ext4fs_create_link(const char *target, const char *fname);
+ #endif
+ 
++/* Sticky error for one mounted filesystem operation. */
++extern int ext4fs_io_error;
++int ext4fs_file_writable(const char *path);
++int ext4fs_read_inode_full(struct ext2_data *data, int ino, void *inode);
+ struct ext_filesystem *get_fs(void);
+ int ext4fs_open(const char *filename, loff_t *len);
+ int ext4fs_read(char *buf, loff_t offset, loff_t len, loff_t *actread);
+--- a/fs/ext4/dev.c
++++ b/fs/ext4/dev.c
+@@ -31,6 +31,7 @@
+ #include <log.h>
+ 
+ lbaint_t part_offset;
++int ext4fs_io_error;
+ 
+ static struct blk_desc *ext4fs_blk_desc;
+ static struct disk_partition *part_info;
+@@ -38,6 +39,7 @@
+ void ext4fs_set_blk_dev(struct blk_desc *rbdd, struct disk_partition *info)
+ {
+ 	assert(rbdd->blksz == (1 << rbdd->log2blksz));
++	ext4fs_io_error = 0;
+ 	ext4fs_blk_desc = rbdd;
+ 	get_fs()->dev_desc = rbdd;
+ 	part_info = info;
+@@ -49,8 +51,15 @@
+ int ext4fs_devread(lbaint_t sector, int byte_offset, int byte_len,
+ 		   char *buffer)
+ {
+-	return fs_devread(get_fs()->dev_desc, part_info, sector, byte_offset,
+-			  byte_len, buffer);
++	int ret;
++
++	if (ext4fs_io_error)
++		return 0;
++	ret = fs_devread(get_fs()->dev_desc, part_info, sector, byte_offset,
++			 byte_len, buffer);
++	if (!ret)
++		ext4fs_io_error = -EIO;
++	return ret;
+ }
+ 
+ int ext4_read_superblock(char *buffer)
+--- a/fs/ext4/ext4_common.c
++++ b/fs/ext4/ext4_common.c
+@@ -194,47 +194,42 @@
+ 
+ void put_ext4(uint64_t off, const void *buf, uint32_t size)
+ {
+-	uint64_t startblock;
+-	uint64_t remainder;
+-	unsigned char *temp_ptr = NULL;
+ 	struct ext_filesystem *fs = get_fs();
+-	int log2blksz;
+-
+-	if (!fs->dev_desc)
++	u64 sector, bytes, n;
++	const u8 *src = buf;
++	u32 offset;
++
++	if (ext4fs_io_error)
+ 		return;
+-
+-	ALLOC_CACHE_ALIGN_BUFFER(unsigned char, sec_buf, fs->dev_desc->blksz);
+-
+-	log2blksz = fs->dev_desc->log2blksz;
+-	startblock = off >> log2blksz;
+-	startblock += part_offset;
+-	remainder = off & (uint64_t)(fs->dev_desc->blksz - 1);
+-
+-	if ((startblock + (size >> log2blksz)) >
+-	    (part_offset + fs->total_sect)) {
+-		printf("part_offset is " LBAFU "\n", part_offset);
+-		printf("total_sector is %llu\n", fs->total_sect);
+-		printf("error: overflow occurs\n");
++	if (!fs->dev_desc || off > fs->total_sect * 512 ||
++	    size > fs->total_sect * 512 - off) {
++		ext4fs_io_error = -EIO;
+ 		return;
+ 	}
+-
+-	if (remainder) {
+-		blk_dread(fs->dev_desc, startblock, 1, sec_buf);
+-		temp_ptr = sec_buf;
+-		memcpy((temp_ptr + remainder), (unsigned char *)buf, size);
+-		blk_dwrite(fs->dev_desc, startblock, 1, sec_buf);
+-	} else {
+-		if (size >> log2blksz != 0) {
+-			blk_dwrite(fs->dev_desc, startblock, size >> log2blksz,
+-				   (unsigned long *)buf);
++	ALLOC_CACHE_ALIGN_BUFFER(u8, scratch, 512);
++	while (size) {
++		sector = part_offset + off / 512;
++		offset = off % 512;
++		if (offset || size < 512) {
++			bytes = min((u32)(512 - offset), size);
++			if (blk_dread(fs->dev_desc, sector, 1, scratch) != 1)
++				goto fail;
++			memcpy(scratch + offset, src, bytes);
++			if (blk_dwrite(fs->dev_desc, sector, 1, scratch) != 1)
++				goto fail;
+ 		} else {
+-			blk_dread(fs->dev_desc, startblock, 1, sec_buf);
+-			temp_ptr = sec_buf;
+-			memcpy(temp_ptr, buf, size);
+-			blk_dwrite(fs->dev_desc, startblock, 1,
+-				   (unsigned long *)sec_buf);
+-		}
+-	}
++			n = size / 512;
++			bytes = n * 512;
++			if (blk_dwrite(fs->dev_desc, sector, n, src) != n)
++				goto fail;
++		}
++		src += bytes;
++		off += bytes;
++		size -= bytes;
++	}
++	return;
++fail:
++	ext4fs_io_error = -EIO;
+ }
+ 
+ static int _get_new_inode_no(unsigned char *buffer)
+@@ -1596,7 +1591,8 @@
+ 			      blkoff, desc_size, (char *)blkgrp);
+ }
+ 
+-int ext4fs_read_inode(struct ext2_data *data, int ino, struct ext2_inode *inode)
++static int read_inode_bytes(struct ext2_data *data, int ino, void *inode,
++			    unsigned int bytes)
+ {
+ 	struct ext2_block_group *blkgrp;
+ 	struct ext2_sblock *sblock = &data->sblock;
+@@ -1613,7 +1609,8 @@
+ 
+ 	/* It is easier to calculate if the first inode is 0. */
+ 	ino--;
+-	if ( le32_to_cpu(sblock->inodes_per_group) == 0 || fs->inodesz == 0) {
++	if (ino < 0 || !le32_to_cpu(sblock->inodes_per_group) ||
++	    fs->inodesz < sizeof(struct ext2_inode) || bytes > fs->inodesz) {
+ 		free(blkgrp);
+ 		return 0;
+ 	}
+@@ -1639,11 +1636,21 @@
+ 	/* Read the inode. */
+ 	status = ext4fs_devread((lbaint_t)blkno << (LOG2_BLOCK_SIZE(data) -
+ 				log2blksz), blkoff,
+-				sizeof(struct ext2_inode), (char *)inode);
++				bytes, (char *)inode);
+ 	if (status == 0)
+ 		return 0;
+ 
+ 	return 1;
++}
++
++int ext4fs_read_inode(struct ext2_data *data, int ino, struct ext2_inode *inode)
++{
++	return read_inode_bytes(data, ino, inode, sizeof(*inode));
++}
++
++int ext4fs_read_inode_full(struct ext2_data *data, int ino, void *inode)
++{
++	return read_inode_bytes(data, ino, inode, get_fs()->inodesz);
+ }
+ 
+ long int read_allocated_block(struct ext2_inode *inode, int fileblock,
+@@ -2341,6 +2348,55 @@
+ 	return -1;
+ }
+ 
++/* Read-only gate for the unlink/create writer's metadata limitations. */
++int ext4fs_file_writable(const char *path)
++{
++	struct ext_filesystem *fs = get_fs();
++	struct ext2_sblock *sb = &ext4fs_root->sblock;
++	u32 incompat = le32_to_cpu(sb->feature_incompat);
++	struct ext2_inode *inode;
++	loff_t bytes;
++	unsigned int extra;
++	int ret = -1;
++
++	/* Reject before ext4fs_init can replay or change the journal. */
++	if (le32_to_cpu(sb->log2_block_size) != 2 ||
++	    le16_to_cpu(sb->fs_state) != 1 ||
++	    !(le32_to_cpu(sb->feature_compatibility) & 4) ||
++	    (incompat & EXT4_FEATURE_INCOMPAT_RECOVER) ||
++	    (incompat & ~EXT4_FEATURE_INCOMPAT_SUPP) ||
++	    (le32_to_cpu(sb->feature_ro_compat) & ~EXT4_FEATURE_RO_COMPAT_SUPP))
++		return -1;
++	if (ext4fs_open(path, &bytes) || ext4fs_io_error || symlinknest ||
++	    !ext4fs_file || fs->inodesz < 128 || fs->inodesz > 4096)
++		return -1;
++	inode = zalloc(fs->inodesz);
++	if (!inode)
++		return -1;
++	if (!ext4fs_read_inode_full(ext4fs_root, ext4fs_file->ino, inode) ||
++	    ext4fs_io_error || le16_to_cpu(inode->nlinks) != 1 ||
++	    (le16_to_cpu(inode->mode) & FILETYPE_INO_MASK) != FILETYPE_INO_REG ||
++	    inode->acl || (le32_to_cpu(inode->osd2[0]) >> 16) ||
++	    (le32_to_cpu(inode->flags) & ~0x80000U))
++		goto out;
++	/* The unlink writer does not free extent index blocks. */
++	if ((le32_to_cpu(inode->flags) & EXT4_EXTENTS_FL) &&
++	    le16_to_cpu(((struct ext4_extent_header *)inode->b.blocks.dir_blocks)->eh_depth))
++		goto out;
++	if (fs->inodesz > 128) {
++		extra = le16_to_cpu(*(__le16 *)((u8 *)inode + 128));
++		if (extra > fs->inodesz - 128 || (extra && (extra < 4 || extra % 4)))
++			goto out;
++		if (fs->inodesz - 128 - extra >= 4 &&
++		    le32_to_cpu(*(__le32 *)((u8 *)inode + 128 + extra)) == 0xea020000)
++			goto out;
++	}
++	ret = 0;
++out:
++	free(inode);
++	return ret;
++}
++
+ int ext4fs_mount(void)
+ {
+ 	struct ext2_data *data;
+--- a/fs/ext4/ext4_write.c
++++ b/fs/ext4/ext4_write.c
+@@ -580,7 +580,8 @@
+ 		goto fail;
+ 
+ 	ext4fs_update();
+-	ext4fs_deinit();
++	if (ext4fs_deinit())
++		goto fail;
+ 	ext4fs_reinit_global();
+ 
+ 	if (ext4fs_init() != 0) {
+@@ -697,7 +698,7 @@
+ 	return -1;
+ }
+ 
+-void ext4fs_deinit(void)
++int ext4fs_deinit(void)
+ {
+ 	int i;
+ 	struct ext2_inode inode_journal;
+@@ -705,31 +706,53 @@
+ 	uint32_t blknr;
+ 	struct ext_filesystem *fs = get_fs();
+ 	uint32_t new_feature_incompat;
+-
+-	/* free journal */
+-	char *temp_buff = zalloc(fs->blksz);
+-	if (temp_buff) {
+-		ext4fs_read_inode(ext4fs_root, EXT2_JOURNAL_INO,
+-				  &inode_journal);
+-		blknr = read_allocated_block(&inode_journal,
+-					EXT2_JOURNAL_SUPERBLOCK, NULL);
+-		ext4fs_devread((lbaint_t)blknr * fs->sect_perblk, 0, fs->blksz,
+-			       temp_buff);
+-		jsb = (struct journal_superblock_t *)temp_buff;
+-		jsb->s_start = 0;
+-		put_ext4((uint64_t) ((uint64_t)blknr * (uint64_t)fs->blksz),
+-			 (struct journal_superblock_t *)temp_buff, fs->blksz);
+-		free(temp_buff);
+-	}
++	bool journal_clean = false;
++	char *temp_buff;
++
++	/* Do not clear RECOVER unless the journal superblock was cleaned. */
++	temp_buff = zalloc(fs->blksz);
++	if (!temp_buff) {
++		if (!ext4fs_io_error)
++			ext4fs_io_error = -ENOMEM;
++	} else if (!ext4fs_io_error) {
++		if (!ext4fs_read_inode(ext4fs_root, EXT2_JOURNAL_INO,
++				       &inode_journal) || ext4fs_io_error) {
++			if (!ext4fs_io_error)
++				ext4fs_io_error = -EIO;
++		} else {
++			blknr = read_allocated_block(&inode_journal,
++						    EXT2_JOURNAL_SUPERBLOCK, NULL);
++			if (blknr <= 0 || ext4fs_io_error) {
++				if (!ext4fs_io_error)
++					ext4fs_io_error = -EIO;
++			} else if (!ext4fs_devread((lbaint_t)blknr * fs->sect_perblk,
++					   0, fs->blksz, temp_buff) || ext4fs_io_error) {
++				if (!ext4fs_io_error)
++					ext4fs_io_error = -EIO;
++			} else {
++				jsb = (struct journal_superblock_t *)temp_buff;
++				jsb->s_start = 0;
++				put_ext4((uint64_t)blknr * fs->blksz, temp_buff,
++					 fs->blksz);
++				journal_clean = !ext4fs_io_error;
++			}
++		}
++	}
++	free(temp_buff);
+ 	ext4fs_free_journal();
+ 
+-	/* get the superblock */
+-	ext4_read_superblock((char *)fs->sb);
+-	new_feature_incompat = le32_to_cpu(fs->sb->feature_incompat);
+-	new_feature_incompat &= ~EXT3_FEATURE_INCOMPAT_RECOVER;
+-	fs->sb->feature_incompat = cpu_to_le32(new_feature_incompat);
+-	put_ext4((uint64_t)(SUPERBLOCK_SIZE),
+-		 (struct ext2_sblock *)fs->sb, (uint32_t)SUPERBLOCK_SIZE);
++	/* A failed journal read/write must leave RECOVER set on disk. */
++	if (journal_clean && !ext4fs_io_error && fs->sb) {
++		if (!ext4_read_superblock((char *)fs->sb) || ext4fs_io_error) {
++			if (!ext4fs_io_error)
++				ext4fs_io_error = -EIO;
++		} else {
++			new_feature_incompat = le32_to_cpu(fs->sb->feature_incompat);
++			new_feature_incompat &= ~EXT3_FEATURE_INCOMPAT_RECOVER;
++			fs->sb->feature_incompat = cpu_to_le32(new_feature_incompat);
++			put_ext4(SUPERBLOCK_SIZE, fs->sb, SUPERBLOCK_SIZE);
++		}
++	}
+ 	free(fs->sb);
+ 	fs->sb = NULL;
+ 
+@@ -761,6 +784,8 @@
+ 	fs->first_pass_bbmap = 0;
+ 	fs->curr_inode_no = 0;
+ 	fs->curr_blkno = 0;
++
++	return ext4fs_io_error;
+ }
+ 
+ /*
+@@ -790,7 +815,7 @@
+ 
+ 	for (i = pos / fs->blksz; i < blockcnt; i++) {
+ 		long int blknr;
+-		int blockend = fs->blksz;
++		int blockend = min((unsigned int)fs->blksz, len + pos - i * fs->blksz);
+ 		int skipfirst = 0;
+ 		blknr = read_allocated_block(file_inode, i, NULL);
+ 		if (blknr <= 0)
+@@ -903,7 +928,7 @@
+ 	parent_inodeno = ext4fs_get_parent_inode_num(fname, filename, F_FILE);
+ 	if (parent_inodeno == -1)
+ 		goto fail;
+-	if (ext4fs_iget(parent_inodeno, g_parent_inode))
++	if (!ext4fs_read_inode_full(ext4fs_root, parent_inodeno, g_parent_inode))
+ 		goto fail;
+ 	/* do not mess up a directory using hash trees */
+ 	if (le32_to_cpu(g_parent_inode->flags) & EXT4_INDEX_FL) {
+@@ -972,6 +997,9 @@
+ 	} else {
+ 		if (existing_file_inode) {
+ 			file_inode->mode = existing_file_inode->mode;
++			file_inode->uid = existing_file_inode->uid;
++			file_inode->gid = existing_file_inode->gid;
++			file_inode->osd2[1] = existing_file_inode->osd2[1];
+ 		} else {
+ 			file_inode->mode = cpu_to_le16(S_IFREG | S_IRWXU | S_IRGRP |
+ 						       S_IROTH | S_IXGRP | S_IXOTH);
+@@ -1043,7 +1071,8 @@
+ 			goto fail;
+ 	}
+ 	ext4fs_update();
+-	ext4fs_deinit();
++	if (ext4fs_deinit())
++		goto fail_init;
+ 
+ 	fs->first_pass_bbmap = 0;
+ 	fs->curr_blkno = 0;
+@@ -1077,7 +1106,7 @@
+ 	}
+ 
+ 	ret = ext4fs_write(filename, buf, len, FILETYPE_REG);
+-	if (ret) {
++	if (ret || ext4fs_io_error) {
+ 		printf("** Error ext4fs_write() **\n");
+ 		goto fail;
+ 	}
+--- a/fs/ext4/ext4_journal.c
++++ b/fs/ext4/ext4_journal.c
+@@ -106,20 +106,16 @@
+ {
+ 	int i;
+ 	for (i = 0; i < MAX_JOURNAL_ENTRIES; i++) {
+-		if (dirty_block_ptr[i]->blknr == -1)
+-			break;
+-		free(dirty_block_ptr[i]->buf);
+-	}
+-
+-	for (i = 0; i < MAX_JOURNAL_ENTRIES; i++) {
+-		if (journal_ptr[i]->blknr == -1)
+-			break;
+-		free(journal_ptr[i]->buf);
+-	}
+-
+-	for (i = 0; i < MAX_JOURNAL_ENTRIES; i++) {
+-		free(journal_ptr[i]);
+-		free(dirty_block_ptr[i]);
++		if (dirty_block_ptr[i]) {
++			free(dirty_block_ptr[i]->buf);
++			free(dirty_block_ptr[i]);
++			dirty_block_ptr[i] = NULL;
++		}
++		if (journal_ptr[i]) {
++			free(journal_ptr[i]->buf);
++			free(journal_ptr[i]);
++			journal_ptr[i] = NULL;
++		}
+ 	}
+ 	gindex = 0;
+ 	gd_index = 0;
+--- a/fs/fs_internal.c
++++ b/fs/fs_internal.c
+@@ -64,8 +64,11 @@
+ 		ALLOC_CACHE_ALIGN_BUFFER(u8, p, blk->blksz);
+ 
+ 		block_len = blk->blksz;
+-		blk_dread(blk, partition->start + sector, 1,
+-			  (void *)p);
++		if (blk_dread(blk, partition->start + sector, 1,
++			      (void *)p) != 1) {
++			log_err(" ** %s read error - short block\n", __func__);
++			return 0;
++		}
+ 		memcpy(buf, p, byte_len);
+ 		return 1;
+ 	}
