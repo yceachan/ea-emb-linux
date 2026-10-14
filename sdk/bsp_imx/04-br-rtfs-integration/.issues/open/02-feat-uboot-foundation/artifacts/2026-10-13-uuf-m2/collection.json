@@ -1,0 +1,119 @@
+{
+  "hardware_access": false,
+  "complete_sdk_build_in_this_runner": false,
+  "firmware_release": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-r4-20261013/release",
+  "inputs": {
+    "kernel": {
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/03-busybox-package/zImage",
+      "bytes": 10363128,
+      "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
+    },
+    "dtb": {
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/03-busybox-package/imx6ull-100ask-pro.dtb",
+      "bytes": 32636,
+      "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
+    },
+    "rootfs": {
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/03-busybox-package/rootfs.tar.gz",
+      "bytes": 10841999,
+      "sha256": "f448ee3f68f990f9f405e5aa0d7a0a5c12ecb5a1b21fbecf3208ce1ffcb9c99b"
+    }
+  },
+  "archive_direct_dry_run": "passed",
+  "archive_round_trip": "passed",
+  "source_names_do_not_define_targets": true,
+  "both_filesystems_rebuilt": {
+    "kernel": {
+      "old_uuid": "441874b8b48b4e4a9c83526c48046a08",
+      "new_uuid": "45d2c3a2db5141e98b49439d223ada9a"
+    },
+    "rtfs": {
+      "old_uuid": "ef164c390d4c491a95f583ad75a91f8a",
+      "new_uuid": "d1f2a3fc16254107932d226f55c13717"
+    }
+  },
+  "rootfs_metadata": {
+    "uid": 70000,
+    "gid": 80000,
+    "mode": "0640",
+    "hardlink": "preserved",
+    "absolute_symlink": "preserved",
+    "character_device": "preserved"
+  },
+  "directory_metadata": {
+    "uid": 1000,
+    "gid": 1000,
+    "mode": "0640",
+    "hardlink": "preserved",
+    "user_xattr": "preserved"
+  },
+  "offline_plan": [
+    {
+      "kind": "uboot",
+      "source_bytes": 392192,
+      "logical_bytes": null,
+      "partition_bytes": null,
+      "write_bytes": 392192
+    },
+    {
+      "kind": "mbr",
+      "source_bytes": null,
+      "logical_bytes": null,
+      "partition_bytes": null,
+      "write_bytes": 512
+    },
+    {
+      "kind": "kernel-partition",
+      "source_bytes": 15605848,
+      "logical_bytes": 60817408,
+      "partition_bytes": 60817408,
+      "write_bytes": 15605760
+    },
+    {
+      "kind": "rtfs-partition",
+      "source_bytes": 17014884,
+      "logical_bytes": 95420416,
+      "partition_bytes": 95420416,
+      "write_bytes": 17014784
+    }
+  ],
+  "host_tests": "passed; see host-tests.log",
+  "linux_boot_device": {
+    "value": "/dev/mmcblk1p1",
+    "board_validation": "pending; integration input is not a device observation"
+  },
+  "cold_boot": "pending-developer-validation",
+  "host_test_count": 19,
+  "requirements_source": "issue.md",
+  "design_source": "uuf/README.md",
+  "m1_full_build_reference": "../2026-10-13-uuf-m1/collection.json",
+  "integration_input_linux_device_is_not_board_evidence": true,
+  "uuu_sparse_split_reference": {
+    "repository_revision": "d61d450^",
+    "file": "notes/imx_toolkit/artifacts/2026-10-09-uuu-usage-audit/fastboot-1.5.21.cpp",
+    "function": "FBFlashCmd::run; sparse path splits at max-download-size and resumes via DONT_CARE start blocks",
+    "scope": "source inspection; not a live transfer proof"
+  },
+  "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r3-20261013",
+  "cli_source_files": {
+    "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "uuflib/backend.py": "f2565dd2f988d9dc9956bda3eb8210dcad434de0ddef6b0ad4677165c1afce98",
+    "uuflib/cli.py": "88902e545398003e3a41def5e1281be087453e63fb5aa531790a9d05f42872fd",
+    "uuflib/images.py": "51d5b2811e5ffb5949a5e2f28f7556f315fbd4a65728670e42645030ff670e21",
+    "uuflib/model.py": "c740992aa5dc7c43ab45d2b233de63d4c037e5cd5047ac77a771f11e813027cc",
+    "uuflib/package.py": "e4f0f3bc2001d8b6f88fd519e842675eaf5420c48ab6d74ff846a3f161bbadc0",
+    "uuflib/process.py": "70a974100cccfb4d212522b7814cf641ee0fb37405bab74c8fed277f3b5db7cb",
+    "uuflib/rootfs.py": "5c62ca965b4dc8059c355a226b2b9686ea3f45315db415fb77826755cfd33294",
+    "uuflib/transport.py": "b33778b9c88780a49658dc6fb6bf720e8a7c0c34975f9f11b8f36ddcdba7db75"
+  },
+  "evidence_files_sha256": {
+    "host-tests.log": "1c24eda96f7da9e55d5da32c4d4d5712f60ecb9f40f0beda99fee037137fd3b8",
+    "layout.log": "092c528ec81c1af28875513cb98eafb2e8c792407ac90d6d7d4b44f7146c4d65",
+    "pack.log": "539e6c530a27757c6188fd5ee828a5d144bad7db21fb5578decd094b218d8e6c",
+    "unpack.log": "8c7c25d79e10e9b406553238fe9bf74a957bd9fb7518816ea662e657e1d6cf51",
+    "dry-run.log": "fae2c3ad2cc8cbee16d17ae61f02018ea5b66c4e1a86a9b3765b7a938479bd00",
+    "layout-rebuild.log": "49f75f7c0d230592fa67c37ca2a8b2e185830a7d3434246e6dce8bb14dbedb71",
+    "rootfs-metadata.txt": "820924eea2454571007168035a6a1366accb157f5e76b8888bf589132d899666",
+    "directory-metadata.txt": "da6577544199ea9241543f73d651cbb499b8d9553f571bafa4acccd28ff266d4"
+  }
+}

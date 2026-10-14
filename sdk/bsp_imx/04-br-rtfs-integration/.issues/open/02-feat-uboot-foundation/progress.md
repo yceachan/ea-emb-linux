@@ -3,7 +3,7 @@ title: uuf · 三阶段开发进度
 tags: [uuf, milestone, review]
 note_types: document
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-10-14
 template: doc
 lang: zh
 
@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，独立 PR 待创建 | 开发中 |
+| M2 host flasher | `codex/uuf-host-flasher`，独立 PR 待创建 | CLI 与真实载荷集成通过，待云端 review 和人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -33,7 +33,7 @@ lang: zh
 
 2026-10-13，开发者允许本 session 执行 SDK 构建集成，并指示构建 U-Boot 后进入 host flasher CLI。固定输入的完整 U-Boot 构建已通过，release 生成 DCD 镜像及可核对的六项文件清单。ROM USB 自动 fastboot、eMMC 冷启动、3 秒打断及实板文件更新仍待验收。
 
-当前已配置并完成对象检查的目录可用于完整链接：
+本次完整构建的复现命令：
 
 ```sh
 env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-toolchain-15.3.rel1-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf- \
@@ -46,3 +46,15 @@ env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-t
 首轮云端 review 审阅 `b229061`，指出一项 P2：boot0 校验、分配或对齐失败后未恢复 user area。已统一修正相关退出路径，原生回归验证错误后恢复 user area 且未写入介质。
 
 云端已完成 `52c0197` 的[第二轮 review](https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146457985)，未发现重大问题，原 P2 已关闭。实板证据门槛保持独立。
+
+## M2 的实现与验证
+
+2026-10-14 中断恢复复核：当前分支为 `codex/uuf-host-flasher`，继承已发布的 M1 `d15b358`。M1 release 清单、M2 运行证据与当前 CLI 源码 hash 全部一致；M2 尚未发布 PR。阶段二的执行边界已收敛到 [ADR-05](adr.md)。
+
+CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR 是唯一几何来源，targets 仅描述角色／分区号／文件路径，启动描述与固件部署描述独立。实现说明和操作入口见 [uuf/README.md](../../../uuf/README.md)。
+
+完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
+
+真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。19 项主机／协议检查通过，覆盖空盘、角色互换、容量误报、确认后变化、错误停止和重复取消。rootfs 的所有权、hardlink、符号链接和设备节点通过实际制像检查；目录输入的真实所有权与扩展属性也已核对。
+
+Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-13-uuf-m2/collection.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。

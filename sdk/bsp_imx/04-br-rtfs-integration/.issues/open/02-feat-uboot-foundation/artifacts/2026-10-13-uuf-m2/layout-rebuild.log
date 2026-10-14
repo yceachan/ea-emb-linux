@@ -1,0 +1,73 @@
+[result] {
+  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r3-20261013/changed-bundle",
+  "archive": null,
+  "images": {
+    "kernel": {
+      "sparse": {
+        "logical_bytes": 69206016,
+        "container_bytes": 15741016,
+        "written_bytes": 15740928,
+        "skipped_bytes": 53465088,
+        "chunks": 5
+      },
+      "fs": {
+        "bytes": 69206016,
+        "free_bytes": 53465088,
+        "compat": 28,
+        "incompat": 66,
+        "ro_compat": 107,
+        "uuid": "45d2c3a2db5141e98b49439d223ada9a"
+      }
+    },
+    "rtfs": {
+      "sparse": {
+        "logical_bytes": 95420416,
+        "container_bytes": 17014884,
+        "written_bytes": 17014784,
+        "skipped_bytes": 78405632,
+        "chunks": 6
+      },
+      "fs": {
+        "bytes": 95420416,
+        "free_bytes": 78405632,
+        "compat": 28,
+        "incompat": 66,
+        "ro_compat": 107,
+        "uuid": "d1f2a3fc16254107932d226f55c13717"
+      }
+    }
+  },
+  "manifest": {
+    "schema": 1,
+    "targets": {
+      "board": "100ask-imx6ull-pro",
+      "kernel": {
+        "partition": 1,
+        "path": "/zImage"
+      },
+      "dtb": {
+        "partition": 1,
+        "path": "/board.dtb"
+      },
+      "rtfs": {
+        "partition": 2
+      }
+    },
+    "firmware_target": {
+      "area": "boot0",
+      "offset": 1024,
+      "limit": 1047552,
+      "boot_ack": 1,
+      "boot_partition": 1
+    },
+    "files": {
+      "mbr": "mbr.bin",
+      "uboot": "firmware/u-boot-dtb.imx",
+      "kernel": "kernel.bin",
+      "dtb": "board.dtb",
+      "kernel_sparse": "kernel.sparse",
+      "rtfs_sparse": "rtfs.sparse",
+      "boot_config": "extlinux.conf"
+    }
+  }
+}
