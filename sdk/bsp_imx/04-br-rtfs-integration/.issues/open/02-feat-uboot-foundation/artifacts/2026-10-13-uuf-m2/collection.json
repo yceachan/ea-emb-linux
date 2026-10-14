@@ -95,7 +95,7 @@
     "function": "FBFlashCmd::run; sparse path splits at max-download-size and resumes via DONT_CARE start blocks",
     "scope": "source inspection; not a live transfer proof"
   },
-  "developer_manual_review": "pending",
+  "developer_manual_review": "pending; M3 waits for developer acceptance",
   "milestone": "M2 host flasher CLI",
   "branch": "codex/uuf-host-flasher",
   "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched",
@@ -128,30 +128,25 @@
     "native-dry-final.log": "6db6ab8adc9e2d7c3d52d2422466827905c9f1a1b7ef8469e13fb7ce9eb7e4fd"
   },
   "cloud_review": {
-    "status": "seventh review no major issues; local command echo fix pending re-review",
+    "status": "completed; no major issues reported",
+    "reviewed_head": "2f4b8a8",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
-    "reviewed_head": "81bb68a",
-    "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166583821",
-    "evidence": "cloud-review.json",
-    "re_review": {
-      "reviewed_head": "e685673",
-      "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166813306",
-      "evidence": "cloud-review-r2.json"
-    },
-    "final_review": {
-      "reviewed_head": "8eabd94",
-      "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166981228",
-      "evidence": "cloud-review-r3.json"
-    },
-    "erase_review": {
-      "reviewed_head": "da8f544",
-      "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6167179846",
-      "evidence": "cloud-review-r4.json"
-    },
-    "seventh_review": {
-      "reviewed_head": "3e7e0b7",
-      "evidence": "cloud-review-r7.json",
-      "result": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6172716920"
+    "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6173319190",
+    "result": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6173362017",
+    "evidence": "cloud-review-r8.json",
+    "prior_reviews": [
+      "cloud-review.json",
+      "cloud-review-r2.json",
+      "cloud-review-r3.json",
+      "cloud-review-r4.json",
+      "cloud-review-r5.json",
+      "cloud-review-r6.json",
+      "cloud-review-r7.json"
+    ],
+    "resolved_findings": {
+      "P1": 1,
+      "P2": 8
     }
-  }
+  },
+  "completion_scope": "M2 implementation and host validation delivered; real board acceptance pending"
 }

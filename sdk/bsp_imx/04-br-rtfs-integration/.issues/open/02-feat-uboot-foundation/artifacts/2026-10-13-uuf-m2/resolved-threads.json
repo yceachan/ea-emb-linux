@@ -1,0 +1,59 @@
+{
+  "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
+  "threads": [
+    {
+      "id": "PRRT_kwDOU7Xf2s6sR0Nk",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/model.py",
+      "comment_id": 4269840830
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sR0Nt",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/backend.py",
+      "comment_id": 4269840842
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sR0N1",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/rootfs.py",
+      "comment_id": 4269840853
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sSETF",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/backend.py",
+      "comment_id": 4269943949
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sSTX0",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/backend.py",
+      "comment_id": 4270041037
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sShhs",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/package.py",
+      "comment_id": 4270132316
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sSvQB",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/package.py",
+      "comment_id": 4270221245
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sSvQF",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/package.py",
+      "comment_id": 4270221251
+    },
+    {
+      "id": "PRRT_kwDOU7Xf2s6sZomN",
+      "resolved": true,
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/cli.py",
+      "comment_id": 4273067326
+    }
+  ]
+}

@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，云端发现已修正，复审中；待人工审阅 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，26 项检查通过，云端复审未发现重大问题；待人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -59,4 +59,4 @@ CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR �
 
 Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-13-uuf-m2/collection.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
 
-云端前六轮指出的 1 项 P1、8 项 P2 已修正，包含唯一活动 kernel 分区、写入脚本内启动配置绑定、fstab 条目保留、UUU 路径、擦除 ABI 长度、所有准备输出路径和固件清单复制。新增 layout 输出检查确认在创建文件前拒绝输入树内路径；第七轮复审未发现重大问题。另已修正命令回显中文件名 `Error` 被误判为失败的问题，26 项检查通过，原生 UUU dry-run 通过；修正待复审后交人工审阅。
+云端指出的 1 项 P1、8 项 P2 均已修正，全部审阅讨论已解决。另修正命令回显诊断误报，26 项检查与原生 UUU dry-run 通过。云端已完成 `2f4b8a8` 的[最终复审](https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6173362017)，未发现重大问题。阶段二已提交并交付人工审阅，M3 待开发者认可后开始。
