@@ -25,8 +25,8 @@ def sha256(path):
 
 def component(kind, path):
     size = path.stat().st_size
-    if not 40 <= size <= 16 * 1024 * 1024:
-        raise ValueError(f'{kind}: input exceeds the 16 MiB fastboot buffer or is truncated')
+    if not 40 <= size <= 32 * 1024 * 1024:
+        raise ValueError(f'{kind}: input exceeds the 32 MiB fastboot buffer or is truncated')
     with path.open('rb') as stream:
         head = stream.read(40)
     if kind == 'kernel':
@@ -116,6 +116,24 @@ for target, expected in (('/extra', b'unselected extra file'), ('/extlinux/extli
 stat = command(['debugfs', '-R', 'stat /kernel', raw])
 assert re.search(r'Mode:\s+0640', stat) and re.search(r'User:\s+70000\s+Group:\s+80000', stat)
 command(['e2fsck', '-fn', raw])
+boundary = a.output / '32m-boundary.bin'
+with boundary.open('wb') as stream:
+    pattern = bytes(range(256)) * 4096
+    for _ in range(32):
+        stream.write(pattern)
+text = command([exe, raw, '/kernel', boundary, 'success'])
+assert 'written=33554432' in text and 'recover=0' in text
+peak = int(re.search(r'peak_heap=(\d+)', text)[1])
+extracted = a.output / '32m-extracted.bin'
+command(['debugfs', '-R', f'dump /kernel {extracted}', raw])
+assert sha256(extracted) == sha256(boundary)
+assert command(['debugfs', '-R', 'stat /extra', raw]) == original_extra
+assert command(['debugfs', '-R', 'ea_get / user.uuf-parent', raw]) == parent_attribute
+stat = command(['debugfs', '-R', 'stat /kernel', raw])
+assert re.search(r'Mode:\s+0640', stat) and re.search(r'User:\s+70000\s+Group:\s+80000', stat)
+command(['e2fsck', '-fn', raw])
+records.append({'boundary_bytes': boundary.stat().st_size, 'peak_heap_bytes': peak,
+                'scope': 'deterministic size fixture; not a bootable kernel', 'result': text.strip()})
 for mode in ('short-read', 'short-read-4', 'short-read-20', 'short-read-60',
              'short-write', 'short-write-8', 'short-write-20', 'short-write-40'):
     media = a.output / (mode + '.ext4')
@@ -135,6 +153,7 @@ for mode in ('deinit-alloc', 'deinit-inode-read', 'deinit-jsb-read', 'deinit-wri
     records.append({'fault': mode, 'recover_preserved': True, 'result': text.strip()})
 result = {'hardware_access': False, 'complete_sdk_build': False, 'kernel_bytes': a.kernel.stat().st_size,
           'dtb_bytes': a.dtb.stat().st_size, 'heap_limit_bytes': 16 * 1024 * 1024,
+          'download_limit_bytes': 32 * 1024 * 1024, 'boundary_peak_heap_bytes': peak,
           'selected_mode_uid_gid': '0640 / 70000 / 80000', 'unselected_file_data_and_inode_preserved': True,
           'extlinux_preserved': True, 'parent_inline_xattr_preserved': True,
           'fs_devread_small_short_io_rejected': True, 'deinit_faults_preserve_recover': True,

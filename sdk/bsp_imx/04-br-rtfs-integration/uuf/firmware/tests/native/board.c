@@ -52,6 +52,10 @@ int main(void){
     assert(!bootconf(1,1));assert(partconf==0x48);
     writes=0;assert(!bootconf(1,1));assert(writes==0);
     file_enabled=true;assert(!file_target(1,"/kernel"));
+    filesize=fastboot_buf_size+1;
+    writes_before=writes;
+    assert(file_write(1,"/kernel",filesize,expected));
+    assert(writes==writes_before);
     mock_file.inode.nlinks=2;assert(file_target(1,"/kernel"));
     mock_file.inode.nlinks=1;mock_file.inode.acl=7;assert(file_target(1,"/kernel"));
     puts("board CID, range overflow, firmware hash/tail, failure cleanup to user area, I/O errors, erase alignment and boot config passed");

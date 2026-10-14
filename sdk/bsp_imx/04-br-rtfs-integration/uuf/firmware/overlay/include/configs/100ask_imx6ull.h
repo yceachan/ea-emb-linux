@@ -18,9 +18,9 @@
 #define CFG_EXTRA_ENV_SETTINGS \
 	"console=ttymxc0\0" \
 	"mmcdev=1\0" \
-	"kernel_addr_r=0x82000000\0" \
-	"fdt_addr_r=0x83000000\0" \
-	"pxefile_addr_r=0x84000000\0" \
+	"kernel_addr_r=0x80800000\0" \
+	"fdt_addr_r=0x88000000\0" \
+	"pxefile_addr_r=0x8a000000\0" \
 	"uuf_scan=part list mmc 1 -bootable uuf_parts; " \
 		"for uuf_part in ${uuf_parts}; do " \
 		"if test -e mmc 1:${uuf_part} /extlinux/extlinux.conf; then " \
