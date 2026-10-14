@@ -84,10 +84,12 @@ def payload_usage(source):
     if source.is_dir():
         records = tree_catalog(source)
         sizes = [r.get('size', 0) for r in records]
+        xattr_blocks = sum(bool(r['xattrs']) for r in records)
     else:
         records = tar_members(source)
         sizes = [m.size for m in records if m.isfile()]
-    return sum((n + 4095) // 4096 * 4096 for n in sizes) + len(records) * 4096, len(records)
+        xattr_blocks = 0  # tar_members rejects xattrs and ACLs.
+    return sum((n + 4095) // 4096 * 4096 for n in sizes) + (len(records) + xattr_blocks) * 4096, len(records)
 
 
 def prepare(request):

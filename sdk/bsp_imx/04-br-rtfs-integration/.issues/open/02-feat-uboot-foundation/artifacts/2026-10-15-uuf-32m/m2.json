@@ -25,12 +25,12 @@
   "firmware_copy": "only verified receipt files; unlisted log and outside symlink excluded",
   "both_filesystems_rebuilt": {
     "kernel": {
-      "old_uuid": "655836b96c2a4e1aa30f576fa90808b1",
-      "new_uuid": "8be55d44298244b0908ee472129b0985"
+      "old_uuid": "ab00522f950f4afaad7d589f25702d43",
+      "new_uuid": "432560b31bca45b3aa12314befaff027"
     },
     "rtfs": {
-      "old_uuid": "a9db775accac4a23ae60b367337e903d",
-      "new_uuid": "27d8650419cf4d09b518e3a242e0a1aa"
+      "old_uuid": "a88549461c2a4899a673417a3bfcef69",
+      "new_uuid": "2586daf6726b4df2b60f904147d33d6b"
     }
   },
   "rootfs_metadata": {
@@ -85,7 +85,7 @@
     "board_validation": "pending; integration input is not a device observation"
   },
   "cold_boot": "pending-developer-validation",
-  "host_test_count": 28,
+  "host_test_count": 30,
   "download_limit_bytes": 33554432,
   "heap_limit_bytes": 16777216,
   "requirements_source": "issue.md",
@@ -94,26 +94,31 @@
   "large_rootfs_layout": "m2-large-ext4.json",
   "cloud_review": "pending",
   "developer_manual_review": "pending",
+  "layout_checks": {
+    "2_gib_rootfs": "passed",
+    "10000_directories_with_3_kib_distinct_xattrs": "actual ext4 free space >= 64 MiB",
+    "kernel_and_dtb_90_level_distinct_parent_paths": "actual ext4 free space >= 32 MiB"
+  },
   "source_sha256": {
     "uuf": "730393730b3b3d04f53dccae8f2081c38ea5153a80c6be854bf4a9c2341d2d98",
     "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "uuflib/backend.py": "237fdcad0c8a494f08af697ed35b570487c532f28b65162a0db3409324e6beb5",
-    "uuflib/cli.py": "c05fbe2e04c47d9a3b99b37287551c88e4c7f0f7edc009076dda7c1aa6a7a425",
+    "uuflib/cli.py": "70d68b46d39892212dfc3dca0f90033514572a7d30865cd9d3c3227007f1d3bc",
     "uuflib/images.py": "01509885392491ada4147ce9ca1bd4603f62ec17e7062dec3a4ff139c787f201",
     "uuflib/model.py": "bb4ff32e87871bf6185d8300abba602314fe3e15b26e73859c53873991e62d50",
     "uuflib/package.py": "343ccda5a632a7d3d9159a19606621b64c26db67cfe1a5130c20416d17c683d9",
     "uuflib/process.py": "70a974100cccfb4d212522b7814cf641ee0fb37405bab74c8fed277f3b5db7cb",
-    "uuflib/rootfs.py": "68c76dbdb8ad48553141602a82006cdbfa3957488d5b5a3cc68de4c63e44e90f",
+    "uuflib/rootfs.py": "dc2debb2d27f678e1ef2b60c3d58854245b061e904cf4fb74ff00f934f7816d8",
     "uuflib/transport.py": "9bad914f310b6528f6d72a76edea066cfd3772d3b890f37484114bf7245ff698",
     "tests/integrate.py": "b0bb75fdc67bd74079b9b16779d3471e31bbd303f3dbf7beeaa1e2e95d6febc8",
-    "tests/test_host.py": "29ff1c3e30ebadbea7bfc739f5eb9692ff6f3a4d9090ab12652f40424a412faa"
+    "tests/test_host.py": "f821e6f0dbe4569c44f194e89181a4048714b22eff0bc9988d273210d86fcf75"
   },
   "evidence_sha256": {
     "m2-directory-fstab.txt": "2a8a939466db3fbf374c6d8a6d082648f744c131b5519b2f247d7711ccb8fc8d",
-    "m2-dry-run.log": "0190d1ed910ccb401e12fff00c311321f30b25c9a1c7862956b965ad733f0ed6",
-    "m2-host-tests.log": "aa2d2fae26f4fcc6325f7bb9795baaea28b2de5fa71c695b51d97112847e89ea",
+    "m2-dry-run.log": "8691ad04499b736958e0cca71a6075598a762e77c89428dd662d0da09b4793a5",
+    "m2-host-tests.log": "6dff3ca3688cf8462cc7a3c19bc7689aed4bfad01c21ec725858121d04a8b4d3",
     "m2-large-ext4.json": "061b5e823d249311d7732f57fee4fe3520b32820f2c0a05c590d3b64dd6e308b",
-    "m2-layout-rebuild.log": "543216589da4ed5234e9cb145bc6829522796868c84cbcaac2cc4d0e9af0e460",
-    "m2-pack.log": "545334b52a7a3df6b6bcb1d17b9273770d64ddfd07cecef0552e6bdde104ce2c"
+    "m2-layout-rebuild.log": "ae285542024cb9a83238e276a39826704f2486ad4070950350f63c712f5e8f70",
+    "m2-pack.log": "3c260e9bfb59a7b0e33d7177b6a157868bb82695c7c507ddf331bc9db417f476"
   }
 }

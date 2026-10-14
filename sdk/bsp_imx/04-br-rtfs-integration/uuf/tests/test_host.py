@@ -18,7 +18,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from uuflib import backend, cli, model, package, transport
+from uuflib import backend, cli, model, package, rootfs, transport
 from uuflib.images import Sparse, BLOCK, RAW, FILL, SKIP
 
 
@@ -403,6 +403,43 @@ class Host(unittest.TestCase):
         # Include the input root and its file's directory/extent allowance.
         self.assertGreaterEqual(info['free_bytes'], payload + 2 * BLOCK + request['rtfs_reserve'])
         self.assertGreater(layout['rtfs_bytes'] - info['free_bytes'], 16 * 1024 ** 2)
+
+    def test_rootfs_capacity_includes_directory_xattr_blocks(self):
+        tree = self.work / 'xattr-tree'
+        tree.mkdir()
+        for i in range(10000):
+            directory = tree / str(i)
+            directory.mkdir()
+            os.setxattr(directory, 'user.payload', i.to_bytes(4, 'little') + bytes(3068))
+        payload, entries = rootfs.payload_usage(tree)
+        reserve = 64 * 1024 ** 2
+        size = package.ext4_capacity(payload, reserve, entries, 'rtfs')
+        image = self.work / 'xattrs.ext4'
+        package.make_ext4(tree, image, size // 512, 'rtfs')
+        self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], reserve)
+
+    def test_kernel_capacity_includes_all_target_parent_directories(self):
+        source = self.work / 'rootfs'
+        source.mkdir()
+        kernel_path = '/' + 'a/' * 90 + 'zImage'
+        dtb_path = '/' + 'b/' * 90 + 'board.dtb'
+        request = vars(cli.parser().parse_args([
+            'layout', '--rootfs', str(source), '--output', str(self.work / 'layout'),
+            '--kernel', str(self.bundle['paths']['kernel']), '--dtb', str(self.bundle['paths']['dtb']),
+            '--kernel-path', kernel_path, '--dtb-path', dtb_path]))
+        layout = cli.create_layout(request)
+        tree = self.work / 'kernel-tree'
+        tree.mkdir()
+        for kind, path in [('kernel', kernel_path), ('dtb', dtb_path)]:
+            dest = tree / path.lstrip('/')
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(self.bundle['paths'][kind].read_bytes())
+        conf = tree / 'extlinux/extlinux.conf'
+        conf.parent.mkdir()
+        conf.write_bytes(self.bundle['paths']['boot_config'].read_bytes())
+        image = self.work / 'kernel.ext4'
+        package.make_ext4(tree, image, layout['kernel_bytes'] // 512, 'kernel')
+        self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], request['kernel_reserve'])
 
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}

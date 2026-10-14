@@ -5,7 +5,7 @@ from io import StringIO
 import json
 import math
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import secrets
 import signal
 import struct
@@ -61,8 +61,11 @@ def create_layout(r):
                        'kernel': {'partition': r['kernel_part'], 'path': r['kernel_path']},
                        'dtb': {'partition': r['kernel_part'], 'path': r['dtb_path']},
                        'rtfs': {'partition': r['rtfs_part']}})
-    kernel_size = ext4_capacity(Path(r['kernel']).stat().st_size + Path(r['dtb']).stat().st_size + 8 * 4096,
-                               r['kernel_reserve'], 8, 'kernel')
+    parents = {parent for path in (mapping['kernel']['path'], mapping['dtb']['path'], '/extlinux/extlinux.conf')
+               for parent in PurePosixPath(path).parents}
+    entries = len(parents) + 3
+    payload = sum((Path(r[k]).stat().st_size + 4095) // 4096 * 4096 for k in ('kernel', 'dtb'))
+    kernel_size = ext4_capacity(payload + (entries + 1) * 4096, r['kernel_reserve'], entries, 'kernel')
     payload, entries = payload_usage(r['rootfs'])
     rtfs_size = ext4_capacity(payload, r['rtfs_reserve'], entries, 'rtfs')
     data = make_mbr(kernel_size, rtfs_size, mapping, r['signature'], r['disk_sectors'])
