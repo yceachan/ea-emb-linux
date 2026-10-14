@@ -24,12 +24,12 @@
   "source_names_do_not_define_targets": true,
   "both_filesystems_rebuilt": {
     "kernel": {
-      "old_uuid": "5a4a8508292c41679a582f72cecfaca0",
-      "new_uuid": "55ae40bf03464186b6a0e074e34788eb"
+      "old_uuid": "7fb5f3ed10b04eee8c6a493ce979cf5e",
+      "new_uuid": "df86c650ae2e469b95b8ef9b717f2dd2"
     },
     "rtfs": {
-      "old_uuid": "355d5c177d274e55aca92a90e1ff8957",
-      "new_uuid": "859944edec844a70b51f69373a53f4a3"
+      "old_uuid": "1e18bdec36844d829a9f7f4c45eb11c6",
+      "new_uuid": "e35f771e74d644548e26f1e2f742992b"
     }
   },
   "rootfs_metadata": {
@@ -98,8 +98,8 @@
   "milestone": "M2 host flasher CLI",
   "branch": "codex/uuf-host-flasher",
   "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched",
-  "host_test_count": 23,
-  "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r6-20261014",
+  "host_test_count": 24,
+  "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r7-20261014",
   "cli_source_files": {
     "uuf": "730393730b3b3d04f53dccae8f2081c38ea5153a80c6be854bf4a9c2341d2d98",
     "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -107,26 +107,26 @@
     "uuflib/cli.py": "88902e545398003e3a41def5e1281be087453e63fb5aa531790a9d05f42872fd",
     "uuflib/images.py": "fdedf8a5857469e967987c84fb9abe4cc617cdd4512eda655e01537e0acc0695",
     "uuflib/model.py": "bb4ff32e87871bf6185d8300abba602314fe3e15b26e73859c53873991e62d50",
-    "uuflib/package.py": "2abc0e2ce629f7564c6d897e1bf5366512859dad76ec2f3d546895add1041b9d",
+    "uuflib/package.py": "4f61bc46fa668b0f78cfbeb49632392f94ec92392d139743ce157a3531bccad8",
     "uuflib/process.py": "70a974100cccfb4d212522b7814cf641ee0fb37405bab74c8fed277f3b5db7cb",
     "uuflib/rootfs.py": "a8873bac24020065366b999138abe6b2cf847872d675478efbd96a71bcea90cb",
     "uuflib/transport.py": "b33778b9c88780a49658dc6fb6bf720e8a7c0c34975f9f11b8f36ddcdba7db75",
     "tests/integrate.py": "77be06598675d79bdd9d1954490dbd4699b1bf348b4db0f8ddcf21d5459e1373",
-    "tests/test_host.py": "5d197cb2f8b771cf45e835d099a50a8b4487f4f6ddf2f88e0de60bdbca6eaa16"
+    "tests/test_host.py": "fb8a19017fa5dd8897259762f320adb95d415e975f16aefb37ec7aca2e20afff"
   },
   "evidence_files_sha256": {
-    "host-tests.log": "7a44c129828ca828007e242e8679ee0544fe0712821ae10ad816ba7d9eddb0ba",
-    "layout.log": "7c537da161a46e519bf61eff0ddd732f7d331502a2a2909510bd9758373d2f99",
-    "pack.log": "52db12aa140cac3d852570adc11fb7dac162a0faad2167a4187b5deedbe08a21",
-    "unpack.log": "5abc80c9690c631eb7b6b3f9061fb2863865f4eccb075da9f7d5641d80efb9f1",
-    "dry-run.log": "197be4b63bc8c410dd67479a0e9e832e963336bb1f44ded06b74f3c40aee11f8",
-    "layout-rebuild.log": "aa2b1e6ae6417205753bb24c099e5583ec1d2403ce76314d49cd08da0d1ab6ab",
-    "rootfs-metadata.txt": "0940c55318990375d035f824a6c6f45567fc6cf74d80305a33a089f1d5771f02",
-    "directory-metadata.txt": "400b8903acecad4aea4f036e72737b944a8252bceffeddd4b6deaee8be751d6a",
+    "host-tests.log": "c4401ee6c54f7eff0fcbfdaac8ab744884b4024cfb29063b1faa2f7b59429b86",
+    "layout.log": "555bae0504f25345712d451c1c1a271fad8896d0adfbb6d54bad634ef5eb42d3",
+    "pack.log": "00be4110604703a077a53a599aceb7e8cebee4c3f28826faf81d80b6cce35ff7",
+    "unpack.log": "c59293f791369cbb83979fec2d5aece1a7a0f2dd9b7655f3afe74537e9efdb5f",
+    "dry-run.log": "a67d6edffa0cd022956658d37a16592d21a34c3a31dc902d3e8ec927006e5962",
+    "layout-rebuild.log": "5fc9098d977bb83e39368b977493a51b487b3a1402e05d87d7cae81c4d0a8f99",
+    "rootfs-metadata.txt": "b1be7f2106f0e7e19561a8cde590c7b7cd4b16f26c397da33996504c860162f3",
+    "directory-metadata.txt": "822c1577b7ec3a40044c3f505651584ad820757bb26a2756961ab66352a481a3",
     "directory-fstab.txt": "2a8a939466db3fbf374c6d8a6d082648f744c131b5519b2f247d7711ccb8fc8d"
   },
   "cloud_review": {
-    "status": "P1 and four P2 fixed; fourth review pending",
+    "status": "P1 and five P2 fixed; fifth review pending",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
     "reviewed_head": "81bb68a",
     "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166583821",
@@ -140,6 +140,11 @@
       "reviewed_head": "8eabd94",
       "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166981228",
       "evidence": "cloud-review-r3.json"
+    },
+    "erase_review": {
+      "reviewed_head": "da8f544",
+      "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6167179846",
+      "evidence": "cloud-review-r4.json"
     }
   }
 }

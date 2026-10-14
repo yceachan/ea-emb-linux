@@ -340,6 +340,16 @@ class Host(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '内部'):
             package.archive(self.bundle_path, self.bundle_path / 'self.tar.gz')
 
+    def test_pack_rejects_output_inside_input_trees_before_creating_files(self):
+        source = self.work / 'source-rootfs'
+        source.mkdir()
+        for parent in (source, self.firmware):
+            with self.subTest(parent=parent):
+                output = parent / 'nested-pack-output'
+                with self.assertRaisesRegex(ValueError, '输入目录内部'):
+                    package.pack({'rootfs': str(source), 'firmware': str(self.firmware), 'output': str(output)})
+                self.assertFalse(output.exists())
+
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}
         result = subprocess.run([sys.executable, ROOT / 'uuf', 'rpc'], input=json.dumps(request) + '\n', text=True, capture_output=True)

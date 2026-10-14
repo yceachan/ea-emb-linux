@@ -261,6 +261,9 @@ def pack(request):
     from .rootfs import tree_catalog
     output = Path(request['output']).resolve()
     source = Path(request['rootfs']).resolve()
+    for directory in (source, Path(request['firmware']).resolve()):
+        if directory.is_dir() and output.is_relative_to(directory):
+            raise ValueError('打包输出不能位于 rootfs 或固件输入目录内部')
     mapping = targets(request['targets'])
     data = Path(request['mbr']).read_bytes()
     _, parts = geometry(data, mapping)

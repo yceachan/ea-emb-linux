@@ -65,7 +65,7 @@ layout 生成 `mbr.bin`、独立 `targets.json` 和 `boot.json`。可使用外�
 "$UUF" unpack --archive "$WORK/system.tar.gz" --output "$WORK/unpacked"
 ```
 
-pack 每次根据最终 MBR 新建 kernel、rtfs 两个 ext4，再按分配块制作 Sparse。即使只修改一个分区的几何，也重建两者。较大的设备保留归档几何；容量不足时拒绝。DONT_CARE 可保留介质旧字节，逻辑重建不要求物理擦除。
+输出目录须选择在 rootfs 与固件输入树之外。pack 每次根据最终 MBR 新建 kernel、rtfs 两个 ext4，再按分配块制作 Sparse。即使只修改一个分区的几何，也重建两者。较大的设备保留归档几何；容量不足时拒绝。DONT_CARE 可保留介质旧字节，逻辑重建不要求物理擦除。
 
 rootfs 输入为目录树或 tar。目录树使用其现有 UID／GID、mode、常规 hardlink 与扩展属性；tar 保留 UID／GID、mode、常规 hardlink、符号链接及字符／块设备节点。含扩展属性／ACL 的 tar 会拒绝，需提供保留属性的目录树。特殊文件 hardlink 不受支持。提取不经过链接父目录，绝对符号链接作为目标系统数据保存。
 
