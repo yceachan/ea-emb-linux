@@ -154,6 +154,13 @@ def boot_root(entry, signature, parts):
 
 
 def boot_text(description, mapping, data):
+    m, parts = geometry(data, mapping)
+    text = format_boot(description, mapping, m['signature'])
+    boot_root(parse_boot(text), m['signature'], parts)
+    return text
+
+
+def format_boot(description, mapping, signature):
     if set(description) != {'label', 'kernel', 'dtb', 'append'}:
         raise ValueError('启动描述需要 label、kernel、dtb 和 append')
     if not re.fullmatch('[A-Za-z0-9_-]+', description['label']):
@@ -164,9 +171,8 @@ def boot_text(description, mapping, data):
     append = description['append']
     if not isinstance(append, str) or any(ord(c) < 32 or ord(c) == 127 for c in append) or '${' in append:
         raise ValueError('APPEND 必须为明确的单行参数')
-    m, parts = geometry(data, mapping)
     roots = [x for x in append.split() if x.startswith('root=')]
-    expected = f"root=PARTUUID={m['signature']}-{mapping['rtfs']['partition']:02x}"
+    expected = f"root=PARTUUID={signature}-{mapping['rtfs']['partition']:02x}"
     if roots and roots != [expected]:
         raise ValueError('启动描述必须引用 MBR 中映射的 rtfs')
     if not roots:
@@ -177,5 +183,5 @@ def boot_text(description, mapping, data):
             append += ' rw'
     text = (f"DEFAULT {description['label']}\nTIMEOUT 0\nLABEL {description['label']}\n"
             f"  LINUX {description['kernel']}\n  FDT {description['dtb']}\n  APPEND {append.strip()}\n")
-    boot_root(parse_boot(text), m['signature'], parts)
+    boot_root(parse_boot(text), signature, {mapping['rtfs']['partition']: None})
     return text

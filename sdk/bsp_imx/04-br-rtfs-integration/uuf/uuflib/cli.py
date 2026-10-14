@@ -14,7 +14,7 @@ import sys
 import tarfile
 
 from .backend import Session
-from .model import BOARD, targets, make_mbr, json_file
+from .model import BOARD, targets, make_mbr, json_file, format_boot
 from .package import component, pack, unpack, ext4_capacity
 from .rootfs import payload_usage, prepare
 
@@ -61,18 +61,21 @@ def create_layout(r):
                        'kernel': {'partition': r['kernel_part'], 'path': r['kernel_path']},
                        'dtb': {'partition': r['kernel_part'], 'path': r['dtb_path']},
                        'rtfs': {'partition': r['rtfs_part']}})
+    signature = r['signature'] or secrets.token_hex(4)
+    boot = {'label': r['label'], 'kernel': r['kernel_path'], 'dtb': r['dtb_path'], 'append': r['append']}
+    config_bytes = len(format_boot(boot, mapping, signature).encode())
     parents = {parent for path in (mapping['kernel']['path'], mapping['dtb']['path'], '/extlinux/extlinux.conf')
                for parent in PurePosixPath(path).parents}
     entries = len(parents) + 3
     payload = sum((Path(r[k]).stat().st_size + 4095) // 4096 * 4096 for k in ('kernel', 'dtb'))
-    kernel_size = ext4_capacity(payload + (entries + 1) * 4096, r['kernel_reserve'], entries, 'kernel')
+    payload += (config_bytes + 4095) // 4096 * 4096
+    kernel_size = ext4_capacity(payload + entries * 4096, r['kernel_reserve'], entries, 'kernel')
     payload, entries = payload_usage(r['rootfs'])
     rtfs_size = ext4_capacity(payload, r['rtfs_reserve'], entries, 'rtfs')
-    data = make_mbr(kernel_size, rtfs_size, mapping, r['signature'], r['disk_sectors'])
+    data = make_mbr(kernel_size, rtfs_size, mapping, signature, r['disk_sectors'])
     output.mkdir(parents=True, exist_ok=False)
     (output / 'mbr.bin').write_bytes(data)
     (output / 'targets.json').write_text(json.dumps(mapping, ensure_ascii=False, indent=2) + '\n')
-    boot = {'label': r['label'], 'kernel': r['kernel_path'], 'dtb': r['dtb_path'], 'append': r['append']}
     (output / 'boot.json').write_text(json.dumps(boot, ensure_ascii=False, indent=2) + '\n')
     return {'mbr': str(output / 'mbr.bin'), 'targets': str(output / 'targets.json'),
             'boot': str(output / 'boot.json'), 'kernel_bytes': kernel_size, 'rtfs_bytes': rtfs_size,

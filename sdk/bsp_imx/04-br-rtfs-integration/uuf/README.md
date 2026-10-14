@@ -49,7 +49,7 @@ mkdir "$WORK"
 
 默认几何按真实载荷、文件数量、文件系统开销和预留量计算。layout 复用 pack 的 mkfs 参数，创建临时空 ext4 测量 inode 表、journal 等元数据，再扩大容量直到可用空间覆盖载荷与预留量。kernel 预留 32 MiB、rtfs 预留 64 MiB，可用字节参数 `--kernel-reserve`／`--rtfs-reserve` 调整；打包会核对最终镜像的实际空闲空间。`--disk-sectors` 可用实测容量提前限制布局，省略时仍须在 loader 启动后复核设备容量。
 
-kernel 载荷预算包含目标路径与 extlinux 的全部唯一父目录；目录 rootfs 的扩展属性另计外部块，避免挤占预留空间。
+kernel 载荷预算包含实际生成的 extlinux 文本字节数，以及目标路径与 extlinux 的全部唯一父目录；目录 rootfs 的扩展属性另计外部块，避免挤占预留空间。
 
 layout 的输出目录须在目录 rootfs 输入树之外。layout 生成 `mbr.bin`、独立 `targets.json` 和 `boot.json`。可使用外部工具或后续 GUI 编辑最终 MBR；打包读取该文件，不根据第二份 JSON 几何重新生成。映射示例：
 

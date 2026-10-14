@@ -71,7 +71,7 @@ Sparse 按 ext4 分配块生成，RAW／FILL 均按实际内容写入和核验�
 
 layout 与 pack 共用 ext4 格式化参数，按载荷及文件数测量空文件系统的实际元数据开销，迭代容量直到可用空间覆盖载荷与预留量。最终 pack 仍检查实际剩余空间；不使用固定 16 MiB 元数据余量推断大 rootfs 容量。
 
-载荷估算按目标路径的唯一父目录集合计入 kernel 目录块，目录 rootfs 为有扩展属性的 inode 另计一个外部属性块；inline 属性的节省不抵扣这项预算。
+layout 与 pack 复用同一启动配置文本生成逻辑，按实际 UTF-8 字节数计入 extlinux。载荷估算按目标路径的唯一父目录集合计入 kernel 目录块，目录 rootfs 为有扩展属性的 inode 另计一个外部属性块；inline 属性的节省不抵扣这项预算。
 
 M2 当前支持当前板卡、两项 Linux MBR 主分区、4 KiB 块且无 CRC 扩展的 Sparse。含 ACL／扩展属性的 tar 和特殊文件 hardlink 明确拒绝；目录树保留已有常规 hardlink、所有权及扩展属性。制像与协议检查不能代替实板写入、Linux MMC 映射和冷启动证据。M2 出口仍要求独立 PR 的云端 review 与开发者人工审阅；M3 尚未开始。
 

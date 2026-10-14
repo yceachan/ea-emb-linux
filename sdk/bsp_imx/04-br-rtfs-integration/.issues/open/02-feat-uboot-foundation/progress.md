@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整与 30 项主机检查通过，容量修正待云端复审，人工审阅待完成 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整与 31 项主机检查通过，容量修正待云端复审，人工审阅待完成 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -53,9 +53,9 @@ CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR �
 
 完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
 
-真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、原生 UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。30 项主机／协议检查通过，覆盖组件容量、空盘、角色互换、确认后变化、错误停止和重复取消。rootfs 元数据保留经实际制像核对。
+真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、原生 UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。31 项主机／协议检查通过，覆盖组件容量、空盘、角色互换、确认后变化、错误停止和重复取消。rootfs 元数据保留经实际制像核对。
 
-云端提出的 1 项 P1、11 项 P2 均已修正并关闭讨论。最后一项容量问题改为复用 pack 的 mkfs 参数，实测空文件系统开销再扩大布局；2 GiB rootfs 示例满足载荷和 64 MiB 预留量。扩展属性块和 kernel 目标路径父目录已计入载荷，10,000 个带 3 KiB 属性的目录与两个 90 层目标路径的实际制像均满足预留量；最新实现待云端复审。
+云端提出的 1 项 P1、12 项 P2 均已修正并关闭讨论。最后一项容量问题改为复用 pack 的 mkfs 参数，实测空文件系统开销再扩大布局；2 GiB rootfs 示例满足载荷和 64 MiB 预留量。扩展属性块和 kernel 目标路径父目录已计入载荷，10,000 个带 3 KiB 属性的目录与两个 90 层目标路径的实际制像均满足预留量；启动配置按实际 UTF-8 字节数计入容量，4 MiB APPEND 与 1 MiB LABEL 的实际制像满足预留量；最新实现待云端复审。
 
 Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-15-uuf-32m/m2.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
 

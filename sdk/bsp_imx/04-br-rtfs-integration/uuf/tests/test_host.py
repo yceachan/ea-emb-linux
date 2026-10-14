@@ -441,6 +441,28 @@ class Host(unittest.TestCase):
         package.make_ext4(tree, image, layout['kernel_bytes'] // 512, 'kernel')
         self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], request['kernel_reserve'])
 
+    def test_kernel_capacity_includes_actual_long_boot_configuration(self):
+        source = self.work / 'rootfs'
+        source.mkdir()
+        request = vars(cli.parser().parse_args([
+            'layout', '--rootfs', str(source), '--output', str(self.work / 'layout'),
+            '--kernel', str(self.bundle['paths']['kernel']), '--dtb', str(self.bundle['paths']['dtb']),
+            '--kernel-path', '/zImage', '--dtb-path', '/board.dtb']))
+        # RPC has no shell argv size limit; both fields are legal strings.
+        request.update(append='test=' + 'x' * (4 * 1024 ** 2), label='y' * (1024 ** 2))
+        layout = cli.create_layout(request)
+        mapping = model.json_file(layout['targets'])
+        text = model.boot_text(model.json_file(layout['boot']), mapping, Path(layout['mbr']).read_bytes())
+        tree = self.work / 'kernel-tree'
+        tree.mkdir()
+        for kind, name in [('kernel', 'zImage'), ('dtb', 'board.dtb')]:
+            (tree / name).write_bytes(self.bundle['paths'][kind].read_bytes())
+        (tree / 'extlinux').mkdir()
+        (tree / 'extlinux/extlinux.conf').write_text(text)
+        image = self.work / 'kernel.ext4'
+        package.make_ext4(tree, image, layout['kernel_bytes'] // 512, 'kernel')
+        self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], request['kernel_reserve'])
+
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}
         result = subprocess.run([sys.executable, ROOT / 'uuf', 'rpc'], input=json.dumps(request) + '\n', text=True, capture_output=True)

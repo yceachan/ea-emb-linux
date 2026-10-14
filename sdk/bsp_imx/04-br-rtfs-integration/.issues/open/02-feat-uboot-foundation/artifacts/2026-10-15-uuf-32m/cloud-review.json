@@ -1,0 +1,25 @@
+{
+  "reviewed_code_commit": "cb85838",
+  "request_url": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6174868676",
+  "status": "running",
+  "findings_fixed": [
+    {
+      "comment_id": 4274236506,
+      "finding": "ext4 metadata scales with filesystem capacity",
+      "fix_commit": "b0ab3e0",
+      "check": "2 GiB rootfs payload plus 64 MiB reserve"
+    },
+    {
+      "comment_id": 4274344614,
+      "finding": "directory rootfs external xattr blocks",
+      "fix_commit": "cb85838",
+      "check": "10000 directories with distinct 3 KiB xattrs, actual free >= 64 MiB"
+    },
+    {
+      "comment_id": 4274344633,
+      "finding": "kernel target parent directory blocks",
+      "fix_commit": "cb85838",
+      "check": "two distinct 90-level target paths, actual free >= 32 MiB"
+    }
+  ]
+}

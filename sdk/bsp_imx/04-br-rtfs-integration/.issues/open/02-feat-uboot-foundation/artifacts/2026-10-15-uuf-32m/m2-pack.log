@@ -1,6 +1,6 @@
 [result] {
-  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-closure-20261015/bundle",
-  "archive": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-closure-20261015/system.tar.gz",
+  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-ready-20261015/bundle",
+  "archive": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-ready-20261015/system.tar.gz",
   "images": {
     "kernel": {
       "sparse": {
@@ -16,7 +16,7 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "ab00522f950f4afaad7d589f25702d43"
+        "uuid": "2a6e45100a5d47a38ff4ae471803d6e0"
       }
     },
     "rtfs": {
@@ -33,7 +33,7 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "a88549461c2a4899a673417a3bfcef69"
+        "uuid": "04ea5c46d209417c96b80247f562155f"
       }
     }
   },

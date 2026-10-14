@@ -9,6 +9,7 @@ test_firmware_only_needs_no_layout_on_empty_disk (test_host.Host.test_firmware_o
 test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry (test_host.Host.test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry) ... ok
 test_inspect_empty_disk_returns_basic_info_without_locator (test_host.Host.test_inspect_empty_disk_returns_basic_info_without_locator) ... ok
 test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_is_a_single_rpc_error) ... ok
+test_kernel_capacity_includes_actual_long_boot_configuration (test_host.Host.test_kernel_capacity_includes_actual_long_boot_configuration) ... ok
 test_kernel_capacity_includes_all_target_parent_directories (test_host.Host.test_kernel_capacity_includes_all_target_parent_directories) ... ok
 test_kernel_component_accepts_32m_boundary_and_rejects_one_byte_more (test_host.Host.test_kernel_component_accepts_32m_boundary_and_rejects_one_byte_more) ... ok
 test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
@@ -30,6 +31,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 30 tests in 7.347s
+Ran 31 tests in 8.134s
 
 OK
