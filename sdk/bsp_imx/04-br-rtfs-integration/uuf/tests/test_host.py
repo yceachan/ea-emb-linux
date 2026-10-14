@@ -413,6 +413,23 @@ class Host(unittest.TestCase):
         finally:
             os.chdir(previous)
 
+    def test_successful_command_echo_with_error_filename_is_not_a_failure(self):
+        script = self.work / 'test.uuu'
+        script.write_text('FB: ucmd uuf writable 1 /Error.bin\nFB: Done\n')
+        fake = self.work / 'echo-uuu'
+        fake.write_text(f'''#!{sys.executable}
+import sys
+from pathlib import Path
+lines = Path(sys.argv[-1]).read_text().splitlines()
+for line in lines:
+    print(line if '-dry' in sys.argv else 'Start Cmd:' + line + '\\n1:2>Okay (0s)')
+''')
+        fake.chmod(0o755)
+        for dry in (True, False):
+            with self.subTest(dry=dry):
+                transport.run(fake, ['-dry' if dry else '-v', script.name], self.work,
+                              self.work / f'echo-{dry}.log', 2, lambda *args: None, script=script, dry=dry)
+
     def test_repeated_cancel_cleans_entire_uuu_process_group(self):
         fake = self.work / 'slow-uuu'
         pidfile = self.work / 'grandchild.pid'

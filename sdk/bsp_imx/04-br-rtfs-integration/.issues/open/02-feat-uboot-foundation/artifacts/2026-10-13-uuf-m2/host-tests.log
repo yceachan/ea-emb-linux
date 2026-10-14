@@ -21,10 +21,11 @@ test_rpc_does_not_ignore_false_component_choice_for_full_deploy (test_host.Host.
 test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch (test_host.Host.test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch) ... ok
 test_small_device_rejected_before_any_persistent_write (test_host.Host.test_small_device_rejected_before_any_persistent_write) ... ok
 test_staged_input_change_after_confirmation_rejected (test_host.Host.test_staged_input_change_after_confirmation_rejected) ... ok
+test_successful_command_echo_with_error_filename_is_not_a_failure (test_host.Host.test_successful_command_echo_with_error_filename_is_not_a_failure) ... ok
 test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped_component_roles_cannot_erase_real_rtfs) ... ok
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 25 tests in 2.574s
+Ran 26 tests in 2.612s
 
 OK

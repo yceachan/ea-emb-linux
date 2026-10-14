@@ -64,7 +64,10 @@ def run(uuu, options, work, logfile, timeout, emit, *, script=None, dry=False):
                     emit('log', {'text': plain(data)})
             status = process.wait(timeout=max(.1, deadline - time.monotonic()))
         text = plain(Path(logfile).read_bytes())
-        if status or re.search(r'\b(?:Error|Fail|Failed)\b', text, re.I):
+        echoes = {line.strip() for line in Path(script).read_text().splitlines()} if script is not None else set()
+        diagnostics = '\n'.join(line for line in text.splitlines()
+                                if line.strip().removeprefix('Start Cmd:').strip() not in echoes)
+        if status or re.search(r'\b(?:Error|Fail|Failed)\b', diagnostics, re.I):
             raise RuntimeError(f'UUU 失败（退出码 {status}）；查看 {logfile}')
         if script is not None and not complete(text, script, dry):
             raise RuntimeError(f'UUU 缺少完整命令或成功记录；查看 {logfile}')
