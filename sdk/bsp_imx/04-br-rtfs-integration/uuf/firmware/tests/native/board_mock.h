@@ -35,7 +35,7 @@ static struct mmc mock_mmc={0,{1,2,3,4},2048,2*1024*1024,4*1024*1024};
 static struct blk_desc mock_desc;
 static u8 user[2*1024*1024],boot[4*1024*1024],payload[16384];
 static void *fastboot_buf_addr=payload;
-static u32 fastboot_buf_size=16*1024*1024;
+static u32 fastboot_buf_size=32*1024*1024;
 static ulong filesize;
 static int reads,writes,erases,bad_read,bad_write,ext4fs_io_error;
 static int allocations,fail_alloc_on,bad_csd;

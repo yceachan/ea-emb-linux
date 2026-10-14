@@ -3,7 +3,7 @@ title: uuf · M1 板级 U-Boot
 tags: [uuf, U-Boot, firmware]
 note_types: document
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-10-15
 template: doc
 lang: zh
 
@@ -46,7 +46,16 @@ UUU 通过 `FB: ucmd uuf ...` 调用板级命令。数字参数使用十六进�
 
 kernel 分区使用 4096 字节块和干净的 journal。制像需关闭写入器不支持的 `metadata_csum`、`64bit`、`orphan_file`、`dir_index`、`flex_bg`，不能带入主机 xattr。板端在写入器初始化前拒绝缺失或不干净的 journal 和不支持的特性。仅覆盖现有普通单链接文件；符号链接、硬链接、目标 xattr／ACL、不支持的 inode flags 和带索引块的 extent 树会被拒绝。写入不提供原子替换或断电回滚。
 
-fastboot buffer 位于 `0x82000000`，容量 16 MiB；heap 为 16 MiB。kernel、DTB 和启动配置的加载地址分别为 `0x82000000`、`0x83000000`、`0x84000000`。输入和文件系统必须符合这些真实限制。
+本轮将完整文件下载上限定为 32 MiB，heap 保持 16 MiB。512 MiB DDR 区间为 `[0x80000000, 0xa0000000)`。
+
+| 用途 | 地址与上限 |
+|---|---|
+| USB 下载 buffer | `0x82000000`，32 MiB，结束于 `0x84000000` |
+| eMMC 启动 kernel | `0x80800000`，32 MiB，结束于 `0x82800000` |
+| eMMC 启动 DTB | `0x88000000`，文件不超过 32 MiB |
+| extlinux 配置 | `0x8a000000` |
+
+下载模式与内核启动模式分时使用 RAM。启动数据移到低 128 MiB 区域之外，为内核解压留出空间；实际解压与 U-Boot 重定位后的保留区仍由实板启动验收。地址选择不表示任意解压大小都已获验证。
 
 ## 构建与主机验证
 
@@ -61,7 +70,7 @@ export CROSS_COMPILE=/absolute/path/to/toolchain/bin/arm-none-linux-gnueabihf-
 "$FIRMWARE/build.sh" check "$BUILD"
 ```
 
-`check` 编译板级与 ext4 对象。完整 SDK 构建由开发者执行，默认 `-j12`：
+`check` 编译板级与 ext4 对象。完整 SDK 构建默认 `-j12`：
 
 ```sh
 "$FIRMWARE/build.sh" build "$BUILD"
@@ -78,7 +87,7 @@ python3 "$FIRMWARE/tests/native/verify.py" --source "$BUILD/src" \
   --output "$BUILD/ext4-check"
 ```
 
-测试依赖主机 C 编译器、OpenSSL 开发库、e2fsprogs、dtc 和 fdtget。native harness 限制写入器 heap 为 16 MiB，检查原始 kernel／DTB 覆盖、未选文件和所有权、文件系统一致性，以及短 I/O 和 journal 错误。JSB 读取故障在真实 journal superblock 数据读取前注入，避免按调用次数误认注入位置。
+测试依赖主机 C 编译器、OpenSSL 开发库、e2fsprogs、dtc 和 fdtget。native harness 限制写入器 heap 为 16 MiB，检查真实 kernel／DTB 与 32 MiB 大小边界载荷的覆盖、未选文件和所有权、文件系统一致性，以及短 I/O 和 journal 错误。JSB 读取故障在真实 journal superblock 数据读取前注入，避免按调用次数误认注入位置。
 
 ## 阶段验收
 
