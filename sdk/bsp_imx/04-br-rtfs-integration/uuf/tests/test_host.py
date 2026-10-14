@@ -124,6 +124,19 @@ class Host(unittest.TestCase):
         self.work = Path(tempfile.mkdtemp(dir=self.root))
         self.events, self.confirmations = [], []
 
+    def test_kernel_component_accepts_32m_boundary_and_rejects_one_byte_more(self):
+        source = self.work / 'size-fixture.bin'
+        with source.open('wb') as stream:
+            header = bytearray(40)
+            struct.pack_into('<I', header, 36, 0x016f2818)
+            stream.write(header)
+            stream.truncate(32 * 1024 ** 2)
+        self.assertEqual(package.component('kernel', source)['bytes'], 32 * 1024 ** 2)
+        with source.open('ab') as stream:
+            stream.write(b'x')
+        with self.assertRaisesRegex(ValueError, '32 MiB'):
+            package.component('kernel', source)
+
     def request(self, args):
         r = vars(cli.parser().parse_args(args))
         r.update(uuu='/usr/bin/true', log_dir=str(self.work / 'job'))

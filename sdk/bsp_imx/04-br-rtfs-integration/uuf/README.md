@@ -28,7 +28,7 @@ lang: zh
 
 MBR 使用两个 Linux 主分区，只有映射的 kernel 分区允许带活动标志。kernel、DTB 与 `/extlinux/extlinux.conf` 位于 kernel 分区。源文件名不决定目标文件名。Linux 根分区通过 MBR PARTUUID 引用，Linux 的 MMC 设备号不能从 U-Boot MMC 1 推断。
 
-kernel 输入为不超过 16 MiB 的 ARM zImage，DTB 必须属于当前板卡。Sparse 支持 v1.0、4096 字节块、RAW／FILL／DONT_CARE、无 CRC 扩展。kernel ext4 使用 M1 写入器支持的特性与干净 journal；实际文件写入还会检查目标 inode，限制见 [firmware/README.md](firmware/README.md)。
+kernel 输入为不超过 32 MiB 的 ARM zImage，DTB 必须属于当前板卡。Sparse 支持 v1.0、4096 字节块、RAW／FILL／DONT_CARE、无 CRC 扩展。kernel ext4 使用 M1 写入器支持的特性与干净 journal；实际文件写入还会检查目标 inode，限制见 [firmware/README.md](firmware/README.md)。
 
 ## 2 · 准备布局与完整归档
 

@@ -3,7 +3,7 @@ title: uuf · 技术决策
 tags: [uuf, MBR, Sparse, ext4]
 note_types: document
 created: 2026-10-12
-updated: 2026-10-14
+updated: 2026-10-15
 template: doc
 lang: zh
 
@@ -43,7 +43,7 @@ kernel／rtfs 角色通过明确的组件映射解释，不能把 MBR 分区类�
 
 kernel/DTB 独立替换使用原始文件和 ext4 文件写入，保留其他文件及分区。rtfs 独立替换使用分区 Sparse。kernel/DTB 不要求单独删除；擦除只面向明确固件范围或完整分区。
 
-02 当前只有 ext4 读取，fastboot buffer 与 heap 各为 16 MiB。实施先验证 ext4 特性、文件覆盖、heap/journal 和 RAM 范围。若真实输入不能通过，应对齐替代路线；不得用整个 kernel 分区重写冒充独立文件更新。
+02 基线的 fastboot buffer 与 heap 各为 16 MiB。本轮将完整文件窗口扩大到 32 MiB，heap 保持 16 MiB；实际 ext4 写入器已验证 32 MiB 边界载荷，具体地址与约束见 [firmware/README.md](../../../uuf/firmware/README.md)。若真实输入不能通过，应对齐替代路线；不得用整个 kernel 分区重写冒充独立文件更新。
 
 ## ADR-04 · 布局生成与更新
 
@@ -76,3 +76,9 @@ M2 当前支持当前板卡、两项 Linux MBR 主分区、4 KiB 块且无 CRC �
 [U-Boot extlinux](https://docs.u-boot.org/en/stable/develop/bootstd/extlinux.html)、[ext4 写入约束](https://docs.u-boot.org/en/stable/usage/filesystems/ext4.html)、[MMC 区域与启动设置](https://docs.u-boot.org/en/stable/usage/cmd/mmc.html)、[MBR 结构](https://uefi.org/specs/UEFI/2.11/05_GUID_Partition_Table_Format.html#legacy-master-boot-record-mbr)、[AOSP Sparse 格式](https://android.googlesource.com/platform/system/core/+/refs/heads/main/libsparse/sparse_format.h)。
 
 现有验收载荷的尺寸与身份见 `artifacts/2026-10-12-uuf-alignment/collection.json`。
+
+## ADR-06 · 本轮内存预算收口
+
+2026-10-15，开发者确定完整文件窗口为 32 MiB。下载 buffer 为 `[0x82000000, 0x84000000)`，kernel 启动加载区为 `[0x80800000, 0x82800000)`；DTB 从 `0x88000000` 加载，extlinux 配置从 `0x8a000000` 加载。下载服务与内核启动分时使用 RAM，启动数据放在低 128 MiB 区域外。
+
+host 输入校验、M1 固件配置与板端下载长度一致；不引入文件分块会话。heap 保持 16 MiB，按实际写入器峰值验证。32 MiB 大小载荷只证明覆盖与保留行为，不能冒充可启动内核或实板解压证据。后续真实 kernel 若超过此预算，应重新对齐内存布局；本轮在此上限收口。

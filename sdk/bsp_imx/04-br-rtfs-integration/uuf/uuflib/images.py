@@ -7,7 +7,7 @@ import struct
 
 BLOCK = 4096
 WINDOW = 4 * 1024 * 1024
-BUFFER = 16 * 1024 * 1024
+BUFFER = 32 * 1024 * 1024
 RAW, FILL, SKIP = 0xCAC1, 0xCAC2, 0xCAC3
 
 

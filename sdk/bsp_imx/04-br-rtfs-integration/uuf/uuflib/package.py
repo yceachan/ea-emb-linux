@@ -60,7 +60,8 @@ def validate_firmware(folder):
                 'CONFIG_BOARD_LATE_INIT': 'y', 'CONFIG_CMD_EXT4_WRITE': 'y',
                 'CONFIG_CMD_SYSBOOT': 'y', 'CONFIG_FASTBOOT_UUU_SUPPORT': 'y',
                 'CONFIG_FASTBOOT_FLASH_MMC_DEV': '1', 'CONFIG_FASTBOOT_BUF_ADDR': '0x82000000',
-                'CONFIG_FASTBOOT_BUF_SIZE': '0x1000000', 'CONFIG_SYS_MALLOC_LEN': '0x1000000'}
+                'CONFIG_FASTBOOT_BUF_SIZE': '0x2000000', 'CONFIG_SYS_MALLOC_LEN': '0x1000000',
+                'CONFIG_SYS_LOAD_ADDR': '0x80800000'}
     if any(config.get(k) != v for k, v in expected.items()):
         raise ValueError('固件配置不满足产品启动、ext4 更新或内存要求')
     imx(folder / 'u-boot-dtb.imx')
@@ -71,7 +72,7 @@ def component(kind, path):
     p = Path(path)
     size = p.stat().st_size
     if not 40 <= size <= BUFFER:
-        raise ValueError(f'{kind} 文件超出 16 MiB 下载缓冲区或过短')
+        raise ValueError(f'{kind} 文件超出 32 MiB 下载缓冲区或过短')
     with p.open('rb') as stream:
         head = stream.read(40)
     if kind == 'kernel':
