@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，独立 PR 待创建 | CLI 与真实载荷集成通过，待云端 review 和人工审阅 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，已交云端 review；待人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -49,7 +49,7 @@ env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-t
 
 ## M2 的实现与验证
 
-2026-10-14 中断恢复复核：当前分支为 `codex/uuf-host-flasher`，继承已发布的 M1 `d15b358`。M1 release 清单、M2 运行证据与当前 CLI 源码 hash 全部一致；M2 尚未发布 PR。阶段二的执行边界已收敛到 [ADR-05](adr.md)。
+2026-10-14 中断恢复复核：当前分支为 `codex/uuf-host-flasher`，继承已发布的 M1 `d15b358`。M1 release 清单、M2 运行证据与当前 CLI 源码 hash 全部一致。阶段二的执行边界已收敛到 [ADR-05](adr.md)，实现以 `4f4374b` 发布到独立 PR #2，base 为 `codex/uuf-uboot`。
 
 CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR 是唯一几何来源，targets 仅描述角色／分区号／文件路径，启动描述与固件部署描述独立。实现说明和操作入口见 [uuf/README.md](../../../uuf/README.md)。
 
