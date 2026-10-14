@@ -163,7 +163,16 @@ def prepare(request):
             raise ValueError('挂载准备只适用于 03 BusyBox rcS 基线')
         (tree / 'boot').mkdir(exist_ok=True)
         init.write_text(text.replace(marker, f"mount -t ext4 -o rw {device} /boot || failed '挂载 kernel 分区 /boot'\n" + marker, 1))
-        (tree / 'etc/fstab').write_text(f'{device} /boot ext4 defaults 0 2\n')
+        fstab = tree / 'etc/fstab'
+        previous = fstab.read_text() if fstab.exists() else ''
+        retained = []
+        for line in previous.splitlines(keepends=True):
+            fields = line.split('#', 1)[0].split()
+            if len(fields) < 2 or fields[1] != '/boot':
+                retained.append(line)
+        text = ''.join(retained)
+        fstab.write_text(text + ('\n' if text and not text.endswith('\n') else '')
+                         + f'{device} /boot ext4 defaults 0 2\n')
     for entry in sorted(attrs, key=lambda e: len(PurePosixPath(e['name']).parts), reverse=True):
         dest = tree / entry['name']
         os.chown(dest, entry['uid'], entry['gid'], follow_symlinks=False)

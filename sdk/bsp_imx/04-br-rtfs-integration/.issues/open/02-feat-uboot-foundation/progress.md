@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，已交云端 review；待人工审阅 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，首轮云端发现已修正，待复审与人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -55,6 +55,8 @@ CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR �
 
 完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
 
-真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。19 项主机／协议检查通过，覆盖空盘、角色互换、容量误报、确认后变化、错误停止和重复取消。rootfs 的所有权、hardlink、符号链接和设备节点通过实际制像检查；目录输入的真实所有权与扩展属性也已核对。
+真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。21 项主机／协议检查通过，覆盖空盘、角色互换、容量误报、确认后变化、错误停止和重复取消。rootfs 的所有权、hardlink、符号链接和设备节点通过实际制像检查；目录输入的真实所有权与扩展属性也已核对。
 
 Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-13-uuf-m2/collection.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
+
+首轮云端 review 返回一项 P1 与两项 P2，均已修正：只允许 kernel 活动标志；在同一写入脚本中核对已确认 extlinux 后才允许写入；准备 `/boot` 时保留 fstab 的其他条目与注释。新增启动配置竞态和活动标志检查，实际制像核对 fstab 的数据分区／swap 条目保留，待云端复审。

@@ -308,6 +308,10 @@ class Session:
         if actual is not None and protect:
             cmd(f"uuf matchcid {actual['cid']}")
             cmd(f"uuf verify 0 0 200 {actual['mbr_sha256']}")
+            if actual.get('boot_text') is not None:
+                conf = actual['boot_text'].encode('utf-8')
+                cmd(f"uuf file {actual['targets']['kernel']['partition']:x} /extlinux/extlinux.conf "
+                    f"{len(conf):x} {hashlib.sha256(conf).hexdigest()}")
             firmware_writes = [w for w in plan['writes'] if w['hw'] == 1]
             if not firmware_writes:
                 save(1, 0, actual['boot_sectors'] * 512)

@@ -114,14 +114,25 @@ directory.mkdir()
 os.setxattr(directory / 'owned', 'user.uuf_test', b'kept')
 os.link(directory / 'owned', directory / 'alias')
 os.symlink('/proc/mounts', directory / 'absolute-link')
+(directory / 'etc/init.d').mkdir(parents=True)
+(directory / 'etc/init.d/rcS').write_text('echo "[BOOT READY]"\n')
+fstab_source = '# existing mounts\n/dev/data /data ext4 defaults 0 2\n/dev/old /boot ext4 defaults 0 2\n/dev/swap none swap sw 0 0'
+(directory / 'etc/fstab').write_text(fstab_source)
 directory_args = list(metadata_args)
 directory_args[directory_args.index('--rootfs') + 1] = directory
+boot_device = f"/dev/mmcblk1p{mapping['kernel']['partition']}"
+directory_args.extend(['--linux-boot-device', boot_device])
 call('directory-metadata', [*directory_args, '--output', out / 'directory-bundle'])
 directory_raw = out / 'directory.ext4'
 Sparse(out / 'directory-bundle/rtfs.sparse').extract(directory_raw)
 directory_owned = command(['debugfs', '-R', 'stat /owned', directory_raw])
 directory_alias = command(['debugfs', '-R', 'stat /alias', directory_raw])
 xattrs = command(['debugfs', '-R', 'ea_list /owned', directory_raw])
+fstab_dump = out / 'directory-fstab.txt'
+command(['debugfs', '-R', f'dump /etc/fstab {fstab_dump}', directory_raw])
+if fstab_dump.read_text() != ('# existing mounts\n/dev/data /data ext4 defaults 0 2\n'
+                               f'/dev/swap none swap sw 0 0\n{boot_device} /boot ext4 defaults 0 2\n'):
+    raise RuntimeError('/boot preparation removed unrelated fstab entries')
 source_stat = (directory / 'owned').stat()
 if not re.search(rf'User:\s+{source_stat.st_uid}\s+Group:\s+{source_stat.st_gid}', directory_owned):
     raise RuntimeError('directory input ownership changed inside fakeroot')
@@ -149,6 +160,7 @@ result = {'hardware_access': False, 'complete_sdk_build_in_this_runner': False,
                              'absolute_symlink': 'preserved', 'character_device': 'preserved'},
           'directory_metadata': {'uid': source_stat.st_uid, 'gid': source_stat.st_gid,
                                  'mode': '0640', 'hardlink': 'preserved', 'user_xattr': 'preserved'},
+          'fstab_boot_preparation': 'replaced only /boot; preserved comments, /data and swap entries',
           'offline_plan': [{'kind': w['kind'], 'source_bytes': w.get('source_bytes'),
                             'logical_bytes': w.get('logical_bytes'), 'partition_bytes': w.get('partition_bytes'),
                             'write_bytes': w['write_bytes']} for w in plan['writes']],

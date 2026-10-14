@@ -24,12 +24,12 @@
   "source_names_do_not_define_targets": true,
   "both_filesystems_rebuilt": {
     "kernel": {
-      "old_uuid": "441874b8b48b4e4a9c83526c48046a08",
-      "new_uuid": "45d2c3a2db5141e98b49439d223ada9a"
+      "old_uuid": "4de3d0360dc949bbb65d1a7692da67c0",
+      "new_uuid": "ae0746906977410ea6966c18603f6df5"
     },
     "rtfs": {
-      "old_uuid": "ef164c390d4c491a95f583ad75a91f8a",
-      "new_uuid": "d1f2a3fc16254107932d226f55c13717"
+      "old_uuid": "9f48ec31d26d4f52a5867b30b6567bae",
+      "new_uuid": "bf348c2794d8408e8660997b10c44703"
     }
   },
   "rootfs_metadata": {
@@ -47,6 +47,7 @@
     "hardlink": "preserved",
     "user_xattr": "preserved"
   },
+  "fstab_boot_preparation": "replaced only /boot; preserved comments, /data and swap entries",
   "offline_plan": [
     {
       "kind": "uboot",
@@ -83,7 +84,6 @@
     "board_validation": "pending; integration input is not a device observation"
   },
   "cold_boot": "pending-developer-validation",
-  "host_test_count": 19,
   "requirements_source": "issue.md",
   "design_source": "uuf/README.md",
   "m1_full_build_reference": "../2026-10-13-uuf-m1/collection.json",
@@ -94,37 +94,39 @@
     "function": "FBFlashCmd::run; sparse path splits at max-download-size and resumes via DONT_CARE start blocks",
     "scope": "source inspection; not a live transfer proof"
   },
-  "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r3-20261013",
+  "developer_manual_review": "pending",
+  "milestone": "M2 host flasher CLI",
+  "branch": "codex/uuf-host-flasher",
+  "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched",
+  "host_test_count": 21,
+  "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014",
   "cli_source_files": {
     "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "uuflib/backend.py": "f2565dd2f988d9dc9956bda3eb8210dcad434de0ddef6b0ad4677165c1afce98",
+    "uuflib/backend.py": "25fdd6c0915baab48908d0c77923c3bde5d01e3540a4150947b4b38d179eb35d",
     "uuflib/cli.py": "88902e545398003e3a41def5e1281be087453e63fb5aa531790a9d05f42872fd",
     "uuflib/images.py": "fdedf8a5857469e967987c84fb9abe4cc617cdd4512eda655e01537e0acc0695",
-    "uuflib/model.py": "c740992aa5dc7c43ab45d2b233de63d4c037e5cd5047ac77a771f11e813027cc",
+    "uuflib/model.py": "bb4ff32e87871bf6185d8300abba602314fe3e15b26e73859c53873991e62d50",
     "uuflib/package.py": "2abc0e2ce629f7564c6d897e1bf5366512859dad76ec2f3d546895add1041b9d",
     "uuflib/process.py": "70a974100cccfb4d212522b7814cf641ee0fb37405bab74c8fed277f3b5db7cb",
-    "uuflib/rootfs.py": "5c62ca965b4dc8059c355a226b2b9686ea3f45315db415fb77826755cfd33294",
+    "uuflib/rootfs.py": "a8873bac24020065366b999138abe6b2cf847872d675478efbd96a71bcea90cb",
     "uuflib/transport.py": "b33778b9c88780a49658dc6fb6bf720e8a7c0c34975f9f11b8f36ddcdba7db75"
   },
   "evidence_files_sha256": {
-    "host-tests.log": "1c24eda96f7da9e55d5da32c4d4d5712f60ecb9f40f0beda99fee037137fd3b8",
-    "layout.log": "092c528ec81c1af28875513cb98eafb2e8c792407ac90d6d7d4b44f7146c4d65",
-    "pack.log": "539e6c530a27757c6188fd5ee828a5d144bad7db21fb5578decd094b218d8e6c",
-    "unpack.log": "8c7c25d79e10e9b406553238fe9bf74a957bd9fb7518816ea662e657e1d6cf51",
-    "dry-run.log": "fae2c3ad2cc8cbee16d17ae61f02018ea5b66c4e1a86a9b3765b7a938479bd00",
-    "layout-rebuild.log": "49f75f7c0d230592fa67c37ca2a8b2e185830a7d3434246e6dce8bb14dbedb71",
-    "rootfs-metadata.txt": "820924eea2454571007168035a6a1366accb157f5e76b8888bf589132d899666",
-    "directory-metadata.txt": "da6577544199ea9241543f73d651cbb499b8d9553f571bafa4acccd28ff266d4"
+    "host-tests.log": "2c8281903b015f4bab2cf30517c52ef975d7fd5068eb5396e29f10559f9df807",
+    "layout.log": "3eb93469145f929ccc6f262770e164390c05db5423a43ce7e62329881b023922",
+    "pack.log": "3ad569807046bf0111deb20c15164c21f18cb1e331a78b607235d00f2c543a57",
+    "unpack.log": "a4b33b2fbaa284497d92028e192f2d1910ecc1469d09516789aed2039ebc76b0",
+    "dry-run.log": "5386e3453a54f0a778527156b388fc9841d3b1ab5e4134ca9a8af38055c182e2",
+    "layout-rebuild.log": "322c7aabe4241c9bc33b374afe2b4470ea7941772c092a31c319464addc8c38c",
+    "rootfs-metadata.txt": "80ae1003756fdd7a4489c4fc62da0b7748759661ce9008740e2f5f45fb7bdfab",
+    "directory-metadata.txt": "f1761e51ea3b7f2012ac7a530ba76ced017800d759d2c4176bbebfadcd544b7b",
+    "directory-fstab.txt": "2a8a939466db3fbf374c6d8a6d082648f744c131b5519b2f247d7711ccb8fc8d"
   },
   "cloud_review": {
-    "status": "running; bot acknowledged",
+    "status": "first review completed; P1 and two P2 fixed locally; re-review pending",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
     "reviewed_head": "81bb68a",
     "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166583821",
     "evidence": "cloud-review.json"
-  },
-  "developer_manual_review": "pending",
-  "milestone": "M2 host flasher CLI",
-  "branch": "codex/uuf-host-flasher",
-  "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched"
+  }
 }

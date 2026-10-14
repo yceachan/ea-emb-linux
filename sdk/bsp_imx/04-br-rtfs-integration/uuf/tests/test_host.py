@@ -1,5 +1,6 @@
 """Host and protocol checks against a real prepared bundle; no board access."""
 import copy
+import hashlib
 import io
 import json
 import os
@@ -38,6 +39,7 @@ class Board:
         self.calls, self.writes = [], []
         self.fw_result = 'skipped'
         self.fail = None
+        self.before_write = None
 
     def value(self, key):
         values = {'abi': '1', 'cid': self.cid, 'user': f'{self.user:x}',
@@ -57,6 +59,8 @@ class Board:
                  if re.match(r'^(SDP|FB)(?:\[-t [0-9]+\])?:', l)]
         if dry:
             return '\n'.join(lines) + '\n'
+        if Path(script).name == 'write-verify.uuu' and self.before_write:
+            self.before_write()
         text = ''
         for line in lines:
             command = re.sub(r'^FB(?:\[-t [0-9]+\])?: ', '', line)
@@ -70,6 +74,10 @@ class Board:
             elif command.startswith('ucmd uuf locate '):
                 if int(command.split()[-1], 16) not in (0, 1):
                     raise RuntimeError('emulated locator rejected')
+            elif command.startswith('ucmd uuf file '):
+                size, digest = command.split()[-2:]
+                if len(self.conf) != int(size, 16) or hashlib.sha256(self.conf).hexdigest() != digest:
+                    raise RuntimeError('emulated extlinux identity changed')
             elif command.startswith('ucmd mmc write '):
                 self.mbr = (Path(work) / 'mbr.bin').read_bytes()
                 self.writes.append(command)
@@ -159,6 +167,24 @@ class Host(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '容量'):
             self.execute(self.request(['deploy', '--archive', str(self.archive)]), board)
         self.assertEqual(board.writes, [])
+
+    def test_only_mapped_kernel_partition_may_be_active(self):
+        data = bytearray(self.bundle['mbr'])
+        data[446 + (self.bundle['manifest']['targets']['rtfs']['partition'] - 1) * 16] = 0x80
+        with self.assertRaisesRegex(ValueError, '活动分区'):
+            model.geometry(bytes(data), self.bundle['manifest']['targets'])
+
+    def test_extlinux_change_at_write_script_stops_before_every_write(self):
+        board = Board(self.bundle)
+        board.before_write = lambda: setattr(board, 'conf', board.conf.replace(b'  APPEND ', b'  APPEND quiet '))
+        request = self.request(['update', '--firmware', str(self.firmware), '--targets', str(self.targets),
+                                '--uboot', '--kernel', str(self.bundle['paths']['kernel'])])
+        with self.assertRaisesRegex(RuntimeError, 'extlinux identity changed'):
+            self.execute(request, board)
+        self.assertEqual(self.confirmations, ['host-plan', 'target-write'])
+        self.assertEqual(board.writes, [])
+        script = (self.work / 'job/write-verify.uuu').read_text()
+        self.assertLess(script.index('uuf file '), script.index('uuf fw '))
 
     def test_inspect_empty_disk_returns_basic_info_without_locator(self):
         board = Board(self.bundle)

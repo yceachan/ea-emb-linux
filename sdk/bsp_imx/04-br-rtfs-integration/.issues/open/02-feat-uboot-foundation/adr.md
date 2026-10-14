@@ -23,7 +23,7 @@ U-Boot 板级输入从 02 的固定 revision、overlay、注册补丁和工具�
 
 产品 U-Boot 裸写 eMMC boot0；user area 使用 MBR，分为 kernel ext4 与 rtfs ext4。ROM 读取固件原始块，不经过文件系统。
 
-kernel、DTB 与 `/extlinux/extlinux.conf` 位于 kernel 分区。U-Boot 的文件路径相对于该分区根目录；Linux 将该分区挂载到 `/boot`，rtfs 分区挂载到 `/`。Linux 的 MMC 编号不因 U-Boot 的编号为 1 就自动确定，按实测设备与分区标识对应。
+仅映射的 kernel 分区带活动标志，避免固件扫描 rtfs 中的其他启动配置。kernel、DTB 与 `/extlinux/extlinux.conf` 位于 kernel 分区。U-Boot 的文件路径相对于该分区根目录；Linux 将该分区挂载到 `/boot`，rtfs 分区挂载到 `/`。Linux 的 MMC 编号不因 U-Boot 的编号为 1 就自动确定，按实测设备与分区标识对应。
 
 默认固件发现 extlinux 配置，启动项由运行系统维护。沿用 02 的 RAM 环境起点，不因管理启动项而新增持久化环境。固件要区分 ROM USB 下载与 eMMC 启动；USB 路径自动进入 fastboot，eMMC 路径提供 3 秒控制台打断后按 extlinux 引导。
 
@@ -63,7 +63,7 @@ GUI 将 MBR 解析为可编辑分区表，修改后生成新的 MBR。默认布�
 
 CLI 使用 Python 后端，UUU 负责 ROM 下载和 fastboot 传输，e2fsprogs 负责制像与主机文件系统检查。CLI 和后续 Tauri GUI 通过同一套操作参数、计划及 JSON Lines 事件调用后端；确认由调用者回复随机 token，取消必须等待执行进程组清理。操作入口和接口实现见 [uuf/README.md](../../../uuf/README.md)。
 
-正式任务先完成主机暂存、hash、格式与离线脚本检查。第一次确认允许 RAM loader 与设备探测；取得 CID、容量、MBR 和启动路径后再形成范围计划，第二次确认才允许持久写入。确认后重探目标并复核暂存 hash；有变化时停止，已写内容不回滚。dry-run 在第一阶段结束，缺少的真实设备信息明确标为待检查。
+正式任务先完成主机暂存、hash、格式与离线脚本检查。第一次确认允许 RAM loader 与设备探测；取得 CID、容量、MBR 和启动路径后再形成范围计划，第二次确认才允许持久写入。确认后重探目标并复核暂存 hash，写入脚本内再次核对已确认 extlinux 的长度与摘要；有变化时停止，已写内容不回滚。dry-run 在第一阶段结束，缺少的真实设备信息明确标为待检查。
 
 空盘基础探测只要求 CID、容量、启动设置与原始 MBR。独立系统组件操作还从实际 extlinux 的 LABEL、文件路径和 root PARTUUID 确定当前角色，并与输入映射比较；多个候选必须明确选择。APPEND 或 DEFAULT 的合法独立修改不要求重建文件系统。固件单独更新不依赖有效产品分区表。
 

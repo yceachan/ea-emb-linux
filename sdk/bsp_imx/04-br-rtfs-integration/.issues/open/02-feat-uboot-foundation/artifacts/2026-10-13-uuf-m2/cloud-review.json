@@ -8,7 +8,7 @@
     "body": "@codex review\n\n请审阅 M2 相对于 codex/uuf-uboot 的 host flasher CLI 差异。设计决策见 issue 02 ADR-05，操作和实现见 uuf/README.md。\n\n重点核对：归档完整性与 Sparse 分配块校验；MBR 唯一几何及实际 extlinux／root PARTUUID 角色绑定；两次确认期间 CID／布局／暂存内容变化；有效写入及未选范围核验；UUU 退出码为零但命令失败或不完整；取消后的进程组清理。\n\nM1 完整构建与 M2 真实载荷制像、归档回环、原生 UUU 离线检查及 19 项主机／协议检查通过。没有实板写入证据，Linux /boot 示例设备与冷启动仍待开发者验收。请报告具体可复现的问题及严重性。\n",
     "reactions": {
       "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6166583821/reactions",
-      "total_count": 1,
+      "total_count": 0,
       "+1": 0,
       "-1": 0,
       "laugh": 0,
@@ -16,13 +16,80 @@
       "confused": 0,
       "heart": 0,
       "rocket": 0,
-      "eyes": 1
+      "eyes": 0
     }
   },
   "summary": {
     "id": 6166590508,
-    "updated_at": "2026-10-14T10:46:29Z",
-    "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | 🔄 **Running** since <relative-time datetime=\"2026-10-14T10:46:26.118267Z\">2026-10-14T10:46:26.118267Z</relative-time> | `81bb68a` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+    "updated_at": "2026-10-14T10:52:45Z",
+    "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T10:52:42.956291Z\">2026-10-14T10:52:42.956291Z</relative-time> | `81bb68a` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
   },
-  "reviews": []
+  "reviews": [
+    {
+      "id": 5516785630,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNN33g",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `81bb68a213`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516785630",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516785630"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T10:52:39Z",
+      "commit_id": "81bb68a213f9092288db18d4cf3da3ff5ebca25e"
+    }
+  ],
+  "inline_findings": [
+    {
+      "id": 4269840830,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#discussion_r4269840830",
+      "body": "**<sub><sub>![P1 Badge](https://img.shields.io/badge/P1-orange?style=flat)</sub></sub>  确保只有映射的 kernel 分区带活动标志**\n\n当外部编辑后的最终 MBR 同时把 rtfs 分区标为 `0x80`，且 rootfs 载荷中也含有 `/extlinux/extlinux.conf` 时，这里的校验仍会放行归档；但产品固件的 `uuf_scan` 会依次扫描所有 bootable 分区，因此可能先执行 rtfs 中的启动配置，而不是清单绑定的 kernel 配置，导致一个通过 pack/load_bundle 校验的归档冷启动到错误系统。应拒绝非 kernel 分区的活动标志，或按固件实际扫描顺序校验所有 extlinux 候选。\n\nUseful? React with 👍 / 👎.",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/model.py",
+      "line": 79,
+      "commit_id": "8a72b37ad890261a1d0186ef3d1716ba5029fa04"
+    },
+    {
+      "id": 4269840842,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#discussion_r4269840842",
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  在写入脚本内重新核对已确认的启动项**\n\n独立 kernel、DTB 或 rtfs 更新在第二次 `probe()` 后到实际写脚本启动前，如果另一个 UUU 进程修改了 extlinux，脚本只重新核对 CID 和 MBR；随后 `filesave` 只会保存修改后的配置，而不会证明它仍是用户确认时用于角色绑定的配置。因此工具可能写入已不再承担启动角色的文件或分区并报告成功。应在同一写入脚本中先按已确认摘要校验 extlinux（及所选 LABEL/路径），再执行任何持久写入。\n\nUseful? React with 👍 / 👎.",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/backend.py",
+      "line": 310,
+      "commit_id": "8a72b37ad890261a1d0186ef3d1716ba5029fa04"
+    },
+    {
+      "id": 4269840853,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#discussion_r4269840853",
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  添加 /boot 挂载时保留现有 fstab 条目**\n\n使用 `pack --linux-boot-device` 且输入的 BusyBox rootfs 已有其他有效挂载项时，这里会整体覆盖 `/etc/fstab`，使生成的 rtfs 静默丢失交换分区、数据分区或其他启动所需挂载。该选项只应新增或替换 `/boot` 对应条目，而不应删除 rootfs 输入维护的其余配置。\n\nUseful? React with 👍 / 👎.",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/rootfs.py",
+      "line": 166,
+      "commit_id": "8a72b37ad890261a1d0186ef3d1716ba5029fa04"
+    }
+  ]
 }

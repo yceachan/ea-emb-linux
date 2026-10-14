@@ -3,12 +3,14 @@ test_archive_link_and_traversal_rejected (test_host.Host.test_archive_link_and_t
 test_confirmation_reprobe_rejects_changed_cid (test_host.Host.test_confirmation_reprobe_rejects_changed_cid) ... ok
 test_expected_mbr_change_rejected_before_persistent_write (test_host.Host.test_expected_mbr_change_rejected_before_persistent_write) ... ok
 test_explicit_erase_never_expands_alignment (test_host.Host.test_explicit_erase_never_expands_alignment) ... ok
+test_extlinux_change_at_write_script_stops_before_every_write (test_host.Host.test_extlinux_change_at_write_script_stops_before_every_write) ... ok
 test_file_probe_failure_stops_before_target_write_confirmation (test_host.Host.test_file_probe_failure_stops_before_target_write_confirmation) ... ok
 test_firmware_only_needs_no_layout_on_empty_disk (test_host.Host.test_firmware_only_needs_no_layout_on_empty_disk) ... ok
 test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry (test_host.Host.test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry) ... ok
 test_inspect_empty_disk_returns_basic_info_without_locator (test_host.Host.test_inspect_empty_disk_returns_basic_info_without_locator) ... ok
 test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_is_a_single_rpc_error) ... ok
 test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
+test_only_mapped_kernel_partition_may_be_active (test_host.Host.test_only_mapped_kernel_partition_may_be_active) ... ok
 test_persistent_error_stops_host_postwrite_operations (test_host.Host.test_persistent_error_stops_host_postwrite_operations) ... ok
 test_repeated_cancel_cleans_entire_uuu_process_group (test_host.Host.test_repeated_cancel_cleans_entire_uuu_process_group) ... ok
 test_rpc_does_not_ignore_false_component_choice_for_full_deploy (test_host.Host.test_rpc_does_not_ignore_false_component_choice_for_full_deploy) ... ok
@@ -19,6 +21,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 19 tests in 2.321s
+Ran 21 tests in 2.245s
 
 OK

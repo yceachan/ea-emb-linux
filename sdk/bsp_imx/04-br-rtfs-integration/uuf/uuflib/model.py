@@ -84,8 +84,8 @@ def geometry(data, mapping, capacity=None):
     spans.sort()
     if spans[0][1] > spans[1][0]:
         raise ValueError('MBR 分区重叠')
-    if parts[mapping['kernel']['partition']]['boot_flag'] != 0x80:
-        raise ValueError('kernel 分区必须可供产品固件的活动分区扫描发现')
+    if {p['number'] for p in parts.values() if p['boot_flag'] == 0x80} != {mapping['kernel']['partition']}:
+        raise ValueError('只能将映射的 kernel 分区设为活动分区')
     return m, parts
 
 
