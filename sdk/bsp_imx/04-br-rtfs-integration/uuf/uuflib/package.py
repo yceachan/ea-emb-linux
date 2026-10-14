@@ -327,4 +327,3 @@ def pack(request):
         archive(output, request['archive'])
     return {'bundle': str(output), 'archive': request.get('archive'),
             'images': checked['images'], 'manifest': manifest}
-

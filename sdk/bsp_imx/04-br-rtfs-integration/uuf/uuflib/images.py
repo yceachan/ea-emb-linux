@@ -179,5 +179,3 @@ def encode_sparse(source, target, blocks, allocated):
                     kind, data = FILL, data[:4]
             dst.write(struct.pack("<2H2I", kind, 0, b - a, len(data) + 12))
             dst.write(data)
-
-

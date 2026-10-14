@@ -99,9 +99,9 @@
     "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "uuflib/backend.py": "f2565dd2f988d9dc9956bda3eb8210dcad434de0ddef6b0ad4677165c1afce98",
     "uuflib/cli.py": "88902e545398003e3a41def5e1281be087453e63fb5aa531790a9d05f42872fd",
-    "uuflib/images.py": "51d5b2811e5ffb5949a5e2f28f7556f315fbd4a65728670e42645030ff670e21",
+    "uuflib/images.py": "fdedf8a5857469e967987c84fb9abe4cc617cdd4512eda655e01537e0acc0695",
     "uuflib/model.py": "c740992aa5dc7c43ab45d2b233de63d4c037e5cd5047ac77a771f11e813027cc",
-    "uuflib/package.py": "e4f0f3bc2001d8b6f88fd519e842675eaf5420c48ab6d74ff846a3f161bbadc0",
+    "uuflib/package.py": "2abc0e2ce629f7564c6d897e1bf5366512859dad76ec2f3d546895add1041b9d",
     "uuflib/process.py": "70a974100cccfb4d212522b7814cf641ee0fb37405bab74c8fed277f3b5db7cb",
     "uuflib/rootfs.py": "5c62ca965b4dc8059c355a226b2b9686ea3f45315db415fb77826755cfd33294",
     "uuflib/transport.py": "b33778b9c88780a49658dc6fb6bf720e8a7c0c34975f9f11b8f36ddcdba7db75"
