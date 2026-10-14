@@ -1,5 +1,5 @@
 [workspace] {
-  "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job"
+  "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job"
 }
 [plan] {
   "operation": "deploy",
@@ -41,7 +41,7 @@
       "hw": 0,
       "start_sector": 0,
       "write_bytes": 512,
-      "sha256": "d5f5209c0d15dd315d44c7a660001d543b9b919345e9e3d644d9dbdb0009bbf3"
+      "sha256": "0010b1934ce38b0de4dc13d154f83c3d39bd5c2a8dc34fe34e1145d541e83b1d"
     },
     {
       "kind": "kernel-partition",
@@ -50,7 +50,7 @@
       "source_bytes": 15605848,
       "logical_bytes": 60817408,
       "write_bytes": 15605760,
-      "sha256": "73e98eb1a8926bb40582f61bbcd651b1fa4725f6906b2dc52052238b0e229d1f",
+      "sha256": "f0bf14a0efe2a2953dc29721f51e437f9a43288b341033e26e216576b514bc53",
       "start_sector": 2048,
       "partition_bytes": 60817408
     },
@@ -61,41 +61,41 @@
       "source_bytes": 17014884,
       "logical_bytes": 95420416,
       "write_bytes": 17014784,
-      "sha256": "2b26cb10d6892c0b5a140a7c5b0f0f85f2a54e5fe2ca9775d09f73a21094bbb5",
+      "sha256": "798c5a9d5c4cb54dc7230016832a3979b6a029fa545627b0a8443f228f3913ef",
       "start_sector": 120832,
       "partition_bytes": 95420416
     }
   ],
   "inputs": {
     "kernel.bin": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/kernel.bin",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/kernel.bin",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/kernel.bin",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/kernel.bin",
       "source_bytes": 10363128,
       "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
     },
     "board.dtb": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/board.dtb",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/board.dtb",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/board.dtb",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/board.dtb",
       "source_bytes": 32636,
       "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
     },
     "extlinux.conf": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/extlinux.conf",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/extlinux.conf",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/extlinux.conf",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/extlinux.conf",
       "source_bytes": 136,
-      "sha256": "d306b003e7cce96fbf476e37427ac1d425452a26d2d145a76da479f4b461ab20"
+      "sha256": "776fd1e59a524106ad86f182893851d9f15334fce9e6b1739f72f6c093cbddb5"
     },
     "mbr.bin": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/mbr.bin",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/mbr.bin",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/mbr.bin",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/mbr.bin",
       "source_bytes": 512,
-      "sha256": "d5f5209c0d15dd315d44c7a660001d543b9b919345e9e3d644d9dbdb0009bbf3"
+      "sha256": "0010b1934ce38b0de4dc13d154f83c3d39bd5c2a8dc34fe34e1145d541e83b1d"
     },
     "kernel.sparse": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/kernel.sparse",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/kernel.sparse",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/kernel.sparse",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/kernel.sparse",
       "source_bytes": 15605848,
-      "sha256": "73e98eb1a8926bb40582f61bbcd651b1fa4725f6906b2dc52052238b0e229d1f",
+      "sha256": "f0bf14a0efe2a2953dc29721f51e437f9a43288b341033e26e216576b514bc53",
       "sparse": {
         "logical_bytes": 60817408,
         "container_bytes": 15605848,
@@ -109,14 +109,14 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "4de3d0360dc949bbb65d1a7692da67c0"
+        "uuid": "9bdf5d8a992547d4af8d2940be4ac453"
       }
     },
     "rtfs.sparse": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/rtfs.sparse",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/rtfs.sparse",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/rtfs.sparse",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/rtfs.sparse",
       "source_bytes": 17014884,
-      "sha256": "2b26cb10d6892c0b5a140a7c5b0f0f85f2a54e5fe2ca9775d09f73a21094bbb5",
+      "sha256": "798c5a9d5c4cb54dc7230016832a3979b6a029fa545627b0a8443f228f3913ef",
       "sparse": {
         "logical_bytes": 95420416,
         "container_bytes": 17014884,
@@ -130,12 +130,12 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "9f48ec31d26d4f52a5867b30b6567bae"
+        "uuid": "9acffc5c99ae4ba3aa71368e45972078"
       }
     },
     "loader.imx": {
-      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/firmware/u-boot-dtb.imx",
-      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/loader.imx",
+      "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/firmware/u-boot-dtb.imx",
+      "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/loader.imx",
       "source_bytes": 392192,
       "sha256": "8cd205525508ed2d7e6a18715cbf4fe0d419d32c900f6d2d6b921b05b725cbc1"
     }
@@ -143,7 +143,7 @@
   "pending_device_checks": [
     "CID、真实 user area／boot0 容量与板载 MBR 待 loader 启动后复核"
   ],
-  "logs": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job",
+  "logs": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job",
   "cold_boot": "pending-developer-validation"
 }
 uuu (Universal Update Utility) for nxp imx chips -- libuuu_1.5.21-0-g1f42172
@@ -193,16 +193,16 @@ FB: getvar uuf-fw-result
 FB: download -f mbr.bin
 FB[-t 3600000]: ucmd mmc dev 1 0
 FB[-t 3600000]: ucmd mmc write 0x82000000 0 1
-FB[-t 3600000]: ucmd uuf verify 0 0 200 d5f5209c0d15dd315d44c7a660001d543b9b919345e9e3d644d9dbdb0009bbf3
+FB[-t 3600000]: ucmd uuf verify 0 0 200 0010b1934ce38b0de4dc13d154f83c3d39bd5c2a8dc34fe34e1145d541e83b1d
 FB[-t 3600000]: ucmd setenv fastboot_raw_partition_uuf_part 800 1d000 mmcpart 0
 FB[-t 3600000]: flash uuf_part kernel.sparse
-FB[-t 3600000]: ucmd uuf verify 0 800 400000 769f5b886d2fb4ad63d29b240783816c91b1305b5e33db0f3da92653c8083c98
-FB[-t 3600000]: ucmd uuf verify 0 2800 400000 39ec64a272f325c3a267789d421ec08467f94e92e985a37d46f5998e6e31a5fe
+FB[-t 3600000]: ucmd uuf verify 0 800 400000 a9b6b2002cd28373396c76576e4467c055e954288e5c84aa54044b0102dda68a
+FB[-t 3600000]: ucmd uuf verify 0 2800 400000 41bee7151cf4673261275e261812dc334bb9853867c69b11e88dc65c122a48f7
 FB[-t 3600000]: ucmd uuf verify 0 4800 400000 98ebc3072a10d73225979cd879441ed9b71c663a0e2a09736f6c76dab522ae2e
 FB[-t 3600000]: ucmd uuf verify 0 6800 2e2000 c745fa50a04b2208af7128d286902e5c9271603d18db8109c8cfaa35ffb3b78f
 FB[-t 3600000]: ucmd setenv fastboot_raw_partition_uuf_part 1d800 2d800 mmcpart 0
 FB[-t 3600000]: flash uuf_part rtfs.sparse
-FB[-t 3600000]: ucmd uuf verify 0 1d800 400000 c08716f3e3b55826f858aac4b023839bb6ecd18b27d2af5ed306d211164b5b39
+FB[-t 3600000]: ucmd uuf verify 0 1d800 400000 9c8a3fbee3c2cdff45cc4e899ad303045f328c1e5b81f3c3b1cf9d268fde0191
 FB[-t 3600000]: ucmd uuf verify 0 1f800 400000 3b373fa1afcafdff0ba84a9012be087cbf4f749e8b459daeeda67851d52a936c
 FB[-t 3600000]: ucmd uuf verify 0 21800 400000 52fd1b79f2b682291c3150242470ac5ec809762e82938e8eecb23cb0fdfcd3da
 FB[-t 3600000]: ucmd uuf verify 0 23800 400000 d97a0e1f1d4010b1388acfece015a32cd53b30c77c10537097dd5c6ba4505373
@@ -257,7 +257,7 @@ SDP: jump -f loader.imx -ivt 0
         "hw": 0,
         "start_sector": 0,
         "write_bytes": 512,
-        "sha256": "d5f5209c0d15dd315d44c7a660001d543b9b919345e9e3d644d9dbdb0009bbf3"
+        "sha256": "0010b1934ce38b0de4dc13d154f83c3d39bd5c2a8dc34fe34e1145d541e83b1d"
       },
       {
         "kind": "kernel-partition",
@@ -266,7 +266,7 @@ SDP: jump -f loader.imx -ivt 0
         "source_bytes": 15605848,
         "logical_bytes": 60817408,
         "write_bytes": 15605760,
-        "sha256": "73e98eb1a8926bb40582f61bbcd651b1fa4725f6906b2dc52052238b0e229d1f",
+        "sha256": "f0bf14a0efe2a2953dc29721f51e437f9a43288b341033e26e216576b514bc53",
         "start_sector": 2048,
         "partition_bytes": 60817408
       },
@@ -277,41 +277,41 @@ SDP: jump -f loader.imx -ivt 0
         "source_bytes": 17014884,
         "logical_bytes": 95420416,
         "write_bytes": 17014784,
-        "sha256": "2b26cb10d6892c0b5a140a7c5b0f0f85f2a54e5fe2ca9775d09f73a21094bbb5",
+        "sha256": "798c5a9d5c4cb54dc7230016832a3979b6a029fa545627b0a8443f228f3913ef",
         "start_sector": 120832,
         "partition_bytes": 95420416
       }
     ],
     "inputs": {
       "kernel.bin": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/kernel.bin",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/kernel.bin",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/kernel.bin",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/kernel.bin",
         "source_bytes": 10363128,
         "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
       },
       "board.dtb": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/board.dtb",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/board.dtb",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/board.dtb",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/board.dtb",
         "source_bytes": 32636,
         "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
       },
       "extlinux.conf": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/extlinux.conf",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/extlinux.conf",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/extlinux.conf",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/extlinux.conf",
         "source_bytes": 136,
-        "sha256": "d306b003e7cce96fbf476e37427ac1d425452a26d2d145a76da479f4b461ab20"
+        "sha256": "776fd1e59a524106ad86f182893851d9f15334fce9e6b1739f72f6c093cbddb5"
       },
       "mbr.bin": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/mbr.bin",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/mbr.bin",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/mbr.bin",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/mbr.bin",
         "source_bytes": 512,
-        "sha256": "d5f5209c0d15dd315d44c7a660001d543b9b919345e9e3d644d9dbdb0009bbf3"
+        "sha256": "0010b1934ce38b0de4dc13d154f83c3d39bd5c2a8dc34fe34e1145d541e83b1d"
       },
       "kernel.sparse": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/kernel.sparse",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/kernel.sparse",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/kernel.sparse",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/kernel.sparse",
         "source_bytes": 15605848,
-        "sha256": "73e98eb1a8926bb40582f61bbcd651b1fa4725f6906b2dc52052238b0e229d1f",
+        "sha256": "f0bf14a0efe2a2953dc29721f51e437f9a43288b341033e26e216576b514bc53",
         "sparse": {
           "logical_bytes": 60817408,
           "container_bytes": 15605848,
@@ -325,14 +325,14 @@ SDP: jump -f loader.imx -ivt 0
           "compat": 28,
           "incompat": 66,
           "ro_compat": 107,
-          "uuid": "4de3d0360dc949bbb65d1a7692da67c0"
+          "uuid": "9bdf5d8a992547d4af8d2940be4ac453"
         }
       },
       "rtfs.sparse": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/rtfs.sparse",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/rtfs.sparse",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/rtfs.sparse",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/rtfs.sparse",
         "source_bytes": 17014884,
-        "sha256": "2b26cb10d6892c0b5a140a7c5b0f0f85f2a54e5fe2ca9775d09f73a21094bbb5",
+        "sha256": "798c5a9d5c4cb54dc7230016832a3979b6a029fa545627b0a8443f228f3913ef",
         "sparse": {
           "logical_bytes": 95420416,
           "container_bytes": 17014884,
@@ -346,12 +346,12 @@ SDP: jump -f loader.imx -ivt 0
           "compat": 28,
           "incompat": 66,
           "ro_compat": 107,
-          "uuid": "9f48ec31d26d4f52a5867b30b6567bae"
+          "uuid": "9acffc5c99ae4ba3aa71368e45972078"
         }
       },
       "loader.imx": {
-        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/bundle/firmware/u-boot-dtb.imx",
-        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job/loader.imx",
+        "source": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/bundle/firmware/u-boot-dtb.imx",
+        "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job/loader.imx",
         "source_bytes": 392192,
         "sha256": "8cd205525508ed2d7e6a18715cbf4fe0d419d32c900f6d2d6b921b05b725cbc1"
       }
@@ -359,7 +359,7 @@ SDP: jump -f loader.imx -ivt 0
     "pending_device_checks": [
       "CID、真实 user area／boot0 容量与板载 MBR 待 loader 启动后复核"
     ],
-    "logs": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/offline-job",
+    "logs": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/offline-job",
     "cold_boot": "pending-developer-validation"
   },
   "hardware_access": false

@@ -1,5 +1,5 @@
 [result] {
-  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r4-20261014/changed-bundle",
+  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r5-20261014/changed-bundle",
   "archive": null,
   "images": {
     "kernel": {
@@ -16,7 +16,7 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "ae0746906977410ea6966c18603f6df5"
+        "uuid": "dfbf9e4681364582b9c09c00d0ebf717"
       }
     },
     "rtfs": {
@@ -33,7 +33,7 @@
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "bf348c2794d8408e8660997b10c44703"
+        "uuid": "f8b8c5982d1a473f80309d22c5f008f1"
       }
     }
   },

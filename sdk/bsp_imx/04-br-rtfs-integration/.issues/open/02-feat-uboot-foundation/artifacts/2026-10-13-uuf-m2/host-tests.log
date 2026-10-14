@@ -12,6 +12,7 @@ test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_
 test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
 test_only_mapped_kernel_partition_may_be_active (test_host.Host.test_only_mapped_kernel_partition_may_be_active) ... ok
 test_persistent_error_stops_host_postwrite_operations (test_host.Host.test_persistent_error_stops_host_postwrite_operations) ... ok
+test_relative_uuu_argument_environment_and_path_preserve_launcher (test_host.Host.test_relative_uuu_argument_environment_and_path_preserve_launcher) ... ok
 test_repeated_cancel_cleans_entire_uuu_process_group (test_host.Host.test_repeated_cancel_cleans_entire_uuu_process_group) ... ok
 test_rpc_does_not_ignore_false_component_choice_for_full_deploy (test_host.Host.test_rpc_does_not_ignore_false_component_choice_for_full_deploy) ... ok
 test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch (test_host.Host.test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch) ... ok
@@ -21,6 +22,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 21 tests in 2.245s
+Ran 22 tests in 2.618s
 
 OK

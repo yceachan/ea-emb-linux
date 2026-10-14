@@ -110,7 +110,7 @@ class Host(unittest.TestCase):
         cls.bundle = package.load_bundle(cls.bundle_path)
         cls.archive = Path(os.environ['UUF_TEST_ARCHIVE']).resolve()
         cls.firmware = cls.bundle['paths']['uboot'].parent
-        cls.base = tempfile.TemporaryDirectory(prefix='m2-tests-', dir=ROOT / 'build')
+        cls.base = tempfile.TemporaryDirectory(prefix='m2-tests-')
         cls.root = Path(cls.base.name)
         cls.targets = cls.root / 'targets.json'
         cls.targets.write_text(json.dumps(cls.bundle['manifest']['targets']))
@@ -331,6 +331,30 @@ class Host(unittest.TestCase):
         fake.chmod(0o755)
         with self.assertRaises(RuntimeError):
             transport.run(fake, [], self.work, self.work / 'bad.log', 2, lambda *x: None)
+
+    def test_relative_uuu_argument_environment_and_path_preserve_launcher(self):
+        launchers = self.work / 'launchers'
+        launchers.mkdir()
+        runner = self.work / 'runner'
+        runner.write_text(f'#!{sys.executable}\nimport sys\nfrom pathlib import Path\nprint(Path(sys.argv[-1]).read_text())\n')
+        runner.chmod(0o755)
+        launcher = launchers / 'uuu'
+        launcher.symlink_to(runner)
+        previous = Path.cwd()
+        try:
+            os.chdir(self.work)
+            for source in ('argument', 'environment', 'path'):
+                with self.subTest(source=source):
+                    r = self.request(['inspect', '--firmware', str(self.firmware), '--dry-run'])
+                    r['log_dir'] = str(self.work / ('relative-' + source))
+                    r['uuu'] = './launchers/uuu' if source == 'argument' else None if source == 'environment' else 'uuu'
+                    environment = {'UUF_UUU': './launchers/uuu', 'PATH': './launchers:' + os.environ['PATH']}
+                    with patch.dict(os.environ, environment):
+                        session = backend.Session(r, lambda *args: None, lambda *args: self.fail('unexpected confirmation'))
+                        self.assertEqual(session.uuu, str(launcher))
+                        session.execute()
+        finally:
+            os.chdir(previous)
 
     def test_repeated_cancel_cleans_entire_uuu_process_group(self):
         fake = self.work / 'slow-uuu'

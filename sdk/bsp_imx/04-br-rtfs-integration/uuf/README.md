@@ -99,7 +99,7 @@ dry-run 只校验主机输入、计划与可确定的 UUU 脚本，不枚举 USB
 - 输入 `CONTINUE` 后才枚举 ROM 设备、下载 RAM loader，并读取实际设备。多块设备须用 `--usb-path` 明确选择。
 - 检查真实 CID、布局和范围，输入 `WRITE` 加 CID 末 8 位后才写入。确认后重探设备／布局并核对暂存 hash，变化即拒绝；写入脚本在任何持久写入前再次按已确认的长度和 SHA-256 核对 extlinux。
 
-任务默认存放到 `~/uuf-logs/`，可通过 `--log-dir` 指定新目录或 `UUF_LOG_ROOT` 指定根目录。保存计划、设备快照、UUU 脚本和日志。UUU 入口可通过 `--uuu` 或 `UUF_UUU` 指定；保持启动器路径，不能把 Snap 的 `uuu` 符号链接替换为 `snap` 可执行文件。Snap 自身的文件访问限制仍由运行环境决定。
+任务默认存放到 `~/uuf-logs/`，可通过 `--log-dir` 指定新目录或 `UUF_LOG_ROOT` 指定根目录。保存计划、设备快照、UUU 脚本和日志。UUU 入口可通过 `--uuu` 或 `UUF_UUU` 指定；在切换任务目录前固定其绝对路径，保持启动器路径，不能把 Snap 的 `uuu` 符号链接替换为 `snap` 可执行文件。Snap 自身的文件访问限制仍由运行环境决定。
 
 完整系统 deploy 包含 U-Boot、MBR、两个分区镜像；部分组件使用 update。GUI 的选择必须对应相同后端操作，完整部署不接受“排除 U-Boot”的无效选项。
 

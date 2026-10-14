@@ -27,6 +27,7 @@ class Session:
         self.uuu = shutil.which(request.get('uuu') or os.environ.get('UUF_UUU', 'uuu'))
         if not self.uuu:
             raise ValueError('需要 UUU；指定 --uuu 或 UUF_UUU')
+        self.uuu = str(Path(self.uuu).absolute())
         base = Path(os.environ.get('UUF_LOG_ROOT', str(Path.home() / 'uuf-logs')))
         name = datetime.now().strftime('%Y%m%d-%H%M%S') + '-' + secrets.token_hex(4)
         self.work = Path(request['log_dir']).resolve() if request.get('log_dir') else base / name
