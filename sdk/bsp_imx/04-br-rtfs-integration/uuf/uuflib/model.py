@@ -6,6 +6,7 @@ import secrets
 import struct
 
 BOARD = '100ask-imx6ull-pro'
+MAX_EXPORT = 8192  # M1 uuf exportfile protocol limit, in bytes.
 
 
 def json_file(path):
@@ -111,6 +112,8 @@ def make_mbr(kernel_bytes, root_bytes, mapping, signature=None, capacity=None):
 
 
 def parse_boot(text, label=None):
+    if len(text.encode()) > MAX_EXPORT:
+        raise ValueError('extlinux 配置超出 8 KiB 板端导出上限')
     entries, default, current = {}, None, None
     for raw in text.splitlines():
         fields = raw.split('#', 1)[0].split(None, 1)

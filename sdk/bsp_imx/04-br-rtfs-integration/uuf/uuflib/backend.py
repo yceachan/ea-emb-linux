@@ -13,7 +13,7 @@ import time
 
 from . import transport
 from .images import BLOCK, WINDOW, Sparse, sha256
-from .model import (BOARD, firmware_target, targets, parse_mbr, geometry,
+from .model import (BOARD, MAX_EXPORT, firmware_target, targets, parse_mbr, geometry,
                     parse_boot, boot_root)
 from .package import ROOT, validate_firmware, component, validate_sparse, superblock, unpack
 
@@ -90,7 +90,7 @@ class Session:
 
     def exported(self, operation):
         size = int(self.get(['FB: ucmd uuf ' + operation], ['size'])['size'], 16)
-        if not 0 < size <= 8192:
+        if not 0 < size <= MAX_EXPORT:
             raise ValueError('板端导出长度非法')
         keys = [f'data{i}' for i in range(math.ceil(size / 24))]
         values = self.get([], keys)

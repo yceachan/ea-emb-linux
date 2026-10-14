@@ -441,18 +441,22 @@ class Host(unittest.TestCase):
         package.make_ext4(tree, image, layout['kernel_bytes'] // 512, 'kernel')
         self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], request['kernel_reserve'])
 
-    def test_kernel_capacity_includes_actual_long_boot_configuration(self):
+    def test_boot_configuration_protocol_limit_is_enforced_before_pack(self):
         source = self.work / 'rootfs'
         source.mkdir()
         request = vars(cli.parser().parse_args([
             'layout', '--rootfs', str(source), '--output', str(self.work / 'layout'),
             '--kernel', str(self.bundle['paths']['kernel']), '--dtb', str(self.bundle['paths']['dtb']),
             '--kernel-path', '/zImage', '--dtb-path', '/board.dtb']))
-        # RPC has no shell argv size limit; both fields are legal strings.
-        request.update(append='test=' + 'x' * (4 * 1024 ** 2), label='y' * (1024 ** 2))
+        request.update(append='test=', signature='12345678')
+        mapping = self.bundle['manifest']['targets']
+        boot = {'label': request['label'], 'kernel': '/zImage', 'dtb': '/board.dtb', 'append': request['append']}
+        padding = model.MAX_EXPORT - len(model.format_boot(boot, mapping, request['signature']).encode())
+        request['append'] += 'x' * padding
         layout = cli.create_layout(request)
         mapping = model.json_file(layout['targets'])
         text = model.boot_text(model.json_file(layout['boot']), mapping, Path(layout['mbr']).read_bytes())
+        self.assertEqual(len(text.encode()), model.MAX_EXPORT)
         tree = self.work / 'kernel-tree'
         tree.mkdir()
         for kind, name in [('kernel', 'zImage'), ('dtb', 'board.dtb')]:
@@ -462,6 +466,15 @@ class Host(unittest.TestCase):
         image = self.work / 'kernel.ext4'
         package.make_ext4(tree, image, layout['kernel_bytes'] // 512, 'kernel')
         self.assertGreaterEqual(package.ext4_info(image)['free_bytes'], request['kernel_reserve'])
+        request.update(append=request['append'] + 'x', output=str(self.work / 'too-large'))
+        with self.assertRaisesRegex(ValueError, '8 KiB'):
+            cli.create_layout(request)
+        self.assertFalse(Path(request['output']).exists())
+        # External boot descriptions and checksummed bundles use the same gate.
+        with self.assertRaisesRegex(ValueError, '8 KiB'):
+            model.boot_text(dict(boot, append=request['append']), mapping, Path(layout['mbr']).read_bytes())
+        with self.assertRaisesRegex(ValueError, '8 KiB'):
+            model.parse_boot(text + 'x')
 
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}

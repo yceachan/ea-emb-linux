@@ -24,6 +24,8 @@ lang: zh
 | 归档清单 | 组件载荷文件和目标映射；文件校验由 SHA256SUMS 提供，不再保存分区起点和容量 |
 | 实际探测 | CID、user／boot0 容量、擦除粒度、启动设置及原始 MBR；基础探测支持空盘 |
 
+extlinux 配置按 UTF-8 字节计最多 8 KiB，与 M1 的板端导出上限一致；超限输入在制像或归档校验时拒绝。
+
 完整系统归档包含 MBR、产品 U-Boot 及构建记录、两张分区 Sparse、原始 kernel／DTB、extlinux 和清单。部署在任务目录中解包并校验，用户无需额外 profile 或手工解包。
 
 MBR 使用两个 Linux 主分区，只有映射的 kernel 分区允许带活动标志。kernel、DTB 与 `/extlinux/extlinux.conf` 位于 kernel 分区。源文件名不决定目标文件名。Linux 根分区通过 MBR PARTUUID 引用，Linux 的 MMC 设备号不能从 U-Boot MMC 1 推断。
