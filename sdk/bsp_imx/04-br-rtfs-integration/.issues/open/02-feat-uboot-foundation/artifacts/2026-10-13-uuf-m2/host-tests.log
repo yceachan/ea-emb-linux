@@ -10,6 +10,7 @@ test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry (test_host.H
 test_inspect_empty_disk_returns_basic_info_without_locator (test_host.Host.test_inspect_empty_disk_returns_basic_info_without_locator) ... ok
 test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_is_a_single_rpc_error) ... ok
 test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
+test_large_partition_erase_splits_native_length_without_changing_range (test_host.Host.test_large_partition_erase_splits_native_length_without_changing_range) ... ok
 test_only_mapped_kernel_partition_may_be_active (test_host.Host.test_only_mapped_kernel_partition_may_be_active) ... ok
 test_persistent_error_stops_host_postwrite_operations (test_host.Host.test_persistent_error_stops_host_postwrite_operations) ... ok
 test_relative_uuu_argument_environment_and_path_preserve_launcher (test_host.Host.test_relative_uuu_argument_environment_and_path_preserve_launcher) ... ok
@@ -22,6 +23,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 22 tests in 2.618s
+Ran 23 tests in 2.554s
 
 OK

@@ -8,6 +8,7 @@ from pathlib import Path
 import re
 import signal
 import subprocess
+import struct
 import sys
 import tarfile
 import tempfile
@@ -290,6 +291,31 @@ class Host(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, '擦除粒度'):
             self.execute(r, board)
         self.assertEqual(board.writes, [])
+
+    def test_large_partition_erase_splits_native_length_without_changing_range(self):
+        board = Board(self.bundle)
+        data = bytearray(board.mbr)
+        number = self.bundle['manifest']['targets']['rtfs']['partition']
+        size = 5 * 1024 ** 3
+        struct.pack_into('<I', data, 446 + (number - 1) * 16 + 12, size // 512)
+        board.mbr = bytes(data)
+        part = model.geometry(board.mbr, self.bundle['manifest']['targets'])[1][number]
+        board.user = part['start'] + part['sectors'] + 2048
+        result, board = self.execute(self.request(['erase', '--firmware', str(self.firmware),
+                                                  '--targets', str(self.targets), '--region', 'rtfs']), board)
+        self.assertEqual(result['plan']['writes'][0]['write_bytes'], size)
+        cursor = part['start']
+        grain = board.erase * 512
+        self.assertGreater(len(board.writes), 1)
+        for line in board.writes:
+            hw, start, length = [int(x, 16) for x in line.split()[-3:]]
+            self.assertEqual(hw, 0)
+            self.assertEqual(start, cursor)
+            self.assertLessEqual(length, 0xffffffff)
+            self.assertEqual(start * 512 % grain, 0)
+            self.assertEqual(length % grain, 0)
+            cursor += length // 512
+        self.assertEqual(cursor, part['start'] + part['sectors'])
 
     def test_persistent_error_stops_host_postwrite_operations(self):
         board = Board(self.bundle)

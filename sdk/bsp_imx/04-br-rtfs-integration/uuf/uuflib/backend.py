@@ -366,7 +366,13 @@ class Session:
                 lines.append('FB: download -f ' + name)
                 cmd(f"uuf writefile {w['partition']:x} {w['target_path']} {w['write_bytes']:x} {w['sha256']}")
             elif kind == 'erase':
-                cmd(f"uuf erase {w['hw']:x} {w['start_sector']:x} {w['write_bytes']:x}")
+                grain = actual['erase'] * 512 if actual is not None else 512
+                limit = 0xffffffff // grain * grain
+                if not limit:
+                    raise ValueError('实际擦除粒度超过板端单条命令长度')
+                for offset in range(0, w['write_bytes'], limit):
+                    length = min(limit, w['write_bytes'] - offset)
+                    cmd(f"uuf erase {w['hw']:x} {w['start_sector'] + offset // 512:x} {length:x}")
         if self.request.get('uboot'):
             cmd(f"uuf bootconf {self.fw['boot_ack']:x} {self.fw['boot_partition']:x}")
         for slot in range(slots):
