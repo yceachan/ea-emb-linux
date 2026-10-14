@@ -1,7 +1,7 @@
 [result] {
-  "mbr": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r7-20261014/layout/mbr.bin",
-  "targets": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r7-20261014/layout/targets.json",
-  "boot": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r7-20261014/layout/boot.json",
+  "mbr": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r8-20261014/layout/mbr.bin",
+  "targets": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r8-20261014/layout/targets.json",
+  "boot": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r8-20261014/layout/boot.json",
   "kernel_bytes": 60817408,
   "rtfs_bytes": 95420416,
   "device_capacity": "checked-after-loader-startup"

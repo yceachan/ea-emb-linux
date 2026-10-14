@@ -349,6 +349,19 @@ class Host(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, '输入目录内部'):
                     package.pack({'rootfs': str(source), 'firmware': str(self.firmware), 'output': str(output)})
                 self.assertFalse(output.exists())
+            with self.subTest(archive_parent=parent):
+                output = self.work / 'clean-output'
+                archive = parent / 'nested-pack-archive.tar.gz'
+                with self.assertRaisesRegex(ValueError, '输入目录内部'):
+                    package.pack({'rootfs': str(source), 'firmware': str(self.firmware),
+                                  'output': str(output), 'archive': str(archive)})
+                self.assertFalse(output.exists())
+                self.assertFalse(archive.exists())
+        output = self.work / 'clean-output'
+        with self.assertRaisesRegex(ValueError, '待归档目录内部'):
+            package.pack({'rootfs': str(source), 'firmware': str(self.firmware),
+                          'output': str(output), 'archive': str(output / 'system.tar.gz')})
+        self.assertFalse(output.exists())
 
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}

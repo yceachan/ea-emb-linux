@@ -24,6 +24,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 2.554s
+Ran 24 tests in 2.609s
 
 OK

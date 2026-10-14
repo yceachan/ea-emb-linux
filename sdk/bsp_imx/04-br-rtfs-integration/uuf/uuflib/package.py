@@ -89,6 +89,8 @@ def component(kind, path):
 
 def verify_sums(folder):
     folder = Path(folder)
+    if (folder / 'SHA256SUMS').is_symlink() or not (folder / 'SHA256SUMS').is_file():
+        raise ValueError('校验清单须为普通文件')
     records = {}
     for line in (folder / 'SHA256SUMS').read_text().splitlines():
         match = re.fullmatch(r'([0-9a-f]{64})  ([A-Za-z0-9_./-]+)', line)
@@ -261,19 +263,31 @@ def pack(request):
     from .rootfs import tree_catalog
     output = Path(request['output']).resolve()
     source = Path(request['rootfs']).resolve()
-    for directory in (source, Path(request['firmware']).resolve()):
-        if directory.is_dir() and output.is_relative_to(directory):
-            raise ValueError('打包输出不能位于 rootfs 或固件输入目录内部')
+    destinations = [output]
+    if request.get('archive'):
+        archive_path = Path(request['archive']).resolve()
+        if archive_path.is_relative_to(output):
+            raise ValueError('归档输出不能位于待归档目录内部')
+        destinations.append(archive_path)
+    for destination in destinations:
+        for directory in (source, Path(request['firmware']).resolve()):
+            if directory.is_dir() and destination.is_relative_to(directory):
+                raise ValueError('打包输出不能位于 rootfs 或固件输入目录内部')
     mapping = targets(request['targets'])
     data = Path(request['mbr']).read_bytes()
     _, parts = geometry(data, mapping)
     fw = firmware_target(request.get('firmware_target') or ROOT / 'firmware/target.json')
-    validate_firmware(request['firmware'])
+    firmware_sums = validate_firmware(request['firmware'])
     component('kernel', request['kernel'])
     component('dtb', request['dtb'])
     text = boot_text(json_file(request['boot']), mapping, data)
     output.mkdir(parents=True, exist_ok=False)
-    shutil.copytree(request['firmware'], output / 'firmware')
+    for name in ['SHA256SUMS', *firmware_sums]:
+        dest = output / 'firmware' / name
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(Path(request['firmware']) / name, dest)
+        if name in firmware_sums and sha256(dest) != firmware_sums[name]:
+            raise ValueError('打包期间固件输入变化')
     for name, arg in (('kernel.bin', 'kernel'), ('board.dtb', 'dtb')):
         src = Path(request[arg])
         original = sha256(src)

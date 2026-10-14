@@ -35,12 +35,17 @@ def call(name, arguments):
 
 renamed = out / 'source files'
 renamed.mkdir()
+firmware_input = out / 'firmware-input'
+shutil.copytree(args.firmware.resolve(), firmware_input)
+(firmware_input / 'local.log').write_text('unlisted local data')
+(out / 'outside-release.txt').write_text('not a firmware input')
+(firmware_input / 'outside-link').symlink_to(out / 'outside-release.txt')
 shutil.copyfile(args.kernel, renamed / 'application.data')
 shutil.copyfile(args.dtb, renamed / 'hardware.data')
 call('layout', ['layout', '--kernel', renamed / 'application.data', '--dtb', renamed / 'hardware.data',
                 '--rootfs', args.rootfs.resolve(), '--kernel-path', '/zImage', '--dtb-path', '/board.dtb',
                 '--output', out / 'layout'])
-base = ['pack', '--firmware', args.firmware.resolve(), '--kernel', renamed / 'application.data',
+base = ['pack', '--firmware', firmware_input, '--kernel', renamed / 'application.data',
         '--dtb', renamed / 'hardware.data', '--rootfs', args.rootfs.resolve(),
         '--mbr', out / 'layout/mbr.bin', '--targets', out / 'layout/targets.json', '--boot', out / 'layout/boot.json']
 if args.linux_boot_device:
@@ -50,6 +55,10 @@ call('unpack', ['unpack', '--archive', out / 'system.tar.gz', '--output', out / 
 call('dry-run', ['deploy', '--archive', out / 'system.tar.gz', '--uuu', args.uuu.absolute(),
                  '--dry-run', '--log-dir', out / 'offline-job'])
 old = package.load_bundle(out / 'bundle')
+copied_firmware = {p.relative_to(out / 'bundle/firmware').as_posix()
+                   for p in (out / 'bundle/firmware').rglob('*') if p.is_file()}
+if copied_firmware != set(package.verify_sums(args.firmware.resolve())) | {'SHA256SUMS'}:
+    raise RuntimeError('firmware package copied files outside the verified receipt')
 unpacked = package.load_bundle(out / 'unpacked')
 if old['manifest'] != unpacked['manifest'] or old['sums'] != unpacked['sums']:
     raise RuntimeError('archive round trip differs')
@@ -153,6 +162,7 @@ result = {'hardware_access': False, 'complete_sdk_build_in_this_runner': False,
                      for name, path in (('kernel', args.kernel), ('dtb', args.dtb), ('rootfs', args.rootfs))},
           'archive_direct_dry_run': 'passed', 'archive_round_trip': 'passed',
           'source_names_do_not_define_targets': True,
+          'firmware_copy': 'only verified receipt files; unlisted log and outside symlink excluded',
           'both_filesystems_rebuilt': {name: {'old_uuid': old['images'][name]['fs']['uuid'],
                                             'new_uuid': new['images'][name]['fs']['uuid']}
                                        for name in ('kernel', 'rtfs')},
