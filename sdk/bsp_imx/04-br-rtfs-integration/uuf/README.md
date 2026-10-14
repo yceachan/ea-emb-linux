@@ -47,7 +47,7 @@ mkdir "$WORK"
   --kernel-path /zImage --dtb-path /board.dtb --output "$WORK/layout"
 ```
 
-默认几何按真实载荷、文件数量、文件系统开销和预留量计算。kernel 预留 32 MiB、rtfs 预留 64 MiB，可用字节参数 `--kernel-reserve`／`--rtfs-reserve` 调整；打包会核对实际空闲空间。`--disk-sectors` 可用实测容量提前限制布局，省略时仍须在 loader 启动后复核设备容量。
+默认几何按真实载荷、文件数量、文件系统开销和预留量计算。layout 复用 pack 的 mkfs 参数，创建临时空 ext4 测量 inode 表、journal 等元数据，再扩大容量直到可用空间覆盖载荷与预留量。kernel 预留 32 MiB、rtfs 预留 64 MiB，可用字节参数 `--kernel-reserve`／`--rtfs-reserve` 调整；打包会核对最终镜像的实际空闲空间。`--disk-sectors` 可用实测容量提前限制布局，省略时仍须在 loader 启动后复核设备容量。
 
 layout 的输出目录须在目录 rootfs 输入树之外。layout 生成 `mbr.bin`、独立 `targets.json` 和 `boot.json`。可使用外部工具或后续 GUI 编辑最终 MBR；打包读取该文件，不根据第二份 JSON 几何重新生成。映射示例：
 

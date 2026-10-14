@@ -384,6 +384,26 @@ class Host(unittest.TestCase):
             cli.create_layout({'rootfs': str(source), 'output': str(output)})
         self.assertFalse(output.exists())
 
+    def test_layout_large_rootfs_accounts_for_actual_ext4_metadata(self):
+        source = self.work / 'large-rootfs'
+        source.mkdir()
+        payload = 2 * 1024 ** 3
+        with (source / 'large-file').open('wb') as stream:
+            stream.truncate(payload)
+        request = vars(cli.parser().parse_args([
+            'layout', '--rootfs', str(source), '--output', str(self.work / 'layout'),
+            '--kernel', str(self.bundle['paths']['kernel']), '--dtb', str(self.bundle['paths']['dtb']),
+            '--kernel-path', '/zImage', '--dtb-path', '/board.dtb']))
+        layout = cli.create_layout(request)
+        empty = self.work / 'empty'
+        empty.mkdir()
+        image = self.work / 'actual.ext4'
+        package.make_ext4(empty, image, layout['rtfs_bytes'] // 512, 'rtfs')
+        info = package.ext4_info(image)
+        # Include the input root and its file's directory/extent allowance.
+        self.assertGreaterEqual(info['free_bytes'], payload + 2 * BLOCK + request['rtfs_reserve'])
+        self.assertGreater(layout['rtfs_bytes'] - info['free_bytes'], 16 * 1024 ** 2)
+
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}
         result = subprocess.run([sys.executable, ROOT / 'uuf', 'rpc'], input=json.dumps(request) + '\n', text=True, capture_output=True)

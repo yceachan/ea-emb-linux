@@ -165,19 +165,40 @@ def validate_sparse(path, scratch, expected_bytes, *, writable=False, reserve=0)
     return sparse, raw, info
 
 
-def make_ext4(tree, output, sectors, label, *, new_session=True):
-    bytes_limit = sectors * 512
+def _format_ext4(output, bytes_limit, inode_count, label, *, tree=None, new_session=True):
     if bytes_limit < 32 * 1024 * 1024:
         raise ValueError('带 journal 的 ext4 至少为 32 MiB')
     with Path(output).open('xb') as stream:
         stream.truncate(bytes_limit)
     # Writable kernel inputs carry no host SELinux labels or other xattrs.
     # No metadata_csum, 64bit or directory hash trees on the writable kernel FS.
-    inode_count = max(bytes_limit // 16384, sum(1 for _ in Path(tree).rglob('*')) + 16)
-    command(['mkfs.ext4', '-q', '-F', '-b', str(BLOCK), '-I', '256', '-m', '0', '-N', inode_count,
+    command(['mkfs.ext4', '-q', '-F', '-b', str(BLOCK), '-I', '256', '-m', '0', '-N', max(bytes_limit // 16384, inode_count),
              '-O', 'has_journal,extent,filetype,sparse_super,large_file,^metadata_csum,^64bit,^orphan_file,^dir_index,^flex_bg',
              '-E', 'lazy_itable_init=0,lazy_journal_init=0' + (',no_copy_xattrs' if label == 'kernel' else ''), '-L', label,
-             '-d', tree, output], new_session=new_session)
+             *(['-d', tree] if tree is not None else []), output], new_session=new_session)
+
+
+def ext4_capacity(payload, reserve, entries, label):
+    """Measure metadata with the same formatter used by pack, without copying payload."""
+    unit = 1024 * 1024
+    needed = payload + reserve
+    size = max(32 * unit, (needed + unit - 1) // unit * unit)
+    with tempfile.TemporaryDirectory(prefix='uuf-layout-') as folder:
+        image = Path(folder) / 'empty.ext4'
+        while True:
+            if size > 0xffffffff * 512:
+                raise ValueError('ext4 容量超出 MBR 可表示范围')
+            _format_ext4(image, size, entries + 16, label)
+            deficit = needed - ext4_info(image)['free_bytes']
+            if deficit <= 0:
+                return size
+            image.unlink()
+            size += (deficit + unit - 1) // unit * unit
+
+
+def make_ext4(tree, output, sectors, label, *, new_session=True):
+    _format_ext4(output, sectors * 512, sum(1 for _ in Path(tree).rglob('*')) + 16,
+                 label, tree=tree, new_session=new_session)
     command(['e2fsck', '-fn', output], new_session=new_session)
 
 

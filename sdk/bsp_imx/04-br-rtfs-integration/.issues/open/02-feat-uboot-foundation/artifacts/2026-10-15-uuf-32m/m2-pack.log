@@ -1,39 +1,39 @@
 [result] {
-  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-20261015/bundle",
-  "archive": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-20261015/system.tar.gz",
+  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-final-20261015/bundle",
+  "archive": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-final-20261015/system.tar.gz",
   "images": {
     "kernel": {
       "sparse": {
-        "logical_bytes": 60817408,
-        "container_bytes": 15605848,
-        "written_bytes": 15605760,
-        "skipped_bytes": 45211648,
+        "logical_bytes": 49283072,
+        "container_bytes": 15421528,
+        "written_bytes": 15421440,
+        "skipped_bytes": 33861632,
         "chunks": 5
       },
       "fs": {
-        "bytes": 60817408,
-        "free_bytes": 45211648,
+        "bytes": 49283072,
+        "free_bytes": 33861632,
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "c8ab9531bb1741f98a22b4f0d0177050"
+        "uuid": "655836b96c2a4e1aa30f576fa90808b1"
       }
     },
     "rtfs": {
       "sparse": {
-        "logical_bytes": 95420416,
-        "container_bytes": 17014884,
-        "written_bytes": 17014784,
-        "skipped_bytes": 78405632,
+        "logical_bytes": 84934656,
+        "container_bytes": 16851044,
+        "written_bytes": 16850944,
+        "skipped_bytes": 68083712,
         "chunks": 6
       },
       "fs": {
-        "bytes": 95420416,
-        "free_bytes": 78405632,
+        "bytes": 84934656,
+        "free_bytes": 68083712,
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "c3683e5f2f3d4243842a5db2f04c00f6"
+        "uuid": "a9db775accac4a23ae60b367337e903d"
       }
     }
   },

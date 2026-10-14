@@ -79,7 +79,7 @@ def tree_catalog(source):
     return records
 
 
-def payload_size(source):
+def payload_usage(source):
     source = Path(source)
     if source.is_dir():
         records = tree_catalog(source)
@@ -87,7 +87,7 @@ def payload_size(source):
     else:
         records = tar_members(source)
         sizes = [m.size for m in records if m.isfile()]
-    return sum((n + 4095) // 4096 * 4096 for n in sizes) + len(records) * 4096
+    return sum((n + 4095) // 4096 * 4096 for n in sizes) + len(records) * 4096, len(records)
 
 
 def prepare(request):

@@ -15,8 +15,8 @@ import tarfile
 
 from .backend import Session
 from .model import BOARD, targets, make_mbr, json_file
-from .package import component, pack, unpack
-from .rootfs import payload_size, prepare
+from .package import component, pack, unpack, ext4_capacity
+from .rootfs import payload_usage, prepare
 
 
 def integer(value):
@@ -61,11 +61,10 @@ def create_layout(r):
                        'kernel': {'partition': r['kernel_part'], 'path': r['kernel_path']},
                        'dtb': {'partition': r['kernel_part'], 'path': r['dtb_path']},
                        'rtfs': {'partition': r['rtfs_part']}})
-    def capacity(payload, reserve):
-        value = payload + reserve + 16 * 1024 * 1024
-        return max(32 * 1024 * 1024, (value + 1024 * 1024 - 1) // (1024 * 1024) * (1024 * 1024))
-    kernel_size = capacity(Path(r['kernel']).stat().st_size + Path(r['dtb']).stat().st_size + 8 * 4096, r['kernel_reserve'])
-    rtfs_size = capacity(payload_size(r['rootfs']), r['rtfs_reserve'])
+    kernel_size = ext4_capacity(Path(r['kernel']).stat().st_size + Path(r['dtb']).stat().st_size + 8 * 4096,
+                               r['kernel_reserve'], 8, 'kernel')
+    payload, entries = payload_usage(r['rootfs'])
+    rtfs_size = ext4_capacity(payload, r['rtfs_reserve'], entries, 'rtfs')
     data = make_mbr(kernel_size, rtfs_size, mapping, r['signature'], r['disk_sectors'])
     output.mkdir(parents=True, exist_ok=False)
     (output / 'mbr.bin').write_bytes(data)

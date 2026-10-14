@@ -1,39 +1,39 @@
 [result] {
-  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-20261015/changed-bundle",
+  "bundle": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-final-20261015/changed-bundle",
   "archive": null,
   "images": {
     "kernel": {
       "sparse": {
-        "logical_bytes": 69206016,
-        "container_bytes": 15741016,
-        "written_bytes": 15740928,
-        "skipped_bytes": 53465088,
+        "logical_bytes": 57671680,
+        "container_bytes": 15556696,
+        "written_bytes": 15556608,
+        "skipped_bytes": 42115072,
         "chunks": 5
       },
       "fs": {
-        "bytes": 69206016,
-        "free_bytes": 53465088,
+        "bytes": 57671680,
+        "free_bytes": 42115072,
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "3ec2db8b129b4b33b20f25872fb4a9e1"
+        "uuid": "8be55d44298244b0908ee472129b0985"
       }
     },
     "rtfs": {
       "sparse": {
-        "logical_bytes": 95420416,
-        "container_bytes": 17014884,
-        "written_bytes": 17014784,
-        "skipped_bytes": 78405632,
+        "logical_bytes": 84934656,
+        "container_bytes": 16851044,
+        "written_bytes": 16850944,
+        "skipped_bytes": 68083712,
         "chunks": 6
       },
       "fs": {
-        "bytes": 95420416,
-        "free_bytes": 78405632,
+        "bytes": 84934656,
+        "free_bytes": 68083712,
         "compat": 28,
         "incompat": 66,
         "ro_compat": 107,
-        "uuid": "be681c31b24342bb91518d86477bed29"
+        "uuid": "27d8650419cf4d09b518e3a242e0a1aa"
       }
     }
   },
