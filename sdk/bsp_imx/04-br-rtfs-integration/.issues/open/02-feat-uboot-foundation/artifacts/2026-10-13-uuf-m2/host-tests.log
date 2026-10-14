@@ -11,6 +11,7 @@ test_inspect_empty_disk_returns_basic_info_without_locator (test_host.Host.test_
 test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_is_a_single_rpc_error) ... ok
 test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
 test_large_partition_erase_splits_native_length_without_changing_range (test_host.Host.test_large_partition_erase_splits_native_length_without_changing_range) ... ok
+test_layout_rejects_output_inside_rootfs_before_creating_files (test_host.Host.test_layout_rejects_output_inside_rootfs_before_creating_files) ... ok
 test_only_mapped_kernel_partition_may_be_active (test_host.Host.test_only_mapped_kernel_partition_may_be_active) ... ok
 test_pack_rejects_output_inside_input_trees_before_creating_files (test_host.Host.test_pack_rejects_output_inside_input_trees_before_creating_files) ... ok
 test_persistent_error_stops_host_postwrite_operations (test_host.Host.test_persistent_error_stops_host_postwrite_operations) ... ok
@@ -24,6 +25,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 2.609s
+Ran 25 tests in 2.574s
 
 OK

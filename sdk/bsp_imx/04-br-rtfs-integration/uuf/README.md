@@ -3,7 +3,7 @@ title: uuf · host flasher CLI
 tags: [uuf, UUU, MBR, Sparse, ext4]
 note_types: document
 created: 2026-10-13
-updated: 2026-10-14
+updated: 2026-10-15
 template: doc
 lang: zh
 
@@ -49,7 +49,7 @@ mkdir "$WORK"
 
 默认几何按真实载荷、文件数量、文件系统开销和预留量计算。kernel 预留 32 MiB、rtfs 预留 64 MiB，可用字节参数 `--kernel-reserve`／`--rtfs-reserve` 调整；打包会核对实际空闲空间。`--disk-sectors` 可用实测容量提前限制布局，省略时仍须在 loader 启动后复核设备容量。
 
-layout 生成 `mbr.bin`、独立 `targets.json` 和 `boot.json`。可使用外部工具或后续 GUI 编辑最终 MBR；打包读取该文件，不根据第二份 JSON 几何重新生成。映射示例：
+layout 的输出目录须在目录 rootfs 输入树之外。layout 生成 `mbr.bin`、独立 `targets.json` 和 `boot.json`。可使用外部工具或后续 GUI 编辑最终 MBR；打包读取该文件，不根据第二份 JSON 几何重新生成。映射示例：
 
 ```json
 {"board":"100ask-imx6ull-pro",

@@ -48,6 +48,9 @@ def confirm_rpc(emit, phase, plan):
 
 
 def create_layout(r):
+    output, source = Path(r['output']).resolve(), Path(r['rootfs']).resolve()
+    if source.is_dir() and output.is_relative_to(source):
+        raise ValueError('布局输出不能位于 rootfs 输入目录内部')
     component('kernel', r['kernel'])
     component('dtb', r['dtb'])
     if any(type(r[k]) is not int or r[k] < 0 for k in ('kernel_reserve', 'rtfs_reserve')):
@@ -64,7 +67,6 @@ def create_layout(r):
     kernel_size = capacity(Path(r['kernel']).stat().st_size + Path(r['dtb']).stat().st_size + 8 * 4096, r['kernel_reserve'])
     rtfs_size = capacity(payload_size(r['rootfs']), r['rtfs_reserve'])
     data = make_mbr(kernel_size, rtfs_size, mapping, r['signature'], r['disk_sectors'])
-    output = Path(r['output']).resolve()
     output.mkdir(parents=True, exist_ok=False)
     (output / 'mbr.bin').write_bytes(data)
     (output / 'targets.json').write_text(json.dumps(mapping, ensure_ascii=False, indent=2) + '\n')

@@ -79,7 +79,7 @@
       "write_bytes": 17014784
     }
   ],
-  "host_tests": "passed; see host-tests.log",
+  "host_tests": "passed after layout output guard; see host-tests.log",
   "linux_boot_device": {
     "value": "/dev/mmcblk1p1",
     "board_validation": "pending; integration input is not a device observation"
@@ -99,13 +99,13 @@
   "milestone": "M2 host flasher CLI",
   "branch": "codex/uuf-host-flasher",
   "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched",
-  "host_test_count": 24,
+  "host_test_count": 25,
   "integration_output": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-integration-r8-20261014",
   "cli_source_files": {
     "uuf": "730393730b3b3d04f53dccae8f2081c38ea5153a80c6be854bf4a9c2341d2d98",
     "uuflib/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "uuflib/backend.py": "237fdcad0c8a494f08af697ed35b570487c532f28b65162a0db3409324e6beb5",
-    "uuflib/cli.py": "88902e545398003e3a41def5e1281be087453e63fb5aa531790a9d05f42872fd",
+    "uuflib/cli.py": "63086c6933c4d410ccb75c91b61c88779d773a7836725e2df537ed7b23c08a02",
     "uuflib/images.py": "fdedf8a5857469e967987c84fb9abe4cc617cdd4512eda655e01537e0acc0695",
     "uuflib/model.py": "bb4ff32e87871bf6185d8300abba602314fe3e15b26e73859c53873991e62d50",
     "uuflib/package.py": "e97b45a2a9801871bf58ec95ab659150fab71bce0788249c9b02b7489c095db2",
@@ -113,10 +113,10 @@
     "uuflib/rootfs.py": "a8873bac24020065366b999138abe6b2cf847872d675478efbd96a71bcea90cb",
     "uuflib/transport.py": "b33778b9c88780a49658dc6fb6bf720e8a7c0c34975f9f11b8f36ddcdba7db75",
     "tests/integrate.py": "b0bb75fdc67bd74079b9b16779d3471e31bbd303f3dbf7beeaa1e2e95d6febc8",
-    "tests/test_host.py": "b0fe223dc5aca6388bb57989d2ea1ade7296d15142a19bd4617e316830059738"
+    "tests/test_host.py": "dbc52d045847a8404a24cfbe2d840c54277e251011c7c7cbe8f77bc6fb83d8b9"
   },
   "evidence_files_sha256": {
-    "host-tests.log": "3d6490ca4cbd56ee76b418ae8d0eb5fca4a8c0c94bc684f5843cf85d460c7753",
+    "host-tests.log": "15d3052760aca975ee94e498397ef9292e45bcab22276e720454bcfc21c03c38",
     "layout.log": "e62ffe5cb47791b0c1786d54e690bee0688af5e5253f54c06b41316035450172",
     "pack.log": "6ee8b4394279579bc717703f0c020aa5eb6e556b16b4cea062d60f325db0b512",
     "unpack.log": "c5c64a0f7a065f62087266977b183ff4695ca0b55678e8b78d45bf039f4c71db",
@@ -127,7 +127,7 @@
     "directory-fstab.txt": "2a8a939466db3fbf374c6d8a6d082648f744c131b5519b2f247d7711ccb8fc8d"
   },
   "cloud_review": {
-    "status": "P1 and seven P2 fixed; sixth review pending",
+    "status": "P1 and eight P2 fixed; seventh review pending",
     "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
     "reviewed_head": "81bb68a",
     "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166583821",

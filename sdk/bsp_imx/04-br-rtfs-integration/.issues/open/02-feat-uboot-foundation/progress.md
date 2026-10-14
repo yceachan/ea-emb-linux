@@ -3,7 +3,7 @@ title: uuf · 三阶段开发进度
 tags: [uuf, milestone, review]
 note_types: document
 created: 2026-10-13
-updated: 2026-10-14
+updated: 2026-10-15
 template: doc
 lang: zh
 
@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，首轮云端发现已修正，待复审与人工审阅 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，云端发现已修正，复审中；待人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -55,16 +55,8 @@ CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR �
 
 完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
 
-真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。24 项主机／协议检查通过，覆盖空盘、角色互换、容量误报、确认后变化、错误停止和重复取消。rootfs 的所有权、hardlink、符号链接和设备节点通过实际制像检查；目录输入的真实所有权与扩展属性也已核对。
+真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。25 项主机／协议检查通过，覆盖空盘、角色互换、容量误报、确认后变化、错误停止和重复取消。rootfs 的所有权、hardlink、符号链接和设备节点通过实际制像检查；目录输入的真实所有权与扩展属性也已核对。
 
 Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-13-uuf-m2/collection.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
 
-首轮云端 review 返回一项 P1 与两项 P2，均已修正：只允许 kernel 活动标志；在同一写入脚本中核对已确认 extlinux 后才允许写入；准备 `/boot` 时保留 fstab 的其他条目与注释。新增启动配置竞态和活动标志检查，实际制像核对 fstab 的数据分区／swap 条目保留，待云端复审。
-
-第二轮云端 review 的一项 P2 已修正：UUU 查找结果在切换任务目录前固定为绝对路径，保留符号链接；参数、环境变量和相对 PATH 三种入口均覆盖，测试临时目录不依赖仓库内 build 路径。当前 22 项检查与原生 UUU 离线集成通过，待最终复审。
-
-第三轮云端 review 的大分区擦除 P2 已修正：保持整分区计划，命令按板端 32 位长度与实际 erase group 拆分，不扩大或遗漏范围。5 GiB 分区的协议检查验证连续、对齐与总长度，当前 23 项检查及真实载荷集成通过，待云端复审。
-
-第四轮云端 review 的输出路径 P2 已修正：打包创建文件前拒绝输出位于 rootfs 或固件输入目录内部，防止输入污染与递归复制。两种目录均检查拒绝后没有创建输出；当前 24 项检查与真实载荷集成通过，待云端复审。
-
-第五轮云端 review 的两项 P2 已修正：归档目标与 bundle 输出同样在创建前检查；固件仅复制已验证清单文件，清单须为普通文件。真实制像确认清单外日志与外部符号链接未进入归档，输入树内的归档路径提前拒绝；24 项检查继续通过。
+云端前六轮指出的 1 项 P1、8 项 P2 已修正，包含唯一活动 kernel 分区、写入脚本内启动配置绑定、fstab 条目保留、UUU 路径、擦除 ABI 长度、所有准备输出路径和固件清单复制。新增 layout 输出检查确认在创建文件前拒绝输入树内路径；25 项主机检查通过，待最终复审与人工审阅。

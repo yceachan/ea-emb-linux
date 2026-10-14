@@ -363,6 +363,14 @@ class Host(unittest.TestCase):
                           'output': str(output), 'archive': str(output / 'system.tar.gz')})
         self.assertFalse(output.exists())
 
+    def test_layout_rejects_output_inside_rootfs_before_creating_files(self):
+        source = self.work / 'source-rootfs'
+        source.mkdir()
+        output = source / 'layout'
+        with self.assertRaisesRegex(ValueError, '输入目录内部'):
+            cli.create_layout({'rootfs': str(source), 'output': str(output)})
+        self.assertFalse(output.exists())
+
     def test_rpc_does_not_ignore_false_component_choice_for_full_deploy(self):
         request = {'operation': 'deploy', 'archive': str(self.archive), 'uboot': False}
         result = subprocess.run([sys.executable, ROOT / 'uuf', 'rpc'], input=json.dumps(request) + '\n', text=True, capture_output=True)
