@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-15",
+  "hardware_access": false,
+  "complete_sdk_build": true,
+  "release": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m1-32m-20261015/release",
+  "release_files": {
+    "u-boot-dtb.imx": {
+      "bytes": 392192,
+      "sha256": "105d28b2ba7d0466a22173df619d832e476bd465b8d057d7b67e65835f549299"
+    },
+    ".config": {
+      "bytes": 35342,
+      "sha256": "7fa2a5a7f028262a490568e4e89bf409213c29d07f5d1261d784fab4aeabc200"
+    },
+    "source-revision": {
+      "bytes": 41,
+      "sha256": "07896d51f1685b3482fa817ea6ca54b7d7264991dcb984ff47cb40c16b818753"
+    },
+    "bsp-inputs.sha256": {
+      "bytes": 1177,
+      "sha256": "1462187e42e89189fd5e80a19af375f78e3ee22a85c409c1bfa88c576a970096"
+    },
+    "source-tree.sha256": {
+      "bytes": 4170773,
+      "sha256": "6fb546b774fc9431576776051de52720d7388e9ae6a5771584d9cc4f47a49459"
+    },
+    "image-info.txt": {
+      "bytes": 194,
+      "sha256": "d5aad0aea5905183a744bc5a2badf9c07109310bfa925a9c1e0a701cfa4b83e0"
+    }
+  },
+  "download_limit_bytes": 33554432,
+  "heap_limit_bytes": 16777216,
+  "load_addresses": {
+    "kernel": "0x80800000",
+    "dtb": "0x88000000",
+    "extlinux": "0x8a000000",
+    "fastboot": "0x82000000"
+  },
+  "linked_environment_addresses": "matched in u-boot-dtb.bin",
+  "native_ext4": "passed; see native-ext4.json",
+  "boundary_fixture": "32 MiB deterministic data; not bootable kernel",
+  "boundary_peak_heap_bytes": 76304,
+  "board_commands": "passed; overflow length rejected before write",
+  "cold_boot": "pending developer validation",
+  "cloud_review": "pending"
+}
