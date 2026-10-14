@@ -115,5 +115,16 @@
     "layout-rebuild.log": "49f75f7c0d230592fa67c37ca2a8b2e185830a7d3434246e6dce8bb14dbedb71",
     "rootfs-metadata.txt": "820924eea2454571007168035a6a1366accb157f5e76b8888bf589132d899666",
     "directory-metadata.txt": "da6577544199ea9241543f73d651cbb499b8d9553f571bafa4acccd28ff266d4"
-  }
+  },
+  "cloud_review": {
+    "status": "running; bot acknowledged",
+    "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
+    "reviewed_head": "81bb68a",
+    "request": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6166583821",
+    "evidence": "cloud-review.json"
+  },
+  "developer_manual_review": "pending",
+  "milestone": "M2 host flasher CLI",
+  "branch": "codex/uuf-host-flasher",
+  "interrupted_session_audit": "2026-10-14: release, evidence and current source hashes matched"
 }
