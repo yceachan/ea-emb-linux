@@ -14,7 +14,7 @@
     "tauri_native_debug_build": "passed",
     "cargo_clippy_warnings_denied": "passed",
     "native_interaction": "passed; see native.json",
-    "rpm_bundle": "pending"
+    "rpm_bundle": "passed; debug RPM, extracted without installation"
   },
   "sources": {
     "uuf/uuflib/cli.py": "920eea87c74f04af5f2e09f82ec6419c8d3bff611897a033fdf646c7d72b8271",
@@ -33,5 +33,17 @@
   },
   "test_environment": "see environment.json",
   "cold_boot": "pending-developer-validation",
-  "cloud_review": "pending"
+  "cloud_review": {
+    "state": "completed; no major issues reported",
+    "reviewed_commit": "fac103a14945aef8fd48df7e2481b5bff58c81a2",
+    "url": "https://github.com/yceachan/ea-emb-linux/pull/3#issuecomment-6191510296",
+    "human_review": "pending"
+  },
+  "rpm": {
+    "path": "/home/pi/worktrees/ea-emb-linux/codex/uuf-gui/sdk/bsp_imx/04-br-rtfs-integration/uuf/gui/src-tauri/target/debug/bundle/rpm/uuf-0.1.0-1.x86_64.rpm",
+    "sha256": "eed4290dae0fe74a4c3193df4d843c057077ed76b7b5fb17abfc7210b1e42fbd",
+    "bytes": 51563299,
+    "extracted_root": "/tmp/uuf-m3-rpm",
+    "native_interaction": "passed from extracted usr/bin binary with packaged resources, arbitrary CWD; see rpm-native.json"
+  }
 }

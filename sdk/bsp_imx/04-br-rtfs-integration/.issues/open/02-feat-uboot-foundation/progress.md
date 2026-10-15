@@ -25,7 +25,7 @@ M3 工作区：`/home/pi/worktrees/ea-emb-linux/codex/uuf-gui`，基于 M2 的 `
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
 | M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整、32 项主机检查与真实载荷集成通过；云端复审未发现重大问题；开发者已授权进入 M3 |
-| M3 GUI | `codex/uuf-gui` | 实现与主机验证已完成，待独立 PR 审阅 |
+| M3 GUI | `codex/uuf-gui`，[PR #3](https://github.com/yceachan/ea-emb-linux/pull/3) | 实现、主机与原生验证通过；云端审阅未发现重大问题，待人工审阅 |
 
 ## M1 的实现与验证
 
@@ -77,4 +77,4 @@ Tauri／React GUI 提供烧录、镜像准备、设备信息三页，共用 M2 P
 
 前端交互、MBR 编辑、Rust 桥接与既有主机检查通过。原生 Tauri 交互覆盖真实文件选择、确认、故障停止、取消清理，以及真实载荷制像、布局编辑和归档回环。真实 UUU 仅运行离线检查，正式流程使用协议模拟器；实板写入与冷启动仍待验收。运行证据见 `artifacts/2026-10-15-uuf-m3/collection.json`。
 
-初轮原生测试触发辅助功能环境的两次崩溃，已停止相关进程。按开发者选择修正独立 D-Bus 与虚拟显示测试环境。后续原生检查无新增崩溃；环境诊断记录保存在同一 artifacts 目录。
+RPM 调试包构建通过，解包后的程序在独立目录完成同一原生验证流程。云端完成 `fac103a` 的[审阅](https://github.com/yceachan/ea-emb-linux/pull/3#issuecomment-6191510296)，未发现重大问题。M3 交开发者人工审阅，后续实板验收由 R4 推进。
