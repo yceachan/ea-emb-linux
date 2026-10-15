@@ -93,7 +93,12 @@
   "design_source": "adr.md",
   "m1_evidence": "m1.json",
   "large_rootfs_layout": "m2-large-ext4.json",
-  "cloud_review": "pending",
+  "cloud_review": {
+    "result": "no-major-issues",
+    "reviewed_commit": "dc5d986c4d",
+    "receipt": "cloud-review.json",
+    "unresolved_threads": 0
+  },
   "developer_manual_review": "pending",
   "layout_checks": {
     "2_gib_rootfs": "passed",
