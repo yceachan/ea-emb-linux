@@ -1,0 +1,33 @@
+{
+  "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
+  "reviewed_head": "2f4b8a8",
+  "request_url": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6173319190",
+  "request": {
+    "id": 6173319190,
+    "body": "@codex review\n\n第七轮对 3e7e0b7 的复审未发现重大问题。随后本地复核修正了一个确定的诊断误报：目标路径 /Error.bin 在命令回显中会触发全局 Error 匹配。现在先排除已知脚本命令回显，再检查诊断文本；逐命令完成状态、非零退出及真实错误检查均保留。\n\n新增实际子进程检查覆盖 dry-run 与正式格式的成功回显，真实 Error／零退出失败和不完整命令检查继续通过；总计 26 项检查，原生 UUU dry-run 通过。请复审此最后的 transport 差异，完成后交开发者人工审阅。没有实板写入，GUI 未开始。\n",
+    "created_at": "2026-10-14T16:37:50Z",
+    "reactions": {
+      "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6173319190/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  "summary": {
+    "id": 6166590508,
+    "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T16:40:07.396860Z\">2026-10-14T16:40:07.396860Z</relative-time> | `2f4b8a8` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>",
+    "updated_at": "2026-10-14T16:40:08Z"
+  },
+  "result": {
+    "id": 6173362017,
+    "body": "Codex Review: Didn't find any major issues. :+1:\n\n**Reviewed commit:** `2f4b8a84c7`\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+    "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6173362017",
+    "created_at": "2026-10-14T16:40:06Z"
+  }
+}

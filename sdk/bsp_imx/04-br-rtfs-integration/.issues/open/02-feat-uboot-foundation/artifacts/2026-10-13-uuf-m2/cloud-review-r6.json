@@ -1,0 +1,79 @@
+{
+  "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
+  "reviewed_head": "2c7a462",
+  "request_url": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6172295710",
+  "request": {
+    "id": 6172295710,
+    "created_at": "2026-10-14T15:46:15Z",
+    "body": "@codex review\n\n第五轮两项 P2 已修正：bundle 与归档目标均在创建文件前检查是否位于输入树内，归档也不能位于 bundle 内；固件按已验证清单复制并核对副本 hash，忽略清单外条目，拒绝符号链接形式的校验清单。\n\n实际制像使用带清单外日志和外部符号链接的 release，确认归档只含已验证文件；输入树内归档和 bundle 内归档均提前拒绝，24 项主机检查及原生 UUU dry-run 集成通过。请复审最新 head。此前 1 项 P1、7 项 P2 已修正；实板验收和开发者人工审阅仍待完成，GUI 未开始。\n",
+    "reactions": {
+      "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6172295710/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  "summary": {
+    "id": 6166590508,
+    "updated_at": "2026-10-14T15:50:38Z",
+    "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T15:50:37.118168Z\">2026-10-14T15:50:37.118168Z</relative-time> | `2c7a462` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+  },
+  "reviews": [
+    {
+      "id": 5520715171,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSQ9tow",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `2c7a462051`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5520715171",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5520715171"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T15:50:33Z",
+      "commit_id": "2c7a462051aa232c7ef0965bf9ffca8e008dd9c6"
+    }
+  ],
+  "new_findings": [
+    {
+      "id": 4273067326,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#discussion_r4273067326",
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  拒绝将 layout 输出写入 rootfs 输入树**\n\n当目录形式的 `--rootfs` 包含 `--output`（例如 `--rootfs root --output root/layout`）时，容量计算先扫描输入树，随后这里才在树内创建 `mbr.bin`、`targets.json` 和 `boot.json`；后续按正常流程执行 `pack --rootfs root` 会把这些布局产物静默制入 rtfs，污染最终系统，并且布局容量计算也未包含新增内容。应在创建输出目录前按 resolved path 拒绝输出位于目录 rootfs 内，与 pack 的输入树隔离规则保持一致。\n\nUseful? React with 👍 / 👎.",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/cli.py",
+      "line": 68,
+      "commit_id": "2c7a462051aa232c7ef0965bf9ffca8e008dd9c6"
+    }
+  ]
+}

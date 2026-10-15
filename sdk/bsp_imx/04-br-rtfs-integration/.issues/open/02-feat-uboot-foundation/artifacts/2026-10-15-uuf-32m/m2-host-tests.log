@@ -1,0 +1,37 @@
+test_archive_direct_deploy_has_mbr_capacity_not_container_length (test_host.Host.test_archive_direct_deploy_has_mbr_capacity_not_container_length) ... ok
+test_archive_link_and_traversal_rejected (test_host.Host.test_archive_link_and_traversal_rejected) ... ok
+test_boot_configuration_protocol_limit_is_enforced_before_pack (test_host.Host.test_boot_configuration_protocol_limit_is_enforced_before_pack) ... ok
+test_bundle_crlf_boot_limit_uses_raw_bytes_before_sparse_validation (test_host.Host.test_bundle_crlf_boot_limit_uses_raw_bytes_before_sparse_validation) ... ok
+test_confirmation_reprobe_rejects_changed_cid (test_host.Host.test_confirmation_reprobe_rejects_changed_cid) ... ok
+test_expected_mbr_change_rejected_before_persistent_write (test_host.Host.test_expected_mbr_change_rejected_before_persistent_write) ... ok
+test_explicit_erase_never_expands_alignment (test_host.Host.test_explicit_erase_never_expands_alignment) ... ok
+test_extlinux_change_at_write_script_stops_before_every_write (test_host.Host.test_extlinux_change_at_write_script_stops_before_every_write) ... ok
+test_file_probe_failure_stops_before_target_write_confirmation (test_host.Host.test_file_probe_failure_stops_before_target_write_confirmation) ... ok
+test_firmware_only_needs_no_layout_on_empty_disk (test_host.Host.test_firmware_only_needs_no_layout_on_empty_disk) ... ok
+test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry (test_host.Host.test_full_deploy_blank_disk_and_larger_device_keep_archive_geometry) ... ok
+test_inspect_empty_disk_returns_basic_info_without_locator (test_host.Host.test_inspect_empty_disk_returns_basic_info_without_locator) ... ok
+test_invalid_timeout_is_a_single_rpc_error (test_host.Host.test_invalid_timeout_is_a_single_rpc_error) ... ok
+test_kernel_capacity_includes_all_target_parent_directories (test_host.Host.test_kernel_capacity_includes_all_target_parent_directories) ... ok
+test_kernel_component_accepts_32m_boundary_and_rejects_one_byte_more (test_host.Host.test_kernel_component_accepts_32m_boundary_and_rejects_one_byte_more) ... ok
+test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths (test_host.Host.test_kernel_dtb_combination_preserves_boot_config_and_uses_target_paths) ... ok
+test_large_partition_erase_splits_native_length_without_changing_range (test_host.Host.test_large_partition_erase_splits_native_length_without_changing_range) ... ok
+test_layout_large_rootfs_accounts_for_actual_ext4_metadata (test_host.Host.test_layout_large_rootfs_accounts_for_actual_ext4_metadata) ... ok
+test_layout_rejects_output_inside_rootfs_before_creating_files (test_host.Host.test_layout_rejects_output_inside_rootfs_before_creating_files) ... ok
+test_only_mapped_kernel_partition_may_be_active (test_host.Host.test_only_mapped_kernel_partition_may_be_active) ... ok
+test_pack_rejects_output_inside_input_trees_before_creating_files (test_host.Host.test_pack_rejects_output_inside_input_trees_before_creating_files) ... ok
+test_persistent_error_stops_host_postwrite_operations (test_host.Host.test_persistent_error_stops_host_postwrite_operations) ... ok
+test_relative_uuu_argument_environment_and_path_preserve_launcher (test_host.Host.test_relative_uuu_argument_environment_and_path_preserve_launcher) ... ok
+test_repeated_cancel_cleans_entire_uuu_process_group (test_host.Host.test_repeated_cancel_cleans_entire_uuu_process_group) ... ok
+test_rootfs_capacity_includes_directory_xattr_blocks (test_host.Host.test_rootfs_capacity_includes_directory_xattr_blocks) ... ok
+test_rpc_does_not_ignore_false_component_choice_for_full_deploy (test_host.Host.test_rpc_does_not_ignore_false_component_choice_for_full_deploy) ... ok
+test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch (test_host.Host.test_rtfs_update_uses_existing_mbr_and_rejects_capacity_mismatch) ... ok
+test_small_device_rejected_before_any_persistent_write (test_host.Host.test_small_device_rejected_before_any_persistent_write) ... ok
+test_staged_input_change_after_confirmation_rejected (test_host.Host.test_staged_input_change_after_confirmation_rejected) ... ok
+test_successful_command_echo_with_error_filename_is_not_a_failure (test_host.Host.test_successful_command_echo_with_error_filename_is_not_a_failure) ... ok
+test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped_component_roles_cannot_erase_real_rtfs) ... ok
+test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
+
+----------------------------------------------------------------------
+Ran 32 tests in 8.366s
+
+OK

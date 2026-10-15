@@ -1,0 +1,399 @@
+{
+  "pr": "https://github.com/yceachan/ea-emb-linux/pull/2",
+  "reviewed_head": "da8f544",
+  "request_url": "https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6167179846",
+  "request": {
+    "id": 6167179846,
+    "created_at": "2026-10-14T11:21:16Z",
+    "body": "@codex review\n\n第三轮的大分区擦除 P2 已修正：完整逻辑范围保持不变，按不超过 0xffffffff 字节且符合实际 erase group 的长度拆分板端命令。离线阶段粒度待探测，实际确认前重新按设备粒度形成完整脚本。\n\n新增 5 GiB 分区的协议检查，核对每条命令长度上界、连续性、对齐和最后终点；23 项检查及真实载荷制像、归档原生 UUU dry-run 通过。请复审最新 head；持久写入与冷启动仍待开发者实板验收，GUI 未开始。\n",
+    "reactions": {
+      "url": "https://api.github.com/repos/yceachan/ea-emb-linux/issues/comments/6167179846/reactions",
+      "total_count": 0,
+      "+1": 0,
+      "-1": 0,
+      "laugh": 0,
+      "hooray": 0,
+      "confused": 0,
+      "heart": 0,
+      "rocket": 0,
+      "eyes": 0
+    }
+  },
+  "summary": {
+    "id": 6166590508,
+    "updated_at": "2026-10-14T11:24:54Z",
+    "body": "<!-- codex-pull-request-review-summary -->\n\n## Codex Review Summary\n\nThis comment shows the latest Codex review activity on this pull request.\n\n| Review | Status | Commit | Review trigger |\n| --- | --- | --- | --- |\n| 📝 **Code Review** | ✅ **Completed** <relative-time datetime=\"2026-10-14T11:24:54.018442Z\">2026-10-14T11:24:54.018442Z</relative-time> | `da8f544` | Manual request |\n\n\n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\" or \"@codex security review\".\n\nCodex reacts with 👀 while any review is running, comments if it has suggestions, and reacts with 👍 once all reviews finish with no findings.\n\n</details>"
+  },
+  "reviews": [
+    {
+      "id": 5516785630,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNN33g",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `81bb68a213`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516785630",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516785630"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T10:52:39Z",
+      "commit_id": "81bb68a213f9092288db18d4cf3da3ff5ebca25e"
+    },
+    {
+      "id": 5516851584,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNR5gA",
+      "user": {
+        "login": "yceachan",
+        "id": 108170840,
+        "node_id": "U_kgDOBnKOWA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108170840?u=0ed329113a5cee7aabcd0adefec4a010ef9fac48&v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/yceachan",
+        "html_url": "https://github.com/yceachan",
+        "followers_url": "https://api.github.com/users/yceachan/followers",
+        "following_url": "https://api.github.com/users/yceachan/following{/other_user}",
+        "gists_url": "https://api.github.com/users/yceachan/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/yceachan/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/yceachan/subscriptions",
+        "organizations_url": "https://api.github.com/users/yceachan/orgs",
+        "repos_url": "https://api.github.com/users/yceachan/repos",
+        "events_url": "https://api.github.com/users/yceachan/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/yceachan/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516851584",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "OWNER",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516851584"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T10:58:44Z",
+      "commit_id": "e685673be1edb8be5000447a4e2df0e458c97d53"
+    },
+    {
+      "id": 5516852106,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNR7ig",
+      "user": {
+        "login": "yceachan",
+        "id": 108170840,
+        "node_id": "U_kgDOBnKOWA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108170840?u=0ed329113a5cee7aabcd0adefec4a010ef9fac48&v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/yceachan",
+        "html_url": "https://github.com/yceachan",
+        "followers_url": "https://api.github.com/users/yceachan/followers",
+        "following_url": "https://api.github.com/users/yceachan/following{/other_user}",
+        "gists_url": "https://api.github.com/users/yceachan/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/yceachan/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/yceachan/subscriptions",
+        "organizations_url": "https://api.github.com/users/yceachan/orgs",
+        "repos_url": "https://api.github.com/users/yceachan/repos",
+        "events_url": "https://api.github.com/users/yceachan/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/yceachan/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516852106",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "OWNER",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516852106"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T10:58:47Z",
+      "commit_id": "e685673be1edb8be5000447a4e2df0e458c97d53"
+    },
+    {
+      "id": 5516852850,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNR-cg",
+      "user": {
+        "login": "yceachan",
+        "id": 108170840,
+        "node_id": "U_kgDOBnKOWA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108170840?u=0ed329113a5cee7aabcd0adefec4a010ef9fac48&v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/yceachan",
+        "html_url": "https://github.com/yceachan",
+        "followers_url": "https://api.github.com/users/yceachan/followers",
+        "following_url": "https://api.github.com/users/yceachan/following{/other_user}",
+        "gists_url": "https://api.github.com/users/yceachan/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/yceachan/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/yceachan/subscriptions",
+        "organizations_url": "https://api.github.com/users/yceachan/orgs",
+        "repos_url": "https://api.github.com/users/yceachan/repos",
+        "events_url": "https://api.github.com/users/yceachan/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/yceachan/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516852850",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "OWNER",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516852850"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T10:58:51Z",
+      "commit_id": "e685673be1edb8be5000447a4e2df0e458c97d53"
+    },
+    {
+      "id": 5516909164,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNVabA",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `e685673be1`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516909164",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516909164"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T11:04:16Z",
+      "commit_id": "e685673be1edb8be5000447a4e2df0e458c97d53"
+    },
+    {
+      "id": 5516962595,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNYrIw",
+      "user": {
+        "login": "yceachan",
+        "id": 108170840,
+        "node_id": "U_kgDOBnKOWA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108170840?u=0ed329113a5cee7aabcd0adefec4a010ef9fac48&v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/yceachan",
+        "html_url": "https://github.com/yceachan",
+        "followers_url": "https://api.github.com/users/yceachan/followers",
+        "following_url": "https://api.github.com/users/yceachan/following{/other_user}",
+        "gists_url": "https://api.github.com/users/yceachan/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/yceachan/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/yceachan/subscriptions",
+        "organizations_url": "https://api.github.com/users/yceachan/orgs",
+        "repos_url": "https://api.github.com/users/yceachan/repos",
+        "events_url": "https://api.github.com/users/yceachan/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/yceachan/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516962595",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "OWNER",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5516962595"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T11:09:05Z",
+      "commit_id": "8eabd9410b33ef24e0e943d0a5c0207f5818dd9f"
+    },
+    {
+      "id": 5517024172,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNcbrA",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `8eabd9410b`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517024172",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517024172"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T11:14:49Z",
+      "commit_id": "8eabd9410b33ef24e0e943d0a5c0207f5818dd9f"
+    },
+    {
+      "id": 5517092491,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNgmiw",
+      "user": {
+        "login": "yceachan",
+        "id": 108170840,
+        "node_id": "U_kgDOBnKOWA",
+        "avatar_url": "https://avatars.githubusercontent.com/u/108170840?u=0ed329113a5cee7aabcd0adefec4a010ef9fac48&v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/yceachan",
+        "html_url": "https://github.com/yceachan",
+        "followers_url": "https://api.github.com/users/yceachan/followers",
+        "following_url": "https://api.github.com/users/yceachan/following{/other_user}",
+        "gists_url": "https://api.github.com/users/yceachan/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/yceachan/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/yceachan/subscriptions",
+        "organizations_url": "https://api.github.com/users/yceachan/orgs",
+        "repos_url": "https://api.github.com/users/yceachan/repos",
+        "events_url": "https://api.github.com/users/yceachan/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/yceachan/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517092491",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "OWNER",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517092491"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T11:21:04Z",
+      "commit_id": "da8f544491a0a41ef8fcde10e843e3e5ce6e5bf8"
+    },
+    {
+      "id": 5517131954,
+      "node_id": "PRR_kwDOU7Xf2s8AAAABSNjAsg",
+      "user": {
+        "login": "chatgpt-codex-connector[bot]",
+        "id": 199175422,
+        "node_id": "BOT_kgDOC98s_g",
+        "avatar_url": "https://avatars.githubusercontent.com/in/1144995?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D",
+        "html_url": "https://github.com/apps/chatgpt-codex-connector",
+        "followers_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/followers",
+        "following_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/following{/other_user}",
+        "gists_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/subscriptions",
+        "organizations_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/orgs",
+        "repos_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/repos",
+        "events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/chatgpt-codex-connector%5Bbot%5D/received_events",
+        "type": "Bot",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "body": "\n### 💡 Codex Review\n\nHere are some automated review suggestions for this pull request.\n\n**Reviewed commit:** `da8f544491`\n    \n\n<details> <summary>ℹ️ About Codex in GitHub</summary>\n<br/>\n\n[Your team has set up Codex to review pull requests in this repo](https://chatgpt.com/codex/cloud/settings/general). Reviews are triggered when you\n- Open a pull request for review\n- Mark a draft as ready\n- Comment \"@codex review\".\n\nIf Codex has suggestions, it will comment; otherwise it will react with 👍.\n\n\n\n\nCodex can also answer questions or update the PR. Try commenting \"@codex address that feedback\".\n            \n</details>",
+      "state": "COMMENTED",
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517131954",
+      "pull_request_url": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2",
+      "author_association": "NONE",
+      "_links": {
+        "html": {
+          "href": "https://github.com/yceachan/ea-emb-linux/pull/2#pullrequestreview-5517131954"
+        },
+        "pull_request": {
+          "href": "https://api.github.com/repos/yceachan/ea-emb-linux/pulls/2"
+        }
+      },
+      "submitted_at": "2026-10-14T11:24:51Z",
+      "commit_id": "da8f544491a0a41ef8fcde10e843e3e5ce6e5bf8"
+    }
+  ],
+  "new_findings": [
+    {
+      "id": 4270132316,
+      "html_url": "https://github.com/yceachan/ea-emb-linux/pull/2#discussion_r4270132316",
+      "body": "**<sub><sub>![P2 Badge](https://img.shields.io/badge/P2-yellow?style=flat)</sub></sub>  拒绝位于 rootfs 内的打包输出目录**\n\n当目录形式的 `--rootfs` 包含 `--output`（例如 `--rootfs root --output root/bundle`）时，这里会先在源树内创建输出，随后又在其中创建 `prepare-*` 工作目录；后面的 `tree_catalog(source)` 因而会把刚生成的固件、`kernel.ext4` 和临时树当作 rootfs 输入，造成镜像异常膨胀、内容污染或制像失败。请像 `archive()` 一样在创建任何文件前拒绝位于源目录内的输出路径。\n\nUseful? React with 👍 / 👎.",
+      "path": "sdk/bsp_imx/04-br-rtfs-integration/uuf/uuflib/package.py",
+      "line": 272,
+      "commit_id": "da8f544491a0a41ef8fcde10e843e3e5ce6e5bf8"
+    }
+  ]
+}

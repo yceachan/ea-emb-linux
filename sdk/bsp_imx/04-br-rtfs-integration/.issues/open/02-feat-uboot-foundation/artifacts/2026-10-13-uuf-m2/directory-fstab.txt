@@ -1,0 +1,4 @@
+# existing mounts
+/dev/data /data ext4 defaults 0 2
+/dev/swap none swap sw 0 0
+/dev/mmcblk1p1 /boot ext4 defaults 0 2

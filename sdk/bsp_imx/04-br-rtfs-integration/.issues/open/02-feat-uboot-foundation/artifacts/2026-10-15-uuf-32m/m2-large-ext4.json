@@ -1,0 +1,8 @@
+{
+  "payload_estimate_bytes": 2147491840,
+  "reserve_bytes": 67108864,
+  "partition_bytes": 2322595840,
+  "empty_free_bytes": 2215526400,
+  "metadata_bytes": 107069440,
+  "hardware_access": false
+}

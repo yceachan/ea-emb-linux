@@ -43,5 +43,9 @@
   "boundary_peak_heap_bytes": 76304,
   "board_commands": "passed; overflow length rejected before write",
   "cold_boot": "pending developer validation",
-  "cloud_review": "pending"
+  "cloud_review": {
+    "result": "no-major-issues",
+    "reviewed_commit": "260ec53441",
+    "receipt": "m1-cloud-review.json"
+  }
 }

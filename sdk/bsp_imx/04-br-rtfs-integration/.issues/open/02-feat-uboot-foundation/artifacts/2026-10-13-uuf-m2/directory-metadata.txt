@@ -1,0 +1,35 @@
+Inode: 13   Type: regular    Mode:  0640   Flags: 0x80000
+Generation: 0    Version: 0x00000000:00000000
+User:  1000   Group:  1000   Project:     0   Size: 4
+File ACL: 1404
+Links: 2   Blockcount: 16
+Fragment:  Address: 0    Number: 0    Size: 0
+ ctime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+ atime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+ mtime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+crtime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+Size of extra inode fields: 32
+Extended attributes:
+  security.selinux (37) = "unconfined_u:object_r:user_home_t:s0\000"
+  user.uuf_test (4) = "kept"
+EXTENTS:
+(0):1403
+Inode: 13   Type: regular    Mode:  0640   Flags: 0x80000
+Generation: 0    Version: 0x00000000:00000000
+User:  1000   Group:  1000   Project:     0   Size: 4
+File ACL: 1404
+Links: 2   Blockcount: 16
+Fragment:  Address: 0    Number: 0    Size: 0
+ ctime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+ atime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+ mtime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+crtime: 0x6acf6a7b:00000000 -- Wed Oct 14 19:41:47 2026
+Size of extra inode fields: 32
+Extended attributes:
+  security.selinux (37) = "unconfined_u:object_r:user_home_t:s0\000"
+  user.uuf_test (4) = "kept"
+EXTENTS:
+(0):1403
+Extended attributes:
+  security.selinux (37) = "unconfined_u:object_r:user_home_t:s0\000"
+  user.uuf_test (4) = "kept"

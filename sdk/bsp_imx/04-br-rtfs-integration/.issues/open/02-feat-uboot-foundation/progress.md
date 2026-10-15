@@ -3,7 +3,7 @@ title: uuf · 三阶段开发进度
 tags: [uuf, milestone, review]
 note_types: document
 created: 2026-10-13
-updated: 2026-10-13
+updated: 2026-10-15
 template: doc
 lang: zh
 
@@ -22,7 +22,7 @@ lang: zh
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，独立 PR 待创建 | 开发中 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整、32 项主机检查与真实载荷集成通过；云端复审未发现重大问题，待人工审阅 |
 | M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
 
 ## M1 的实现与验证
@@ -33,7 +33,7 @@ lang: zh
 
 2026-10-13，开发者允许本 session 执行 SDK 构建集成，并指示构建 U-Boot 后进入 host flasher CLI。固定输入的完整 U-Boot 构建已通过，release 生成 DCD 镜像及可核对的六项文件清单。ROM USB 自动 fastboot、eMMC 冷启动、3 秒打断及实板文件更新仍待验收。
 
-当前已配置并完成对象检查的目录可用于完整链接：
+本次完整构建的复现命令：
 
 ```sh
 env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-toolchain-15.3.rel1-x86_64-arm-none-linux-gnueabihf/bin/arm-none-linux-gnueabihf- \
@@ -46,3 +46,23 @@ env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-t
 首轮云端 review 审阅 `b229061`，指出一项 P2：boot0 校验、分配或对齐失败后未恢复 user area。已统一修正相关退出路径，原生回归验证错误后恢复 user area 且未写入介质。
 
 云端已完成 `52c0197` 的[第二轮 review](https://github.com/yceachan/ea-emb-linux/pull/1#issuecomment-6146457985)，未发现重大问题，原 P2 已关闭。实板证据门槛保持独立。
+
+## M2 的实现与验证
+
+CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR 是唯一几何来源，targets 仅描述角色／分区号／文件路径，启动描述与固件部署描述独立。实现说明与操作入口见 [uuf/README.md](../../../uuf/README.md)，执行及审阅边界见 [ADR-05](adr.md)。
+
+完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
+
+真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、原生 UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。32 项主机／协议检查通过，覆盖组件容量、空盘、角色互换、确认后变化、错误停止和重复取消。rootfs 元数据保留经实际制像核对。
+
+容量估算已覆盖 ext4 元数据、目录扩展属性、目标父目录和实际 extlinux 文本。extlinux 保持既有 8 KiB 导出上限，按原始 UTF-8 字节校验，CRLF 不做换行归一化。
+
+云端发现均已修正，全部审阅讨论已解决。最新实现 `dc5d986` 的[最终复审](https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6190348756)未发现重大问题。本轮设计与实现已收口，交开发者人工审阅。
+
+Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-15-uuf-32m/m2.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
+
+## 32 MiB 内存预算
+
+开发者确认 DDR 为 512 MiB，并确定本轮完整文件窗口为 32 MiB。M1 完整构建通过，链接后的加载地址与配置一致；16 MiB heap 约束下，实际 ext4 写入器完成 32 MiB 大小载荷覆盖、读回和未选文件／所有权保留。M2 同步输入上限与固件配置核验，精确 32 MiB 接受、多一字节拒绝、旧 release 拒绝均通过。
+
+内存决策见 [ADR-06](adr.md)，地址与执行边界见 [firmware/README.md](../../../uuf/firmware/README.md)。边界载荷不是可启动内核，实板解压、冷启动及写入仍待验收。M1 的 32 MiB 调整云端复审未发现重大问题，本轮待开发者人工审阅；运行证据见 `artifacts/2026-10-15-uuf-32m/m1.json`。
