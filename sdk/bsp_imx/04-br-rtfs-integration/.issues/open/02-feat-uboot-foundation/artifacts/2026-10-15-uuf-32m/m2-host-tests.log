@@ -1,6 +1,7 @@
 test_archive_direct_deploy_has_mbr_capacity_not_container_length (test_host.Host.test_archive_direct_deploy_has_mbr_capacity_not_container_length) ... ok
 test_archive_link_and_traversal_rejected (test_host.Host.test_archive_link_and_traversal_rejected) ... ok
 test_boot_configuration_protocol_limit_is_enforced_before_pack (test_host.Host.test_boot_configuration_protocol_limit_is_enforced_before_pack) ... ok
+test_bundle_crlf_boot_limit_uses_raw_bytes_before_sparse_validation (test_host.Host.test_bundle_crlf_boot_limit_uses_raw_bytes_before_sparse_validation) ... ok
 test_confirmation_reprobe_rejects_changed_cid (test_host.Host.test_confirmation_reprobe_rejects_changed_cid) ... ok
 test_expected_mbr_change_rejected_before_persistent_write (test_host.Host.test_expected_mbr_change_rejected_before_persistent_write) ... ok
 test_explicit_erase_never_expands_alignment (test_host.Host.test_explicit_erase_never_expands_alignment) ... ok
@@ -31,6 +32,6 @@ test_swapped_component_roles_cannot_erase_real_rtfs (test_host.Host.test_swapped
 test_transport_requires_all_command_successes_even_with_zero_status (test_host.Host.test_transport_requires_all_command_successes_even_with_zero_status) ... ok
 
 ----------------------------------------------------------------------
-Ran 31 tests in 7.444s
+Ran 32 tests in 8.366s
 
 OK

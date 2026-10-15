@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import re
 import signal
+import shutil
 import subprocess
 import struct
 import sys
@@ -483,6 +484,23 @@ class Host(unittest.TestCase):
         events = [json.loads(l) for l in result.stdout.splitlines()]
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0]['event'], 'error')
+
+    def test_bundle_crlf_boot_limit_uses_raw_bytes_before_sparse_validation(self):
+        bundle = self.work / 'bundle'
+        shutil.copytree(self.bundle_path, bundle)
+        conf = bundle / self.bundle['manifest']['files']['boot_config']
+        text = conf.read_bytes().decode('utf-8')
+        # Comments preserve the selected entry while CRLF normalization hides
+        # enough bytes to pass the old 8192-byte text-mode gate.
+        raw = text.replace('\n', '\r\n').encode()
+        raw += b'# padding\r\n' * ((model.MAX_EXPORT - len(raw)) // 11 + 1)
+        self.assertGreater(len(raw), model.MAX_EXPORT)
+        self.assertLessEqual(len(raw.replace(b'\r\n', b'\n')), model.MAX_EXPORT)
+        conf.write_bytes(raw)
+        package.write_sums(bundle)
+        with patch('uuflib.package.validate_sparse', side_effect=AssertionError('too late')):
+            with self.assertRaisesRegex(ValueError, '8 KiB'):
+                package.load_bundle(bundle)
 
     def test_transport_requires_all_command_successes_even_with_zero_status(self):
         script = self.work / 'test.uuu'

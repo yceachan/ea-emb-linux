@@ -257,7 +257,7 @@ def load_bundle(folder):
     component('dtb', paths['dtb'])
     data = paths['mbr'].read_bytes()
     m, parts = geometry(data, mapping)
-    text = paths['boot_config'].read_text()
+    text = paths['boot_config'].read_bytes().decode('utf-8')
     entry = parse_boot(text)
     if (entry['kernel'] != mapping['kernel']['path'] or entry['dtb'] != mapping['dtb']['path']
             or boot_root(entry, m['signature'], parts) != mapping['rtfs']['partition']):
