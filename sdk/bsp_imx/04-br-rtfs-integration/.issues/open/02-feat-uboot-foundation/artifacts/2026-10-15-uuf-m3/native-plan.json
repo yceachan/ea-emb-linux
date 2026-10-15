@@ -1,0 +1,145 @@
+{
+  "operation": "deploy",
+  "board": "100ask-imx6ull-pro",
+  "actual": null,
+  "targets": {
+    "board": "100ask-imx6ull-pro",
+    "kernel": {
+      "partition": 1,
+      "path": "/zImage"
+    },
+    "dtb": {
+      "partition": 1,
+      "path": "/board.dtb"
+    },
+    "rtfs": {
+      "partition": 2
+    }
+  },
+  "firmware_target": {
+    "area": "boot0",
+    "offset": 1024,
+    "limit": 1047552,
+    "boot_ack": 1,
+    "boot_partition": 1
+  },
+  "writes": [
+    {
+      "kind": "uboot",
+      "hw": 1,
+      "start_sector": 2,
+      "source_bytes": 392192,
+      "write_bytes": 392192,
+      "sha256": "105d28b2ba7d0466a22173df619d832e476bd465b8d057d7b67e65835f549299",
+      "conditional": "目标 hash 相同则免写"
+    },
+    {
+      "kind": "mbr",
+      "hw": 0,
+      "start_sector": 0,
+      "write_bytes": 512,
+      "sha256": "1e92830e0b78a603e3ead0addd2c0aa94e7566df9ed25e5a0e6c26155272f80a"
+    },
+    {
+      "kind": "kernel-partition",
+      "hw": 0,
+      "partition": 1,
+      "source_bytes": 15421528,
+      "logical_bytes": 49283072,
+      "write_bytes": 15421440,
+      "sha256": "fd7fc7f07ce0df105a1049a680a9e9ee902569e915cdfa11d79ccbd27838e83e",
+      "start_sector": 2048,
+      "partition_bytes": 49283072
+    },
+    {
+      "kind": "rtfs-partition",
+      "hw": 0,
+      "partition": 2,
+      "source_bytes": 16851044,
+      "logical_bytes": 84934656,
+      "write_bytes": 16850944,
+      "sha256": "efb6f7aa5b4ea34acd3ec21d22403e611dc3b7d0563f42bdbbc56eb6dbafc1f1",
+      "start_sector": 98304,
+      "partition_bytes": 84934656
+    }
+  ],
+  "inputs": {
+    "kernel.bin": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/kernel.bin",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/kernel.bin",
+      "source_bytes": 10363128,
+      "sha256": "812581a1239574da9c006f71549a4b1cab4c8e5e88618b63a190735ab887f513"
+    },
+    "board.dtb": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/board.dtb",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/board.dtb",
+      "source_bytes": 32636,
+      "sha256": "1e5f065683de0520ab434af0555daacbad8f3e43f8fbf04076676698e1483987"
+    },
+    "extlinux.conf": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/extlinux.conf",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/extlinux.conf",
+      "source_bytes": 136,
+      "sha256": "f37a391fce22b82f6566f10cd2b920f0a9b061ce14fbf551a71e134355ccd9c2"
+    },
+    "mbr.bin": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/mbr.bin",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/mbr.bin",
+      "source_bytes": 512,
+      "sha256": "1e92830e0b78a603e3ead0addd2c0aa94e7566df9ed25e5a0e6c26155272f80a"
+    },
+    "kernel.sparse": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/kernel.sparse",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/kernel.sparse",
+      "source_bytes": 15421528,
+      "sha256": "fd7fc7f07ce0df105a1049a680a9e9ee902569e915cdfa11d79ccbd27838e83e",
+      "sparse": {
+        "logical_bytes": 49283072,
+        "container_bytes": 15421528,
+        "written_bytes": 15421440,
+        "skipped_bytes": 33861632,
+        "chunks": 5
+      },
+      "filesystem": {
+        "bytes": 49283072,
+        "free_bytes": 33861632,
+        "compat": 28,
+        "incompat": 66,
+        "ro_compat": 107,
+        "uuid": "03a3726ebe8a4f3e962300bfa781518f"
+      }
+    },
+    "rtfs.sparse": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/rtfs.sparse",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/rtfs.sparse",
+      "source_bytes": 16851044,
+      "sha256": "efb6f7aa5b4ea34acd3ec21d22403e611dc3b7d0563f42bdbbc56eb6dbafc1f1",
+      "sparse": {
+        "logical_bytes": 84934656,
+        "container_bytes": 16851044,
+        "written_bytes": 16850944,
+        "skipped_bytes": 68083712,
+        "chunks": 6
+      },
+      "filesystem": {
+        "bytes": 84934656,
+        "free_bytes": 68083712,
+        "compat": 28,
+        "incompat": 66,
+        "ro_compat": 107,
+        "uuid": "b5a54cdb5a1941bc81e5d9eb7175abed"
+      }
+    },
+    "loader.imx": {
+      "source": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/bundle/firmware/u-boot-dtb.imx",
+      "path": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0/loader.imx",
+      "source_bytes": 392192,
+      "sha256": "105d28b2ba7d0466a22173df619d832e476bd465b8d057d7b67e65835f549299"
+    }
+  },
+  "pending_device_checks": [
+    "CID、真实 user area／boot0 容量与板载 MBR 待 loader 启动后复核"
+  ],
+  "logs": "/tmp/uuf-m3-native-verified/jobs/20261015-195032-f44f5fa0",
+  "cold_boot": "pending-developer-validation"
+}

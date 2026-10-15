@@ -1,0 +1,6 @@
+{
+  "identifier": "main",
+  "description": "本地窗口接收任务事件",
+  "windows": ["main"],
+  "permissions": ["core:event:allow-listen", "core:event:allow-unlisten"]
+}

@@ -1,0 +1,37 @@
+{
+  "base_revision": "fdd8a7e",
+  "hardware_access": false,
+  "host_tests": {
+    "existing_protocol_tests": 32,
+    "mbr_editor_tests": 3,
+    "react_interaction_tests": 6,
+    "rust_lifecycle_tests": 1,
+    "rust_real_rpc_cli_plan_equivalence": 1,
+    "outcome": "passed"
+  },
+  "checks": {
+    "typescript_and_frontend_build": "passed",
+    "tauri_native_debug_build": "passed",
+    "cargo_clippy_warnings_denied": "passed",
+    "native_interaction": "passed; see native.json",
+    "rpm_bundle": "pending"
+  },
+  "sources": {
+    "uuf/uuflib/cli.py": "920eea87c74f04af5f2e09f82ec6419c8d3bff611897a033fdf646c7d72b8271",
+    "uuf/uuflib/backend.py": "43b6e6cf65d17148ee7c4199c86ff02cda9d6522d93037b9a01db909257c43d4",
+    "uuf/gui/src/App.tsx": "4b02cbcedc20ec721e16226aa2da23ff06012812d99af472c8aa480bd114f090",
+    "uuf/gui/src/api.ts": "9d94bf56c3e31ed338c404af2b838b17e6483dcd28e7f57daaf3963b5b2d2ba2",
+    "uuf/gui/src-tauri/src/main.rs": "ef2700e6a215c7fd08a62d152010420e13c6aa20b2e957bfe3e7c761f8f9c5f4",
+    "uuf/gui/src-tauri/src/runner.rs": "af1375fb93fe706821b0efa25fcc1cf905afdbc2726d6700e19e7950ca6c7f5a",
+    "uuf/gui/tests/native_gui.py": "125909329ffd106e69f69a4c3822b231dc24949b3fcd38075484a774b66041d8"
+  },
+  "native_inputs": {
+    "archive": "/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones/sdk/bsp_imx/04-br-rtfs-integration/uuf/build/m2-32m-raw-20261015/system.tar.gz",
+    "rootfs": "/home/pi/worktrees/ea-emb-linux/codex/uuf-foundation/sdk/bsp_imx/04-br-rtfs-integration/build/final-20261013/03-busybox-package/rootfs.tar.gz",
+    "output": "/tmp/uuf-m3-native-verified",
+    "real_uuu": "Snap UUU 1.5.21 raw binary with SSL 1.1 / crypto / bz2 from its core18 runtime, isolated test wrapper; offline-only adapter rejects every operation except -dry"
+  },
+  "test_environment": "see environment.json",
+  "cold_boot": "pending-developer-validation",
+  "cloud_review": "pending"
+}

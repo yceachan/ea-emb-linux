@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "uuf",
+  "version": "0.1.0",
+  "identifier": "dev.eachan.uuf",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "uuf · i.MX6ULL Pro",
+        "width": 960,
+        "height": 640,
+        "center": true,
+        "visible": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["deb", "rpm"],
+    "icon": ["icons/icon.png"],
+    "resources": {
+      "../../uuf": "backend/uuf",
+      "../../firmware/": "backend/firmware/",
+      "../../uuflib/*.py": "backend/uuflib/"
+    },
+    "linux": {
+      "deb": {
+        "depends": [
+          "python3 (>= 3.12)",
+          "e2fsprogs",
+          "fakeroot",
+          "device-tree-compiler",
+          "libwebkit2gtk-4.1-0"
+        ]
+      },
+      "rpm": {
+        "depends": [
+          "python3 >= 3.12",
+          "e2fsprogs",
+          "fakeroot",
+          "dtc",
+          "webkit2gtk4.1"
+        ]
+      }
+    }
+  }
+}
