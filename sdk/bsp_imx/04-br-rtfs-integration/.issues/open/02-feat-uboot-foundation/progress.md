@@ -11,7 +11,7 @@ lang: zh
 
 # uuf · 三阶段开发进度
 
-本轮使用新 worktree 按 [route.md](route.md) 推进。每阶段完成主机验证、独立 PR 的云端 review 和开发者人工审阅后，才进入下一阶段。实板行为有独立证据门槛。
+M1／M2／M3 已按 [route.md](route.md) 完成分阶段实现和主机验证，云端审阅未发现重大问题。2026-10-15，开发者授权将三个阶段交付整理到 `main`。实板行为由 R4 独立验收。
 
 ## 工作区
 
@@ -25,7 +25,7 @@ M3 工作区：`/home/pi/worktrees/ea-emb-linux/codex/uuf-gui`，基于 M2 的 `
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
 | M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整、32 项主机检查与真实载荷集成通过；云端复审未发现重大问题；开发者已授权进入 M3 |
-| M3 GUI | `codex/uuf-gui`，[PR #3](https://github.com/yceachan/ea-emb-linux/pull/3) | 实现、主机与原生验证通过；云端审阅未发现重大问题，待人工审阅 |
+| M3 GUI | `codex/uuf-gui`，[PR #3](https://github.com/yceachan/ea-emb-linux/pull/3) | 实现、主机与原生验证通过；云端审阅未发现重大问题；开发者已授权合入 main |
 
 ## M1 的实现与验证
 
@@ -67,7 +67,7 @@ Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；
 
 开发者确认 DDR 为 512 MiB，并确定本轮完整文件窗口为 32 MiB。M1 完整构建通过，链接后的加载地址与配置一致；16 MiB heap 约束下，实际 ext4 写入器完成 32 MiB 大小载荷覆盖、读回和未选文件／所有权保留。M2 同步输入上限与固件配置核验，精确 32 MiB 接受、多一字节拒绝、旧 release 拒绝均通过。
 
-内存决策见 [ADR-06](adr.md)，地址与执行边界见 [firmware/README.md](../../../uuf/firmware/README.md)。边界载荷不是可启动内核，实板解压、冷启动及写入仍待验收。M1 的 32 MiB 调整云端复审未发现重大问题，本轮待开发者人工审阅；运行证据见 `artifacts/2026-10-15-uuf-32m/m1.json`。
+内存决策见 [ADR-06](adr.md)，地址与执行边界见 [firmware/README.md](../../../uuf/firmware/README.md)。边界载荷不是可启动内核，实板解压、冷启动及写入仍待验收。M1 的 32 MiB 调整云端复审未发现重大问题，本轮已纳入主线集成；运行证据见 `artifacts/2026-10-15-uuf-32m/m1.json`。
 
 ## M3 的实现与验证
 
@@ -77,4 +77,4 @@ Tauri／React GUI 提供烧录、镜像准备、设备信息三页，共用 M2 P
 
 前端交互、MBR 编辑、Rust 桥接与既有主机检查通过。原生 Tauri 交互覆盖真实文件选择、确认、故障停止、取消清理，以及真实载荷制像、布局编辑和归档回环。真实 UUU 仅运行离线检查，正式流程使用协议模拟器；实板写入与冷启动仍待验收。运行证据见 `artifacts/2026-10-15-uuf-m3/collection.json`。
 
-RPM 调试包构建通过，解包后的程序在独立目录完成同一原生验证流程。云端完成 `fac103a` 的[审阅](https://github.com/yceachan/ea-emb-linux/pull/3#issuecomment-6191510296)，未发现重大问题。M3 交开发者人工审阅，后续实板验收由 R4 推进。
+RPM 调试包构建通过，解包后的程序在独立目录完成同一原生验证流程。云端完成 `fac103a` 的[审阅](https://github.com/yceachan/ea-emb-linux/pull/3#issuecomment-6191510296)，未发现重大问题。开发者已授权将三个阶段交付合入 `main`，后续实板验收由 R4 推进。

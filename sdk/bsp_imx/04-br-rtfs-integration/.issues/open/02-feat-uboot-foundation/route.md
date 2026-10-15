@@ -6,6 +6,8 @@
 
 远端 main 落后本地基线，需求基线发布到 `codex/uuf-baseline`。M1 PR 以此为 base，M2 以 M1 为 base，M3 以 M2 为 base，形成逐阶段可审阅的差异。阶段 PR 不自动合并。
 
+2026-10-15：开发者授权将 M1／M2／M3 的交付整理入 `main`。阶段实现与审阅记录已纳入主线；issue 保持开放，后续推进 R4 的实板验收与 BR 接入。
+
 ## M1 · U-Boot
 
 在隔离 worktree 中建立 `uuf/` 产品源码，迁入 02 的固定 U-Boot 板级输入和构建入口。补齐 ROM USB 自动 fastboot、boot0 产品启动、extlinux 发现、3 秒控制台打断和 ext4 文件写入。
