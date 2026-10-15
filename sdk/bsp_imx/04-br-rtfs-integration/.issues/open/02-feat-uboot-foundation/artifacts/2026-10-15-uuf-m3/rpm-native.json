@@ -1,0 +1,19 @@
+{
+  "hardware_access": false,
+  "native_window": {
+    "x": 480,
+    "y": 270,
+    "width": 960,
+    "height": 540
+  },
+  "native_file_selection": "passed",
+  "native_picker_cancel": "passed",
+  "native_uuu_dry_run": "passed",
+  "two_confirmations_with_emulated_transport": "passed",
+  "disconnect_stops_before_write": "passed",
+  "cancel_descendant_cleanup": "passed",
+  "archive_and_actual_partition_display": "passed",
+  "mbr_edit_and_save": "passed",
+  "blank_disk_display": "passed",
+  "layout_pack_and_unpack_with_real_payloads": "passed"
+}

@@ -382,6 +382,7 @@ class Session:
         return lines
 
     def execute(self):
+        self.emit('stage', {'name': '主机预检'})
         draft = self.preflight()
         if self.request.get('dry_run'):
             self.emit('result', {'state': 'dry-run-passed', 'plan': draft, 'hardware_access': False})
@@ -389,9 +390,11 @@ class Session:
         self.confirm('host-plan', draft)
         self.deadline = time.monotonic() + self.request.get('timeout', 3600)
         self.check_staged()
+        self.emit('stage', {'name': '连接 ROM 并下载 RAM loader'})
         listed = transport.run(self.uuu, ['-lsusb'], self.work, self.work / 'usb.log', 30, self.emit)
         self.usb = transport.select_rom(listed, self.request.get('usb_path'))
         self.call(self.boot_lines(), name='loader.uuu')
+        self.emit('stage', {'name': '读取真实设备与分区'})
         needs_boot = (self.request['operation'] == 'update' and bool(self.images or self.request.get('kernel') or self.request.get('dtb'))
                       or self.request['operation'] == 'erase' and self.request['region'] != 'firmware'
                       or self.request.get('with_boot', False))
@@ -408,10 +411,13 @@ class Session:
         lines = self.write_lines(plan)
         self.call(lines, dry=True, name='target-preflight.uuu')
         self.confirm('target-write', plan)
+        self.emit('stage', {'name': '复核确认对象与输入'})
         if self.probe(needs_boot) != actual:
             raise ValueError('确认期间 CID、设备信息、MBR 或启动描述变化；重新开始')
         self.check_staged()
+        self.emit('stage', {'name': '写入与读回核验'})
         text = self.call(lines, name='write-verify.uuu')
+        self.emit('stage', {'name': '核对最终设备状态'})
         after = self.info()
         expected = ((self.fw['boot_ack'] << 6) | (self.fw['boot_partition'] << 3)
                     if self.request.get('uboot') else actual['partconf'])

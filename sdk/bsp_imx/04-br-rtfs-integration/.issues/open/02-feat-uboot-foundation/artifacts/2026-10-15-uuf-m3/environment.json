@@ -1,0 +1,26 @@
+{
+  "initial_test_failures": [
+    {
+      "time": "2026-10-15T19:32:15+08:00",
+      "process": "python3.14",
+      "pid": 518926,
+      "signal": "SIGABRT",
+      "cause": "AT-SPI initialization abort after isolated org.a11y.Bus activation failed"
+    },
+    {
+      "time": "2026-10-15T19:32:45+08:00",
+      "process": "at-spi-bus-launcher",
+      "pid": 520316,
+      "signal": "SIGABRT",
+      "cause": "Diagnostic --help argument is unsupported; service reports invalid usage via abort"
+    }
+  ],
+  "correction": [
+    "Start isolated accessibility services and verify bus address before GI initialization",
+    "Keep app, accessibility services and input synthesis within a separate Xvfb / D-Bus session",
+    "Use temporary XDG_CONFIG_HOME and XDG_DATA_HOME",
+    "Use native pointer selection without synthesizing keys on the user desktop"
+  ],
+  "new_coredumps_since_1933": 0,
+  "hardware_access": false
+}

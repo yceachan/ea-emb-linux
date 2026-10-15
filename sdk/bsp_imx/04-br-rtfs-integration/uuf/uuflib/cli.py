@@ -12,9 +12,10 @@ import struct
 import subprocess
 import sys
 import tarfile
+import tempfile
 
 from .backend import Session
-from .model import BOARD, targets, make_mbr, json_file, format_boot
+from .model import BOARD, targets, make_mbr, json_file, format_boot, geometry, parse_mbr
 from .package import component, pack, unpack, ext4_capacity
 from .rootfs import payload_usage, prepare
 
@@ -88,6 +89,38 @@ def dispatch(r, emit, confirm):
         return Session(r, emit, confirm).execute()
     if op == 'layout':
         result = create_layout(r)
+    elif op == 'mbr':
+        data = bytearray(Path(r['input']).read_bytes())
+        mapping = targets(r['targets'])
+        geometry(data, mapping)
+        if r.get('output'):
+            entries = json.loads(r['entries'])
+            original = parse_mbr(data)
+            if (not isinstance(entries, list) or len(entries) != len(original['entries'])
+                    or [p['number'] for p in entries] != [p['number'] for p in original['entries']]):
+                raise ValueError('编辑须保留 MBR 分区编号与映射')
+            for p in entries:
+                if (set(p) != {'number', 'start', 'sectors'}
+                        or any(type(v) is not int or not 0 <= v <= 0xffffffff for v in p.values())):
+                    raise ValueError('分区起点与长度须为 uint32 扇区数')
+                struct.pack_into('<II', data, 446 + (p['number'] - 1) * 16 + 8, p['start'], p['sectors'])
+            signature = r.get('signature') or original['signature']
+            if len(signature) != 8 or any(c not in '0123456789abcdef' for c in signature):
+                raise ValueError('MBR signature 须为 8 位小写十六进制')
+            struct.pack_into('<I', data, 440, int(signature, 16))
+            geometry(data, mapping)
+            with Path(r['output']).open('xb') as stream:
+                stream.write(data)
+        elif r.get('entries') or r.get('signature'):
+            raise ValueError('编辑 MBR 需要新的 --output 路径')
+        result = {'mbr': str(Path(r.get('output') or r['input']).resolve()),
+                  **parse_mbr(data), 'targets': mapping}
+    elif op == 'describe':
+        with tempfile.TemporaryDirectory(prefix='uuf-describe-') as folder:
+            bundle = unpack(r['archive'], Path(folder) / 'bundle')
+            result = {'archive': str(Path(r['archive']).resolve()), 'manifest': bundle['manifest'],
+                      'images': bundle['images'], 'mbr': parse_mbr(bundle['mbr']),
+                      'targets': bundle['manifest']['targets']}
     elif op == 'pack':
         result = pack(r)
     elif op == 'unpack':
@@ -153,6 +186,14 @@ def parser():
     s = sub.add_parser('unpack')
     s.add_argument('--archive', required=True)
     s.add_argument('--output', required=True)
+    s = sub.add_parser('mbr', help='读取或另存编辑后的 MBR；不写板卡')
+    s.add_argument('--input', required=True)
+    s.add_argument('--targets', required=True)
+    s.add_argument('--output')
+    s.add_argument('--entries', help='JSON 数组，包含 number、start、sectors')
+    s.add_argument('--signature')
+    s = sub.add_parser('describe', help='校验归档并显示 MBR、组件及镜像信息')
+    s.add_argument('--archive', required=True)
     return p
 
 

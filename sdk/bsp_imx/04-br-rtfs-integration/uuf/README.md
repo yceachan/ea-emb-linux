@@ -11,7 +11,7 @@ lang: zh
 
 # uuf · host flasher CLI
 
-`uuf` 为当前 i.MX6ULL 板卡准备镜像、校验归档、形成计划并编排 UUU。完整系统直接消费归档文件；独立更新消费原始 kernel／DTB 或 rtfs Sparse。CLI 与后续 GUI 共用后端，设备信息和写入计划始终由实际探测与明确目标共同确定。需求与验收以 [issue 02](../.issues/open/02-feat-uboot-foundation/issue.md) 为准，阶段状态见 [progress.md](../.issues/open/02-feat-uboot-foundation/progress.md)。
+`uuf` 为当前 i.MX6ULL 板卡准备镜像、校验归档、形成计划并编排 UUU。完整系统直接消费归档文件；独立更新消费原始 kernel／DTB 或 rtfs Sparse。CLI 与 [Tauri／React GUI](gui/README.md) 共用后端，设备信息和写入计划始终由实际探测与明确目标共同确定。需求与验收以 [issue 02](../.issues/open/02-feat-uboot-foundation/issue.md) 为准，阶段状态见 [progress.md](../.issues/open/02-feat-uboot-foundation/progress.md)。
 
 ## 1 · 数据来源与支持范围
 
@@ -69,7 +69,9 @@ layout 的输出目录须在目录 rootfs 输入树之外。layout 生成 `mbr.b
 "$UUF" unpack --archive "$WORK/system.tar.gz" --output "$WORK/unpacked"
 ```
 
-bundle 输出目录和归档文件均须选择在 rootfs 与固件输入树之外，归档文件还须位于 bundle 目录外。固件仅复制已验证的清单文件与 SHA256SUMS，清单外条目不进入归档。pack 每次根据最终 MBR 新建 kernel、rtfs 两个 ext4，再按分配块制作 Sparse。即使只修改一个分区的几何，也重建两者。较大的设备保留归档几何；容量不足时拒绝。DONT_CARE 可保留介质旧字节，逻辑重建不要求物理擦除。
+bundle 输出目录和归档文件均须选择在 rootfs 与固件输入树之外，归档文件还须位于 bundle 目录外。固件仅复制已验证的清单文件与 SHA256SUMS，清单外条目不进入归档。
+
+pack 每次根据最终 MBR 新建 kernel、rtfs 两个 ext4，再按分配块制作 Sparse。即使只修改一个分区的几何，也重建两者。较大的设备保留归档几何；容量不足时拒绝。DONT_CARE 可保留介质旧字节，逻辑重建不要求物理擦除。
 
 rootfs 输入为目录树或 tar。目录树使用其现有 UID／GID、mode、常规 hardlink 与扩展属性；tar 保留 UID／GID、mode、常规 hardlink、符号链接及字符／块设备节点。含扩展属性／ACL 的 tar 会拒绝，需提供保留属性的目录树。特殊文件 hardlink 不受支持。提取不经过链接父目录，绝对符号链接作为目标系统数据保存。
 
@@ -123,7 +125,7 @@ update 可组合 U-Boot、kernel、DTB 和 rtfs，只操作提供的组件。固
 
 实际 extlinux 分区、所选 LABEL 中的文件路径和 root PARTUUID共同确定当前角色，输入映射必须与其一致。多候选需指定 `--kernel-part` 或 `--label`，不能仅比较几何后相信 kernel／rtfs 名称。运行系统独立修改 APPEND 或 DEFAULT 后，只要所选目标仍一致，文件更新不会要求重建分区。
 
-独立操作可给出 `--expected-mbr FILE` 进行离线容量检查和实时字节核对；该文件不会写入。未给出时，部分范围和完整 flash 脚本在实际 MBR 探测后确定，dry-run 会明确标为待检查。
+独立操作可给出 `--expected-mbr FILE` 核对离线容量和实时字节核对；该文件不会写入。未给出时，部分范围和完整 flash 脚本在实际 MBR 探测后确定，dry-run 会明确标为待检查。
 
 ```sh
 "$UUF" erase --firmware "$FW" --targets "$WORK/layout/targets.json" \
@@ -152,6 +154,17 @@ python3 /absolute/path/to/uuf/tests/integrate.py --firmware "$FW" \
   --linux-boot-device /dev/mmcblkNp1 --output "$WORK/integration"
 ```
 
-检查真实载荷制像与归档直读、解包回环、修改布局后双 ext4 重建、UID／GID／hardlink／设备节点保留，并运行协议模拟检查。协议模拟覆盖范围计划、空盘、角色互换、目标变化、错误停止及重复取消，不代替实板。
+检查真实载荷制像、归档直读与解包回环。核对修改布局后双 ext4 重建，以及 UID／GID／hardlink／设备节点保留。运行协议模拟检查。协议模拟覆盖范围计划、空盘、角色互换、目标变化、错误停止及重复取消，不代替实板。
 
 运行证据见 issue 02 的 `artifacts/2026-10-13-uuf-m2/collection.json`。板端持久写入、实际 Linux `/boot` 设备、组件保留内容和冷启动仍由开发者验收，成功的主机结果保留 `cold_boot: pending-developer-validation`。
+
+## GUI 的共用主机接口
+
+`mbr` 读取或另存编辑后的 MBR；`describe` 校验归档并返回分区与镜像信息。两者均不访问板卡，可通过同一 `rpc` 入口调用。`mbr --entries` 接受含 `number`、`start`、`sectors` 的 JSON 数组，单位为 512 字节扇区；新几何仍由 `geometry()` 核对角色、对齐、类型、活动标志与重叠。原输入不改写，新文件不得覆盖。
+
+```sh
+"$UUF" mbr --input "$WORK/layout/mbr.bin" --targets "$WORK/layout/targets.json"
+"$UUF" describe --archive "$WORK/system.tar.gz"
+```
+
+GUI 操作与构建方法见 [gui/README.md](gui/README.md)。

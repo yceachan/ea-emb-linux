@@ -15,19 +15,21 @@ lang: zh
 
 ## 工作区
 
-路径：`/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones`。
+M1／M2 工作区：`/home/pi/worktrees/ea-emb-linux/codex/uuf-milestones`。
+
+M3 工作区：`/home/pi/worktrees/ea-emb-linux/codex/uuf-gui`，基于 M2 的 `fdd8a7e` 开发。
 
 需求基线：`codex/uuf-baseline`，提交 `f5598ee`；包含当前 issue 与失败实现参考。该分支承接本地 main 尚未发布的提交，阶段 PR 基于它审阅。
 
 | 阶段 | 分支与 PR | 状态 |
 |---|---|---|
 | M1 U-Boot | `codex/uuf-uboot`，[PR #1](https://github.com/yceachan/ea-emb-linux/pull/1) | 完整构建与主机验证通过，云端复审未发现重大问题；开发者已授权进入 M2 |
-| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整、32 项主机检查与真实载荷集成通过；云端复审未发现重大问题，待人工审阅 |
-| M3 GUI | 待 M2 人工审阅后创建 | 未开始 |
+| M2 host flasher | `codex/uuf-host-flasher`，[PR #2](https://github.com/yceachan/ea-emb-linux/pull/2) | CLI 与真实载荷集成通过，32 MiB 调整、32 项主机检查与真实载荷集成通过；云端复审未发现重大问题；开发者已授权进入 M3 |
+| M3 GUI | `codex/uuf-gui`，[PR #3](https://github.com/yceachan/ea-emb-linux/pull/3) | 实现、主机与原生验证通过；云端审阅未发现重大问题，待人工审阅 |
 
 ## M1 的实现与验证
 
-迁入固定 U-Boot 板级输入、ROM USB／eMMC 启动分流、extlinux 和 3 秒打断，以及板端文件写入、固件范围保护、hash 门控和启动设置核验。实现说明与操作入口见 [firmware/README.md](../../../uuf/firmware/README.md)。
+迁入固定 U-Boot 板级输入，补齐 ROM USB／eMMC 启动分流、extlinux 和 3 秒打断。加入板端文件写入、固件范围保护、hash 门控和启动设置核验。实现说明与操作入口见 [firmware/README.md](../../../uuf/firmware/README.md)。
 
 原生验证直接编译生产板级命令和配置后的 U-Boot ext4 源码，使用内存或普通文件介质。补齐 journal superblock 数据读取的准确故障注入，并将文件系统特性／journal 状态检查前移到写入器初始化之前。拒绝 unlink 写入器无法释放索引块的 extent 树。
 
@@ -51,7 +53,7 @@ env CROSS_COMPILE=/home/pi/ea-emb-linux/sdk/vendor_mainline/toolchains/arm-gnu-t
 
 CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR 是唯一几何来源，targets 仅描述角色／分区号／文件路径，启动描述与固件部署描述独立。实现说明与操作入口见 [uuf/README.md](../../../uuf/README.md)，执行及审阅边界见 [ADR-05](adr.md)。
 
-完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与后续 GUI 共用参数验证、JSON Lines 事件和执行后端。
+完整归档可直接部署，打包时重建两个 ext4；独立更新不写 MBR，按实际 extlinux 与 root PARTUUID 核对角色。主机 dry-run 不访问板卡，正式操作两次确认并复核实际目标和暂存内容。CLI 与 GUI 共用参数验证、JSON Lines 事件和执行后端。
 
 真实 M1 固件与 03 kernel／DTB／BusyBox rtfs 的制像、归档回环、原生 UUU 离线检查通过；修改一个分区的布局后，两张镜像 UUID 都更新。32 项主机／协议检查通过，覆盖组件容量、空盘、角色互换、确认后变化、错误停止和重复取消。rootfs 元数据保留经实际制像核对。
 
@@ -59,10 +61,20 @@ CLI 提供 layout、pack、unpack、inspect、deploy、update 和 erase。MBR �
 
 云端发现均已修正，全部审阅讨论已解决。最新实现 `dc5d986` 的[最终复审](https://github.com/yceachan/ea-emb-linux/pull/2#issuecomment-6190348756)未发现重大问题。本轮设计与实现已收口，交开发者人工审阅。
 
-Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-15-uuf-32m/m2.json`。M3 保持未开始，待 M2 云端 review 与人工审阅后推进。
+Linux `/boot` 示例设备仅是集成输入，尚无本轮实板映射证据；持久写入、组件保留内容与冷启动仍待开发者验收。运行证据见 `artifacts/2026-10-15-uuf-32m/m2.json`。2026-10-15，开发者指示开始阶段三，M3 从该基线推进。
 
 ## 32 MiB 内存预算
 
 开发者确认 DDR 为 512 MiB，并确定本轮完整文件窗口为 32 MiB。M1 完整构建通过，链接后的加载地址与配置一致；16 MiB heap 约束下，实际 ext4 写入器完成 32 MiB 大小载荷覆盖、读回和未选文件／所有权保留。M2 同步输入上限与固件配置核验，精确 32 MiB 接受、多一字节拒绝、旧 release 拒绝均通过。
 
 内存决策见 [ADR-06](adr.md)，地址与执行边界见 [firmware/README.md](../../../uuf/firmware/README.md)。边界载荷不是可启动内核，实板解压、冷启动及写入仍待验收。M1 的 32 MiB 调整云端复审未发现重大问题，本轮待开发者人工审阅；运行证据见 `artifacts/2026-10-15-uuf-32m/m1.json`。
+
+## M3 的实现与验证
+
+Tauri／React GUI 提供烧录、镜像准备、设备信息三页，共用 M2 Python RPC。新增的 `mbr` 编辑和 `describe` 归档查询也由 CLI 调用；分区几何仍以 MBR 为唯一事实源。设计见 [ADR-07](adr.md)，使用与构建见 [GUI README](../../../uuf/gui/README.md)。
+
+确认界面直接展示后端计划，输入在任务期间锁定。主机计划确认后才能下载 RAM loader，真实设备写入确认要求核对 CID。取消等待子进程退出和输出管道关闭后才解锁，结果事件不会提前解除锁定；旧任务事件不能覆盖新任务。
+
+前端交互、MBR 编辑、Rust 桥接与既有主机检查通过。原生 Tauri 交互覆盖真实文件选择、确认、故障停止、取消清理，以及真实载荷制像、布局编辑和归档回环。真实 UUU 仅运行离线检查，正式流程使用协议模拟器；实板写入与冷启动仍待验收。运行证据见 `artifacts/2026-10-15-uuf-m3/collection.json`。
+
+RPM 调试包构建通过，解包后的程序在独立目录完成同一原生验证流程。云端完成 `fac103a` 的[审阅](https://github.com/yceachan/ea-emb-linux/pull/3#issuecomment-6191510296)，未发现重大问题。M3 交开发者人工审阅，后续实板验收由 R4 推进。
